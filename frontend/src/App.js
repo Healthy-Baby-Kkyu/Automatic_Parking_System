@@ -11,7 +11,7 @@ function App() {
       <Header />
       <div
         style={{
-          padding: "100px 0px 30px 0px",
+          padding: "100px 50px 30px 50px",
           minHeight: "",
         }}
       >
@@ -20,7 +20,7 @@ function App() {
           <Route exact path="/monitoring" component={Monitoring} />
         </Switch>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </BrowserRouter>
   );
 }

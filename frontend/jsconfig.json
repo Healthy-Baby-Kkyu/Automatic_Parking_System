@@ -3,6 +3,11 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
+      "@adminSider/*": ["src/components/common/AdminSider/*"],
+      "@titleBar/*": ["src/components/common/TitleBar/*"],
+      "@footer/*": ["src/components/views/Footer/*"],
+      "@header/*": ["src/components/views/Header/*"],
+      "@mainpage/*": ["src/components/views/MainPage/*"],
       "@monitoring/*": ["src/components/views/Monitoring/*"]
     }
   }
