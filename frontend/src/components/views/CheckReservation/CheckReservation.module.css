@@ -1,0 +1,24 @@
+.container {
+  width: 1200px;
+  padding-bottom: 2%;
+  word-break: break-all;
+  /* margin: 0 auto; */
+}
+
+.paper {
+  width: 1000px;
+  border: 1px solid #d9d9d9;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.box {
+  width: 800px;
+  border: 1px solid #d9d9d9;
+  padding: 50px;
+  margin: 10px;
+}
+
+.car {
+  width: 100%;
+}

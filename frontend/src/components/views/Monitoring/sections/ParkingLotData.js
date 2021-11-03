@@ -1,7 +1,7 @@
 export const parkingLotData = [
   [
     { slotID: "1", state: "-1", floor: "B1" },
-    { slotID: "2", state: "3", floor: "B1" },
+    { slotID: "2", state: "1", floor: "B1" },
     { slotID: "3", state: "2", floor: "B1" },
     { slotID: "4", state: "2", floor: "B1" },
     { slotID: "5", state: "2", floor: "B1" },

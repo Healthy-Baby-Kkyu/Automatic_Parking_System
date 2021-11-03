@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Menu, Dropdown } from "antd";
 import styles from "@monitoring/Monitoring.module.css";
-import ParkingLot from "@monitoring/sections/ParkingLot";
+import ParkingLot from "@/components/views/Monitoring/sections/AdminParkingLot";
 import AdminSider from "@adminSider/AdminSider";
 import TitleBar from "@titleBar/TitleBar";
 import { DownOutlined } from "@ant-design/icons";
