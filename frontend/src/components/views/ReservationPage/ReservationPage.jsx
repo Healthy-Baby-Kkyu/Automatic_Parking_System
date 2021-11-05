@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styles from "@reservationPage/ReservationPage.module.css";
 import TitleBar from "@titleBar/TitleBar";
+import Sider from "@/components/common/Sider/Sider";
 import { Button, Menu, Dropdown, DatePicker, Result } from "antd";
 import ParkingLot from "@reservationPage/sections/ParkingLot";
 import { DownOutlined } from "@ant-design/icons";
-import { Hidden } from "@mui/material";
 
 function ReservationPage() {
   const { RangePicker } = DatePicker;
@@ -13,8 +13,8 @@ function ReservationPage() {
 
   const menu = (
     <Menu>
-      <Menu.Item>B2</Menu.Item>
-      <Menu.Item>B3</Menu.Item>
+      <Menu.Item key="b2">B2</Menu.Item>
+      <Menu.Item key="b3">B3</Menu.Item>
       <Menu.Item>
         <Button size="small">층 추가</Button>
       </Menu.Item>
@@ -39,14 +39,18 @@ function ReservationPage() {
   return (
     <div className={styles.container}>
       <TitleBar title_name="주차 예약" />
-      <div>
+      <div className={styles.ls}>
+        <Sider selected_key="주차 예약" />
+      </div>
+      <div className={styles.rs}>
+        <div className={styles.subtitle}>주차 예약</div>
         <div className={styles.box} style={{ paddingTop: "30px" }}>
-          <p className={styles.subtitle}>1. 날짜 및 시간 선택</p>
+          <p style={{ fontSize: "1.2em" }}>1. 날짜 및 시간 선택</p>
           <RangePicker showTime onChange={(val) => setValue(val)} />
         </div>
         {step >= 2 && (
           <div className={styles.box}>
-            <p className={styles.subtitle}>2. 주차 자리 선택</p>
+            <p style={{ fontSize: "1.2em" }}>2. 주차 자리 선택</p>
             <Dropdown overlay={menu} placement="bottomLeft">
               <Button size="large">
                 B1
@@ -60,7 +64,7 @@ function ReservationPage() {
         {step >= 3 && (
           <>
             <div className={styles.box}>
-              <p className={styles.subtitle}>3. 자리 및 결제 정보 확인</p>
+              <p style={{ fontSize: "1.2em" }}>3. 자리 및 결제 정보 확인</p>
               <div className={styles.paper}>
                 <div>
                   <b>시간권 주차티켓 (#190293)</b>
@@ -84,7 +88,7 @@ function ReservationPage() {
               </div>
             </div>
             <div className={styles.box}>
-              <p className={styles.subtitle}>4. 결제</p>
+              <p style={{ fontSize: "1.2em" }}>4. 결제</p>
               <div className={styles.paper}>
                 <div style={{ paddingBottom: "10px" }}>
                   나의 보유 포인트

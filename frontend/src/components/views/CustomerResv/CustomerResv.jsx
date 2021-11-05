@@ -1,23 +1,62 @@
-import React, { useEffect } from "react";
-import styles from "@checkReservation/CheckReservation.module.css";
-import TitleBar from "@titleBar/TitleBar";
+import React from "react";
+import styles from "@customerResv/CustomerResv.module.css";
+import TitleBar from "@/components/common/TitleBar/TitleBar";
 import Sider from "@sider/Sider";
-import { Button, Row, Col } from "antd";
+import { Button, Menu, Dropdown, Input, Row, Col } from "antd";
+import { DownOutlined } from "@ant-design/icons";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { ResvList } from "@checkReservation/sections/ResvList";
 
-function CheckReservation() {
+function CustomerResv() {
+  const menu_category = (
+    <Menu>
+      <Menu.Item key="1">전체 예약</Menu.Item>
+      <Menu.Item key="2">지난 예약</Menu.Item>
+      <Menu.Item key="3">진행 중인 예약</Menu.Item>
+      <Menu.Item key="4">진행 예정 예약</Menu.Item>
+    </Menu>
+  );
+
+  const menu_search = (
+    <Menu>
+      <Menu.Item key="1">예약번호</Menu.Item>
+      <Menu.Item key="2">주차장소</Menu.Item>
+      <Menu.Item key="3">이용시작일</Menu.Item>
+      <Menu.Item key="4">예약자 ID</Menu.Item>
+    </Menu>
+  );
+
   return (
     <div className={styles.container}>
-      <TitleBar title_name="예약 내역" />
+      <TitleBar title_name="고객 관리" />
       <div className={styles.ls}>
-        <Sider selected_key="예약 내역" />
+        <Sider selected_key="고객 관리" />
       </div>
       <div className={styles.rs}>
-        <div className={styles.subtitle}>예약 내역</div>
+        <div className={styles.subtitle}>고객 예약 조회</div>
+        <div>
+          <Dropdown overlay={menu_category} placement="bottomLeft">
+            <Button>
+              전체 예약
+              <DownOutlined />
+            </Button>
+          </Dropdown>
+          <span style={{ paddingRight: "500px" }} />
+          <Dropdown overlay={menu_search} placement="bottomLeft">
+            <Button>
+              예약번호
+              <DownOutlined />
+            </Button>
+          </Dropdown>
+          <span style={{ paddingRight: "10px" }} />
+          <Input style={{ width: "20%" }} />
+          <Button type="primary" style={{ marginLeft: "10px" }}>
+            검색
+          </Button>
+        </div>
         <div className={styles.paper}>
           {ResvList.map((item, idx) => (
             <Accordion key={idx} defaultExpanded>
@@ -99,4 +138,4 @@ function CheckReservation() {
   );
 }
 
-export default CheckReservation;
+export default CustomerResv;
