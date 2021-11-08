@@ -9,6 +9,8 @@ import MainPage from "@/components/views/MainPage/MainPage";
 import Monitoring from "@/components/views/Monitoring/Monitoring";
 import ReservationPage from "@/components/views/ReservationPage/ReservationPage";
 import Statistics from "@statistics/Statistics";
+import Login from "@/components/views/Login/Login";
+import SignUp from "@/components/views/SignUp/SignUp";
 
 function App() {
   return (
@@ -16,8 +18,8 @@ function App() {
       <Header />
       <div
         style={{
-          padding: "100px 50px 30px 50px",
-          minHeight: "",
+          padding: "0px 50px 30px 50px",
+          minHeight: "800px",
         }}
       >
         <Switch>
@@ -28,9 +30,11 @@ function App() {
           <Route exact path="/monitoring" component={Monitoring} />
           <Route exact path="/reservationPage" component={ReservationPage} />
           <Route exact path="/statistics" component={Statistics} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/signUp" component={SignUp} />
         </Switch>
       </div>
-      {/* <Footer /> */}
+      <Footer />
     </BrowserRouter>
   );
 }
