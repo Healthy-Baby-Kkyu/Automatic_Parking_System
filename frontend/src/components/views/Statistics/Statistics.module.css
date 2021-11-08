@@ -1,0 +1,25 @@
+.container {
+  width: 1200px;
+  padding-bottom: 2%;
+  word-break: break-all;
+  /* margin: 0 auto; */
+}
+
+.box {
+  padding-bottom: 50px;
+}
+
+.ls {
+  float: left;
+}
+
+.rs {
+  width: 80vw;
+  min-height: 100vh;
+  padding-left: 250px;
+}
+
+.subtitle {
+  font-size: 1.3em;
+  font-weight: bold;
+}

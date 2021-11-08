@@ -18,12 +18,12 @@ function Monitoring() {
   );
   return (
     <div className={styles.container}>
-      <TitleBar title_name="관리자 페이지" />
+      <TitleBar title_name="주차장 관리" />
       <div className={styles.ls}>
         <Sider selected_key="주차장 관리" />
       </div>
       <div className={styles.rs}>
-        <div className={styles.subtitle}>주차장 모니터링</div>
+        <div className={styles.subtitle}>주차장 접근 제어</div>
         <Dropdown overlay={menu} placement="bottomLeft">
           <Button size="large">
             B1
