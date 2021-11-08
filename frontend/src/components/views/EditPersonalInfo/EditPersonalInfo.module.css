@@ -1,0 +1,39 @@
+.container {
+    width: 1200px;
+    padding-bottom: 2%;
+    word-break: break-all;
+    /* margin: 0 auto; */
+  }
+
+.ls {
+    float: left;
+  }
+
+.rs {
+    width: 80vw;
+    min-height: 100vh;
+    padding-left: 325px;
+  }
+
+.edit_header {
+    width: 800px;
+    display: flex;
+}
+
+.subtitle {
+    font-size: 1.3em;
+    font-weight: bold;
+    flex: 1;
+}
+
+.edit_main {
+  width: 800px;
+  height: 100px;
+  margin-top: 50px;
+}
+
+.edit_inside {
+  display: flex;
+  font-size: larger;
+  padding-left: 50px;
+}
