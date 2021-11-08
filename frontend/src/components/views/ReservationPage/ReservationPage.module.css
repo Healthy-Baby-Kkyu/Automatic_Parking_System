@@ -5,6 +5,10 @@
   /* margin: 0 auto; */
 }
 
+.box {
+  padding-bottom: 50px;
+}
+
 .ls {
   float: left;
 }
@@ -18,14 +22,24 @@
 .subtitle {
   font-size: 1.3em;
   font-weight: bold;
-  padding-bottom: 5%;
 }
 
-.parking_lot_table {
-  padding: 30px 50px 0px 120px;
+.ticket {
+  padding-top: 25px;
 }
 
-/* sections/AdminParkingLot.jsx */
+.paper {
+  width: 800px;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+.button_4 {
+  width: 49%;
+}
+
+/* sections/ParkingLot.jsx */
 table {
   width: 600px;
   border: 1px solid #ffffff;
@@ -47,7 +61,6 @@ td {
 }
 
 .squares {
-  display: inline-block;
-  padding-top: 300px;
-  padding-left: 160px;
+  padding-top: 380px;
+  padding-left: 200px;
 }

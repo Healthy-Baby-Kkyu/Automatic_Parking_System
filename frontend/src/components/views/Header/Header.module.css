@@ -1,0 +1,13 @@
+.logo {
+  height: 120px;
+  width: 170px;
+}
+.Button {
+  color: #5172ff;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+.Settings {
+  float: right;
+  margin: 20px 40px 0px 0px;
+}

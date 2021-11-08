@@ -3,7 +3,17 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
-      "@monitoring/*": ["src/components/views/Monitoring/*"]
+      "@sider/*": ["src/components/common/Sider/*"],
+      "@titleBar/*": ["src/components/common/TitleBar/*"],
+      "@accessControl/*": ["src/components/views/AccessControl/*"],
+      "@checkReservation/*": ["src/components/views/CheckReservation/*"],
+      "@customerResv/*": ["src/components/views/CustomerResv"],
+      "@footer/*": ["src/components/views/Footer/*"],
+      "@header/*": ["src/components/views/Header/*"],
+      "@mainpage/*": ["src/components/views/MainPage/*"],
+      "@monitoring/*": ["src/components/views/Monitoring/*"],
+      "@reservationPage/*": ["src/components/views/ReservationPage/*"],
+      "@statistics/*": ["src/components/views/Statistics/*"]
     }
   }
 }

@@ -1,0 +1,17 @@
+.page_title {
+  height: 60px;
+}
+
+.vertical_line {
+  border-right: 6px solid #5172ff;
+  width: 0.1px;
+  height: 50px;
+  float: left;
+  margin-right: 20px;
+}
+
+.title {
+  padding-top: 15px;
+  font-size: 1.5em;
+  font-weight: bold;
+}
