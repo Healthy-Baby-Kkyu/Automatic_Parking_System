@@ -1,14 +1,25 @@
 from django.db import models
 
 # Create your models here.
-class Customer(models.Model):
-    user_id = models.CharField(max_length=100, unique=True)
-    user_name = models.TextField()
-    password = models.TextField()
-    birthday = models.DateTimeField()
-    phone_number = models.IntegerField()
-    point = models.IntegerField()
-    total_fee = models.IntegerField()
-
-    def __str__(self):
-        return [self.id ,self.name, self.descript]
+class Cars(models.Model):                                                
+    car_number = models.CharField(primary_key=True, max_length=10)       
+    user_id = models.CharField(max_length=20)                            
+    car_type = models.CharField(max_length=20)                           
+                                                                         
+    class Meta:                                                          
+        managed = False                                                  
+        db_table = 'cars'                                                
+                                                                         
+                                                                         
+class User(models.Model):                                                
+    user_id = models.CharField(primary_key=True, max_length=20)          
+    user_name = models.CharField(max_length=45)                          
+    password = models.CharField(max_length=30)                           
+    birthday = models.DateField(blank=True, null=True)                   
+    phone_number = models.CharField(max_length=20, blank=True, null=True)
+    point = models.IntegerField(blank=True, null=True)                   
+    total_fee = models.IntegerField(blank=True, null=True)               
+                                                                         
+    class Meta:                                                          
+        managed = False                                                  
+        db_table = 'user'                                                
