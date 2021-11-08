@@ -3,7 +3,7 @@ import TitleBar from '@/components/common/TitleBar/TitleBar'
 import styles from '@/components/views/SignUp/SignUp.module.css'
 import React from 'react'
 import 'antd/dist/antd.css';
-import { Form, Input, Button, Checkbox,  DatePicker, Space, Select } from 'antd';
+import { Form, Input, Button, Select } from 'antd';
 const { Option } = Select;
 
 function SignUp() {
@@ -14,10 +14,6 @@ function SignUp() {
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
-
-  function onChange(date, dateString) {
-    console.log(date, dateString);
-  }  
 
   return (
     <>
@@ -76,48 +72,57 @@ function SignUp() {
         <Input.Password />
       </Form.Item>
       
-      <Form.Item
-        label="Birth"
-        name="Birth"
+      <Form.Item label="BirthDate" style={{ marginBottom: 0 }}>
+        <Form.Item
+          name="year"
+          rules={[{ required: true }]}
+          style={{ display: 'inline-block', width: 'calc(50% - 8px)' }}
         >
-        <Space direction="horizontal">
-          <DatePicker onChange={onChange} picker="year" />
-          <DatePicker onChange={onChange} />
-        </Space>
+          <Input placeholder="Birth year (ex> 2021)" />
+        </Form.Item>
+        <Form.Item
+          name="monthDate"
+          rules={[{ required: true }]}
+          style={{ display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 8px' }}
+        >
+          <Input placeholder="Birth month & date (ex> 0822)" />
+        </Form.Item>
       </Form.Item>
       
       <Form.Item
-        label="Phone"
-        name="Phone"
+        name="phone"
+        label="Phone Number"
         rules={[
           {
             required: true,
+            message: 'Please input your phone number!',
           },
         ]}
       >
-      <Input.Group compact>
-        <Input style={{ width: '15%' }} defaultValue="010" />
-        <Input style={{ width: '40%' }} defaultValue="" />
-      </Input.Group>
+        <Input 
+          placeholder="ex> 01012345678" 
+          style={{
+            width: '100%',
+          }}
+        />
       </Form.Item>
 
       <Form.Item
-        label="Car Type"
         name="Car Type"
+        label="Car Type"
         rules={[
           {
             required: true,
+            message: 'Please select your Car Type!',
           },
         ]}
       >
-      <Input.Group compact>
-        <Select defaultValue="경차">
+        <Select placeholder="select your Car Type!">
           <Option value="경차">경차</Option>
           <Option value="소형차">소형차</Option>
           <Option value="중형차">중형차</Option>
           <Option value="대형차">대형차</Option>
         </Select>
-      </Input.Group>
       </Form.Item>
 
       <Form.Item
