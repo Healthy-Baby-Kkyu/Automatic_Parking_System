@@ -22,4 +22,30 @@ class User(models.Model):
                                                                          
     class Meta:                                                          
         managed = False                                                  
-        db_table = 'user'                                                
+        db_table = 'user'                 
+
+class ParkingSlot(models.Model):                                            
+    parking_slot_id = models.CharField(primary_key=True, max_length=20)     
+    floor = models.IntegerField()                                           
+    section = models.IntegerField()                                         
+    number = models.IntegerField()                                          
+    slot_state = models.CharField(max_length=30)                            
+                                                                            
+    class Meta:                                                             
+        managed = False                                                     
+        db_table = 'parking_slot'                                           
+                                                                            
+                                                                            
+class Reservation(models.Model):                                            
+    reservation_id = models.IntegerField(primary_key=True)                  
+    user_id = models.CharField(max_length=20)                               
+    parking_slot_id = models.CharField(max_length=20)                       
+    reservation_date = models.DateField()                                   
+    start_date = models.DateTimeField()                                     
+    end_date = models.DateTimeField()                                       
+    price = models.IntegerField()                                           
+    state = models.CharField(max_length=30)                                 
+                                                                            
+    class Meta:                                                             
+        managed = False                                                     
+        db_table = 'reservation'                                                                           
