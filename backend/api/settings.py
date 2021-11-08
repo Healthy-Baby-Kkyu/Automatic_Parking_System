@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'customer', # customer app page
+    'master', # master app page
     'rest_framework', # DRF
     'corsheaders', # django-cors-headers
 ]
