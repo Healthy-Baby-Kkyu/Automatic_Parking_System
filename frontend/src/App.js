@@ -40,6 +40,7 @@ function App() {
           <Route exact path="/editPersonalInfo" component={EditPersonalInfo} />
           <Route exact path="/personalInfo" component={PersonalInfo} />
           <Route exact path="/customerInfos" component={CustomerInfos} />
+          <Route exact path="/introService" component={IntroService} />
         </Switch>
       </div>
       <Footer />

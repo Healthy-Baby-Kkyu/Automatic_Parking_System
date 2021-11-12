@@ -1,0 +1,54 @@
+.main {
+  margin-left: -50px;
+  margin-top: -20px;
+  margin-right: -50px;
+}
+.intro {
+  background-color: rgb(249, 250, 252);
+  width: 100%;
+  height: 550px;
+}
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 68%;
+}
+.textOn {
+  position: absolute;
+  color: #233399;
+  font-size: 50px;
+  top: 400px;
+  left: 80px;
+}
+.lbox {
+  background-color: #102297;
+  float: left;
+  width: 30%;
+  height: 250px;
+}
+.line {
+  width: 200px;
+  height: 3px;
+  background-color: white;
+  border: none;
+  margin: 120px 0px 0px 20px;
+}
+.text {
+  margin: 10px 0px 0px 20px;
+  color: white;
+  font-weight: bold;
+}
+.rbox {
+  background-color: rgb(255, 255, 255);
+  height: 250px;
+}
+.rbox1 {
+}
+.rbox2 {
+}
+.rbox3 {
+}
+.icons {
+  width: 100px;
+}
