@@ -18,16 +18,16 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     },
 }));
 
-function createData(customerID, name, phone, carType, point, totalFee) {
-    return { customerID, name, phone, carType, point, totalFee };
+function createData(customerID, name, carNumber, carType, point, totalFee) {
+    return { customerID, name, carNumber, carType, point, totalFee };
 }
 
 const rows = [
-    createData('aaa', '김건우', '010-xxxx-xxxx', '경차', 250, 25000),
-    createData('bbb', '강동연', '010-xxxx-xxxx', '소형차', 200, 1000),
-    createData('ccc', '강혜원', '010-xxxx-xxxx', '중형차', 5000, 55000),
-    createData('ddd', '이태규', '010-xxxx-xxxx', '대형차', 400, 36000),
-    createData('eee', '장수아', '010-xxxx-xxxx', '경차', 1200, 22000),
+    createData('aaa', '김건우', '12가 3456', '경차', 250, 25000),
+    createData('bbb', '강동연', '78나 9101', '소형차', 200, 1000),
+    createData('ccc', '강혜원', '11다 1213', '중형차', 5000, 55000),
+    createData('ddd', '이태규', '14라 1516', '대형차', 400, 36000),
+    createData('eee', '장수아', '18마 1920', '경차', 1200, 22000),
 ];
 
 function CustomerInfosTable() {
@@ -39,7 +39,7 @@ function CustomerInfosTable() {
                     <TableRow>
                         <StyledTableCell align="left">고객 ID</StyledTableCell>
                         <StyledTableCell align="left">이름</StyledTableCell>
-                        <StyledTableCell align="left">전화번호</StyledTableCell>
+                        <StyledTableCell align="left">차 번호</StyledTableCell>
                         <StyledTableCell align="left">차종</StyledTableCell>
                         <StyledTableCell align="left">포인트</StyledTableCell>
                         <StyledTableCell align="left">누적 이용금액</StyledTableCell>
@@ -55,7 +55,7 @@ function CustomerInfosTable() {
                                 {row.customerID}
                             </StyledTableCell>
                             <StyledTableCell align="left">{row.name}</StyledTableCell>
-                            <StyledTableCell align="left">{row.phone}</StyledTableCell>
+                            <StyledTableCell align="left">{row.carNumber}</StyledTableCell>
                             <StyledTableCell align="left">{row.carType}</StyledTableCell>
                             <StyledTableCell align="left">{row.point} P</StyledTableCell>
                             <StyledTableCell align="left">{row.totalFee} 원</StyledTableCell>

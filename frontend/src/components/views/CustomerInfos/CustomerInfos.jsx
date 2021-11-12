@@ -22,7 +22,7 @@ function CustomerInfos() {
                 <Sider selected_key="고객 관리" />
             </div>
             <div className={styles.rs}>
-                <div className={styles.subtitle}>고객 예약 조회</div>
+                <div className={styles.subtitle}>고객 정보 조회</div>
                 <div style={{ width: "900px" }}>
                     <span style={{ paddingRight: "500px" }} />
                     <Dropdown overlay={menu_search} placement="bottomLeft">
