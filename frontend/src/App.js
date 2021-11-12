@@ -14,6 +14,7 @@ import SignUp from "@/components/views/SignUp/SignUp";
 import ChargePoint from "@/components/views/ChargePoint/ChargePoint";
 import EditPersonalInfo from "@/components/views/EditPersonalInfo/EditPersonalInfo"
 import PersonalInfo from "@/components/views/PersonalInfo/PersonalInfo"
+import CustomerInfos from "./components/views/CustomerInfos/CustomerInfos";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
           <Route exact path="/chargePoint" component={ChargePoint} />
           <Route exact path="/editPersonalInfo" component={EditPersonalInfo} />
           <Route exact path="/personalInfo" component={PersonalInfo} />
+          <Route exact path="/customerInfos" component={CustomerInfos} />
         </Switch>
       </div>
       <Footer />
