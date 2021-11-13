@@ -1,5 +1,6 @@
 export const ResvList = [
   {
+    userID: "user1",
     resvID: "R-20210818-0000A01",
     slot: "B1층 A1",
     startDate: "2021-08-18 16:30",
@@ -8,6 +9,7 @@ export const ResvList = [
     temp: "0",
   },
   {
+    userID: "user2",
     resvID: "R-20211101-0000A03",
     slot: "B1층 A3",
     startDate: "2021-11-01 16:30",
@@ -16,6 +18,7 @@ export const ResvList = [
     temp: "1",
   },
   {
+    userID: "user3",
     resvID: "R-20211103-0000A20",
     slot: "B1층 A3",
     startDate: "2021-11-03 16:30",
@@ -24,7 +27,8 @@ export const ResvList = [
     temp: "2",
   },
   {
-    resvID: "R-20211103-0000A20",
+    userID: "user4",
+    resvID: "R-20211103-0000A21",
     slot: "B1층 A3",
     startDate: "2021-11-03 16:30",
     endDate: "2021-11-03 21:30",

@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "@checkReservation/CheckReservation.module.css";
 import TitleBar from "@titleBar/TitleBar";
 import Sider from "@sider/Sider";
-import { Button, Row, Col } from "antd";
+import { Button, Row, Col, Modal } from "antd";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -10,6 +10,19 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { ResvList } from "@checkReservation/sections/ResvList";
 
 function CheckReservation() {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
   return (
     <div className={styles.container}>
       <TitleBar title_name="예약 내역" />
@@ -32,13 +45,57 @@ function CheckReservation() {
                 {item.temp === "2" && (
                   <>
                     <span style={{ paddingLeft: "20px" }} />
-                    <Button type="primary" size="small">
-                      예약 수정
-                    </Button>
-                    &nbsp;
-                    <Button type="primary" size="small">
+                    <Button type="primary" size="small" onClick={showModal}>
                       예약 취소
                     </Button>
+                    <Modal
+                      title="예약 내역 취소"
+                      visible={isModalVisible}
+                      footer={[
+                        <Button key="back" onClick={handleCancel}>
+                          취소
+                        </Button>,
+                        <Button key="submit" type="primary" onClick={handleOk}>
+                          확인
+                        </Button>,
+                      ]}
+                    >
+                      <div style={{ marginBottom: "20px" }}>
+                        <div>해당 예약 건을 취소하시겠습니까?</div>
+                        <div>
+                          취소 시 수정 내역을 되돌릴 수 없으며, 환불은 포인트
+                          충전으로 이뤄집니다.
+                        </div>
+                      </div>
+                      <div style={{ paddingBottom: "5px", fontSize: "0.9em" }}>
+                        주차 장소
+                        <span style={{ paddingLeft: "67px" }}>{item.slot}</span>
+                      </div>
+                      <div style={{ paddingBottom: "5px", fontSize: "0.9em" }}>
+                        이용시작일
+                        <span style={{ paddingLeft: "60px" }}>
+                          {item.startDate}
+                        </span>
+                      </div>
+                      <div style={{ paddingBottom: "5px", fontSize: "0.9em" }}>
+                        이용시작일
+                        <span style={{ paddingLeft: "60px" }}>
+                          {item.endDate}
+                        </span>
+                      </div>
+                      <div
+                        style={{
+                          paddingBottom: "5px",
+                          fontSize: "0.9em",
+                          color: "#5172FF",
+                        }}
+                      >
+                        환불 예정 금액
+                        <span style={{ paddingLeft: "42px" }}>
+                          {item.payment} P
+                        </span>
+                      </div>
+                    </Modal>
                   </>
                 )}
               </AccordionSummary>

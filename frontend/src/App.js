@@ -12,10 +12,10 @@ import Statistics from "@statistics/Statistics";
 import Login from "@/components/views/Login/Login";
 import SignUp from "@/components/views/SignUp/SignUp";
 import ChargePoint from "@/components/views/ChargePoint/ChargePoint";
-import EditPersonalInfo from "@/components/views/EditPersonalInfo/EditPersonalInfo"
-import PersonalInfo from "@/components/views/PersonalInfo/PersonalInfo"
-import CustomerInfos from "./components/views/CustomerInfos/CustomerInfos";
-import IntroService from "@/components/views/IntroService/IntroService"
+import EditPersonalInfo from "@/components/views/EditPersonalInfo/EditPersonalInfo";
+import PersonalInfo from "@/components/views/PersonalInfo/PersonalInfo";
+import CustomerInfos from "@/components/views/CustomerInfos/CustomerInfos";
+import IntroService from "@/components/views/IntroService/IntroService";
 
 function App() {
   return (
