@@ -1,7 +1,7 @@
 
 import TitleBar from '@/components/common/TitleBar/TitleBar'
 import styles from '@/components/views/Login/Login.module.css'
-import React from 'react'
+import React, {useEffect} from 'react'
 import 'antd/dist/antd.css';
 import { Form, Input, Button, Checkbox } from 'antd';
 import { style } from '@mui/system';
@@ -14,6 +14,17 @@ function Login() {
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
+
+  useEffect(() => {
+    fetch('http://127.0.0.1:8000')
+    .then(response => response.json())
+    .then(response => {
+      console.log(response)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }, [])
   return (
     <>
     <TitleBar title_name = "Sign In"/>

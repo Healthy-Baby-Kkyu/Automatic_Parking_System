@@ -26,7 +26,7 @@ function App() {
         }}
       >
         <Switch>
-          <Route exact path="/" component={MainPage} />
+          <Route exact path="/" component={Login} />
           <Route exact path="/accessControl" component={AccessControl} />
           <Route exact path="/customerResv" component={CustomerResv} />
           <Route exact path="/checkReservation" component={CheckReservation} />
