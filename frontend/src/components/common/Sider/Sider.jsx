@@ -28,9 +28,9 @@ function Sider({ selected_key }) {
       case "서비스 소개":
         return (
           <Menu.Item
-            key="serviceInfo"
+            key="introService"
             icon={<ImportContactsIcon />}
-            onClick={() => movePage("/serviceInfo")}
+            onClick={() => movePage("/introService")}
           >
             서비스 소개
           </Menu.Item>

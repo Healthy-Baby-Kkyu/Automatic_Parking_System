@@ -5,33 +5,34 @@
 .siderbox {
   float: left;
 }
-.box {
-  padding-left: 50px;
-  width: 100%;
-  height: 700px;
+.container {
+  float: right;
+  width: 85%;
 }
 .text {
-  padding: 50px 0px 30px 650px;
+  margin-top: 20px;
   font-weight: bolder;
   color: blue;
   font-size: 30px;
 }
 .text1 {
-  padding-left: 380px;
+  margin-top: 10px;
   font-weight: bold;
   font-size: 20px;
 }
-.img1 {
-  width: 270px;
-  height: 270px;
-  /* margin: 50px 0px 10px 230px; */
+.box {
+  border: cornsilk;
+  padding: 100px 0px 0px 30px;
+  width: 100%;
+  height: 600px;
 }
-.img2 {
+.img {
   width: 270px;
   height: 270px;
-  /* margin-left: 50px; */
 }
-.img3 {
-  width: 270px;
-  height: 270px;
+.text2 {
+  padding-top: 20px;
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 20px;
 }
