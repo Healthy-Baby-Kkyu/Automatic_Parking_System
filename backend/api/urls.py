@@ -22,7 +22,7 @@ urlpatterns = [
     path('master/', include('master.urls')),
     path('login/', views.CheckValidation.as_view()),
     path('getCustomerIDs/', views.CheckDuplication.as_view()),
-    path('signup/', views.CreateNewUser.as_view()),
+    path('signup/', views.CreateNewUser.as_view(), name='signup'),
     
     #테스트용
     path('', views.Test.as_view())

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from rest_framework import generics
 from rest_framework.serializers import Serializer
 from rest_framework.response import Response
@@ -73,7 +73,7 @@ class CheckValidation(generics.ListAPIView):
         
     serializer_class = UserSerializer  
     
-# 회원가입 시, 새로운 아이디 중복체크 (*테스트 가능)  
+# 회원가입 시, 새로운 아이디 중복체크 (*테스트 가능) 
 class CheckDuplication(generics.ListAPIView):
     # 데이터 받아오기 파트 
     id = ''
@@ -86,10 +86,29 @@ class CheckDuplication(generics.ListAPIView):
     serializer_class = UserSerializer  
 
 # 회원가입 정보를 받아와 신규 회원 추가 
-class CreateNewUser(generics.CreateAPIView):
+def CheckDuplication(request):
      # 데이터 받아오기 파트 
-    id = ''
-    pw = ''
+     if request.method == 'POST':
+        user = User()
+        car = Cars()
+        user.user_id = request.POST['Id']
+        user.password = request.POST['Password']
+        # birthday input 형식 frontend에서 정해지면 수정
+        birthday_year = request.POST['year']
+        birthday_monthDate = request.POST['monthDate']
+        print("birthday_year"+birthday_year)
+        print("birthday_monthDate"+birthday_monthDate)
+        #birthday
+        #post.birthday = birthday_year
+        user.phone_number = request.POST['phone']
+        user.point = 0
+        user.total_fee = 0
+        car.car_number = request.POST['Car Number']
+        car.user_id = user.user_id
+        car.car_type = request.POST['Car Type']
+        user.save()
+        return redirect('signup')
+    
 
 # 새로운 예약 등록
 class CreateResv(generics.CreateAPIView):
