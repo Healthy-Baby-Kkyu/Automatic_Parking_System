@@ -14,16 +14,31 @@ function Header() {
   };
 
   return (
-    <>
+    <div className={styles.container}>
       <img className = {styles.logo} src = '/assets/logo/logo.png' onClick={() => movePage("/mainPage")}></img>
       <Button className = {styles.Button} type="text" onClick={() => movePage("/introService")}>서비스 소개</Button>
-      <Button className = {styles.Button} type="text" onClick={() => movePage("/reservationPage")}>주차 예약</Button>
-      <Button className = {styles.Button} type="text" onClick={() => movePage("/checkReservation")}>예약 내역</Button>'
-      <Select className = {styles.Settings} defaultValue="Settings">
+      { UserID ?
+      <Button className = {styles.Button} type="text" onClick={() => movePage("/reservationPage")}>주차 예약</Button> :
+      <Button className = {styles.Button} type="text" disabled="disabled">주차 예약</Button>
+      }
+      { UserID ?
+      <Button className = {styles.Button} type="text" onClick={() => movePage("/checkReservation")}>예약 내역</Button> :
+      <Button className = {styles.Button} type="text" disabled ="disabled">예약 내역</Button>
+      }
+      { UserID ? 
+      <>
+        <Select className = {styles.Settings} defaultValue="Settings">
           <Option value="myPage"><div onClick={() => movePage("/personalInfo")}>MyPage</div></Option>
           <Option value="Logout"><div onClick={() => movePage("/")}>Logout</div></Option>
-      </Select>
-    </>
+        </Select>
+        <div className={styles.userID}><i>{UserID}</i> 님 환영합니다! </div>
+      </> : 
+      <>
+        <Button className={styles.btn} onClick={()=>movePage("/signUp")}>SIGN UP</Button>
+        <Button className={styles.btn} style={{left:"20px"}} onClick={()=>movePage("/")}>SIGN IN</Button>
+      </>
+      }
+    </div>
   );
 }
 

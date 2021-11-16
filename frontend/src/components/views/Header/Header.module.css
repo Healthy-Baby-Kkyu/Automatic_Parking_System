@@ -1,3 +1,6 @@
+.container {
+  height: 120px;
+}
 .logo {
   height: 120px;
   width: 170px;
@@ -7,6 +10,18 @@
   color: #5172ff;
   font-weight: bold;
   font-size: 1.1em;
+}
+.userID {
+  float: right;
+  width: fit-content;
+  margin: 47px 20px 0px 0px;
+}
+.btn {
+  background-color: #5172ff;
+  color: rgb(255, 255, 255);
+  float: right;
+  width: fit-content;
+  margin: 40px 30px 0px 0px;
 }
 .Settings {
   float: right;

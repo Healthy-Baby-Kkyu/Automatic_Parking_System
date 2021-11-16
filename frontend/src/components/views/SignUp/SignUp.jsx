@@ -1,24 +1,53 @@
 
 import TitleBar from '@/components/common/TitleBar/TitleBar'
 import styles from '@/components/views/SignUp/SignUp.module.css'
-import React from 'react'
+import React, {useEffect} from 'react'
 import 'antd/dist/antd.css';
-import { Form, Input, Button, Select } from 'antd';
+import { Form, Input, Button, Select, DatePicker } from 'antd';
 const { Option } = Select;
 
 function SignUp() {
+  const state = '';
   const onFinish = (values) => {
     console.log('Success:', values);
+    fetch("http://127.0.0.1:8000/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_id: values.userId,
+        user_name : values.username,
+        password: values.password,
+        birthday : values.birthDate,
+        car_number : values.carNumber,
+        car_type : values.carType
+      }),
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response);
+      });
+
   };
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
+  
+  // useEffect(() => {
+  //   fetch("http://127.0.0.1:8000/getCustomerIDs")
+  //     .then((response) => response.json())
+  //     .then((response) => {
+  //       console.log(response);
+  //     });
+  // }, []);
 
   return (
     <>
     <TitleBar title_name="Sign Up"/>
-    <Form
+    <Form 
+      className = {styles.form}
       name="basic"
       labelCol={{
         span: 8,
@@ -33,17 +62,37 @@ function SignUp() {
       onFinishFailed={onFinishFailed}
       autoComplete="off"
     >
+
+
       <Form.Item
-        label="Id"
-        name="Id"
+        hasFeedback validateStatus={state}
+        label="Username"
+        name="username"
         rules={[
           {
             required: true,
-            message: 'Please input your username!',
+            message: 'Please input your Username!',
           },
         ]}
       >
-        <Input />
+        <Input 
+          placeholder = "Write your name."
+        />
+      </Form.Item>
+      <Form.Item
+        hasFeedback validateStatus={state}
+        label="UserId"
+        name="userId"
+        rules={[
+          {
+            required: true,
+            message: 'Please input your UserID!',
+          },
+        ]}
+      >
+        <Input 
+          placeholder = "Write 4 to 12 numbers and alphabet."
+        />
       </Form.Item>
 
       <Form.Item
@@ -56,7 +105,9 @@ function SignUp() {
           },
         ]}
       >
-        <Input.Password />
+        <Input.Password 
+          placeholder = "Write 4 to 12 numbers and alphabet."
+        />
       </Form.Item>
 
       <Form.Item
@@ -69,29 +120,26 @@ function SignUp() {
           },
         ]}
       >
-        <Input.Password />
+        <Input.Password 
+          placeholder = "Check if the password is the same."
+        />
       </Form.Item>
-      
-      <Form.Item label="BirthDate" style={{ marginBottom: 0 }}>
-        <Form.Item
-          name="year"
-          rules={[{ required: true }]}
-          style={{ display: 'inline-block', width: 'calc(50% - 8px)' }}
-        >
-          <Input placeholder="Birth year (ex> 2021)" />
-        </Form.Item>
-        <Form.Item
-          name="monthDate"
-          rules={[{ required: true }]}
-          style={{ display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 8px' }}
-        >
-          <Input placeholder="Birth month & date (ex> 0822)" />
-        </Form.Item>
-      </Form.Item>
-      
+
       <Form.Item
-        name="phone"
+        label="BirthDate"
+        name="birthDate"
+      >
+        <DatePicker 
+          style={{
+          display: 'inline-block',
+          width: '100%',
+        }}/>
+    </Form.Item>
+     
+        
+      <Form.Item
         label="Phone Number"
+        name="phone"
         rules={[
           {
             required: true,
@@ -100,7 +148,7 @@ function SignUp() {
         ]}
       >
         <Input 
-          placeholder="ex> 01012345678" 
+          placeholder="(ex > 01012345678)" 
           style={{
             width: '100%',
           }}
@@ -108,8 +156,8 @@ function SignUp() {
       </Form.Item>
 
       <Form.Item
-        name="Car Type"
         label="Car Type"
+        name="carType"
         rules={[
           {
             required: true,
@@ -117,7 +165,7 @@ function SignUp() {
           },
         ]}
       >
-        <Select placeholder="select your Car Type!">
+        <Select placeholder="Select your Car Type.">
           <Option value="경차">경차</Option>
           <Option value="소형차">소형차</Option>
           <Option value="중형차">중형차</Option>
@@ -127,14 +175,17 @@ function SignUp() {
 
       <Form.Item
         label="Car Number"
-        name="Car Number"
+        name="carNumber"
         rules={[
           {
-            required: true
+            required: true,
+            message: 'Please select your Car Number!',
           },
         ]}
       >
-        <Input />
+        <Input 
+          placeholder="Write your Car Number."
+        />
       </Form.Item>
 
       <Form.Item
@@ -144,10 +195,10 @@ function SignUp() {
         }}
       >
         <Button type="primary" htmlType="submit" className={styles.submit}>
-          Submit
+          Sign Up
         </Button>
       </Form.Item>
-      <center>Already Registered? <a>Sign in</a></center>
+      <center>Already Registered? <a href="/">Sign in</a></center>
     </Form>
     </>
   )

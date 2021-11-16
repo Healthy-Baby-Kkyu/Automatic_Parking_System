@@ -9,7 +9,7 @@ import MainPage from "@/components/views/MainPage/MainPage";
 import Monitoring from "@/components/views/Monitoring/Monitoring";
 import ReservationPage from "@/components/views/ReservationPage/ReservationPage";
 import Statistics from "@statistics/Statistics";
-import Login from "@/components/views/Login/Login";
+import SignIn from "@/components/views/SignIn/SignIn";
 import SignUp from "@/components/views/SignUp/SignUp";
 import ChargePoint from "@/components/views/ChargePoint/ChargePoint";
 import EditPersonalInfo from "@/components/views/EditPersonalInfo/EditPersonalInfo";
@@ -28,7 +28,7 @@ function App() {
         }}
       >
         <Switch>
-          <Route exact path="/" component={Login} />
+          <Route exact path="/" component={SignIn} />
           <Route exact path="/mainPage" component={MainPage} />
           <Route exact path="/signUp" component={SignUp} />
           <Route exact path="/accessControl" component={AccessControl} />

@@ -49,6 +49,7 @@
 .img {
   width: 100px;
   height: 100px;
+  cursor: pointer;
 }
 .text2 {
   color: rgb(58, 110, 255);

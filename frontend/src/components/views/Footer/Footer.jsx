@@ -8,7 +8,7 @@ function Footer() {
   const history = useHistory();
 
   const movePage = (url) => {
-    history.push(url);
+    window.location.href = url;
   };
 
   return (
