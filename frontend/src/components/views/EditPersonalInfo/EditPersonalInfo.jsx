@@ -26,8 +26,6 @@ function PrivateInfoEdit() {
             values.password = password;
         }
 
-        values.birth = birth;
-
         if(birth == undefined) {
             values.birth = originBirth;
         }
@@ -43,13 +41,12 @@ function PrivateInfoEdit() {
             values.phone = phone;
         }
 
-        if (values.carType == undefined) {
+        if (carType == undefined) {
             values.carType = originCarType;
         }
         else {
             values.carType = carType;
         }
-
 
         if (carNumber == undefined) {
             values.carNumber = originCarNumber;
