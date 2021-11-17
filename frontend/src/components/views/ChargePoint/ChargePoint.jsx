@@ -37,6 +37,11 @@ function ChargePoint() {
     }
 
     function calcPoint(original, plus) {
+        
+        if(isNaN(plus)) {
+            return original
+        }
+        
         return (original + plus)
     }
 
@@ -122,23 +127,24 @@ function ChargePoint() {
                             <div style={{ marginLeft: "-70px", marginTop: "18px" }}>P</div>
                         </div>
                         <div style={{ display: "flex", flexDirection: "row", alignContent: "center", justifyContent: "center" }}>
-                            {point == "0" && (
+                            {(point <= "0" || isNaN(point)) && (
                                 <Button style={{ marginTop: "40px", width: "180px" }} type="primary" onClick={showModal} disabled>충전하기</Button>
                             )}
-                            {point != "0" && (
+                            {point > "0" && (
                                 <Button style={{ marginTop: "40px", width: "180px" }} type="primary" onClick={showModal}>충전하기</Button>
                             )}
                             <Modal title="포인트 충전 확인" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} centered
                                 footer={[
-                                    <Form.Item>
-                                        <Button key="submit" type="primary" htmlType="submit" onClick={handleOk}>
-                                            충전
-                                        </Button>,
-                                        <Button key="back" onClick={handleCancel}>
-                                            취소
-                                        </Button>,
-                                    </Form.Item>
-
+                                    <Form onFinish={onFinish} onFinishFailed={onFinishFailed}>
+                                        <Form.Item>
+                                            <Button key="submit" type="primary" htmlType="submit" onClick={handleOk}>
+                                                충전
+                                            </Button>,
+                                            <Button key="back" onClick={handleCancel}>
+                                                취소
+                                            </Button>,
+                                        </Form.Item>
+                                    </Form>
                                 ]}>
                                 <p><b>{point} P</b>를 충전하시겠습니까?</p>
                                 <div style={{ display: "flex" }}>충전 후 잔액 : <div style={{ fontWeight: "bold", color: "#0F31FF", margin: "0px 5px 0px 5px" }}>{calcPoint(originPoint, point)}</div>P</div>
