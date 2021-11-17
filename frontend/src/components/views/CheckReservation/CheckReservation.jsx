@@ -8,6 +8,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { ResvList } from "@checkReservation/sections/ResvList";
+import {USER_SERVER} from "@/Config.js";
 
 function CheckReservation() {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -22,6 +23,14 @@ function CheckReservation() {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+
+  useEffect(() => {
+    fetch(`${USER_SERVER}/customer/getPersonalResv/`)
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response);
+      });
+  }, []);
 
   return (
     <div className={styles.container}>

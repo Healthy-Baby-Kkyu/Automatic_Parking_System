@@ -1,16 +1,16 @@
-
 import TitleBar from '@/components/common/TitleBar/TitleBar'
 import styles from '@/components/views/SignUp/SignUp.module.css'
 import React, {useEffect} from 'react'
 import 'antd/dist/antd.css';
 import { Form, Input, Button, Select, DatePicker } from 'antd';
 const { Option } = Select;
+import {USER_SERVER} from "@/Config.js";
 
 function SignUp() {
   const state = '';
   const onFinish = (values) => {
     console.log('Success:', values);
-    fetch("http://127.0.0.1:8000/signup/", {
+    fetch(`${USER_SERVER}/signup/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -22,7 +22,8 @@ function SignUp() {
         birthday : values.birthDate.format('YYYY-MM-DD'),
         phone_number : values.phone,
         car_number : values.carNumber,
-        car_type : values.carType
+        car_type : values.carType,
+        total_fee : 0
       }),
     })
       .then((response) => {
@@ -35,13 +36,13 @@ function SignUp() {
     console.log('Failed:', errorInfo);
   };
   
-  // useEffect(() => {
-  //   fetch("http://127.0.0.1:8000/getCustomerIDs")
-  //     .then((response) => response.json())
-  //     .then((response) => {
-  //       console.log(response);
-  //     });
-  // }, []);
+  useEffect(() => {
+    fetch(`${USER_SERVER}/getCustomerIDs/`)
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response);
+      });
+  }, []);
 
   return (
     <>

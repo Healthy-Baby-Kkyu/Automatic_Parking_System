@@ -3,11 +3,12 @@ import styles from '@/components/views/SignIn/SignIn.module.css'
 import React, {useEffect} from 'react'
 import 'antd/dist/antd.css';
 import { Form, Input, Button, Checkbox } from 'antd';
+import {USER_SERVER} from "@/Config.js";
 
 function SignIn() {
   const onFinish = (values) => {
     console.log('Success:', values);
-    fetch("http://127.0.0.1:8000/login/", {
+    fetch(`${USER_SERVER}:/login/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -26,14 +27,6 @@ function SignIn() {
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
-
-  // useEffect(() => {
-  //   fetch("http://127.0.0.1:8000/getCustomerIDs")
-  //     .then((response) => response.json())
-  //     .then((response) => {
-  //       console.log(response);
-  //     });
-  // }, []);
 
   return (
     <>

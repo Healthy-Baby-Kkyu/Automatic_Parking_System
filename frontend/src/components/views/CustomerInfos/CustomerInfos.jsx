@@ -12,6 +12,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button, Input, Select, Form } from "antd";
 import { rows } from './sections/CustomerInfosList';
+import {USER_SERVER} from "@/Config.js";
 
 function CustomerInfos() {
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -66,6 +67,14 @@ function CustomerInfos() {
     const onFinishFailed = (errorInfo) => {
         // console.log("Failed:", errorInfo);
     };
+
+    useEffect(() => {
+        fetch(`${USER_SERVER}/admin/getCustomerInfos/`)
+          .then((response) => response.json())
+          .then((response) => {
+            console.log(response);
+          });
+    }, []);
 
     return (
 

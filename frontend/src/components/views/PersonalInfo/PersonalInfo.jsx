@@ -1,10 +1,11 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { useHistory } from "react-router";
 import { Button, DatePicker, Space } from "antd"
 import Sider from "@/components/common/Sider/Sider"
 import TitleBar from '@/components/common/TitleBar/TitleBar'
 import styles from "./PersonalInfo.module.css"
 import moment from 'moment';
+import {USER_SERVER} from "@/Config.js";
 
 function PrivateInfo() {
     const history = useHistory();
@@ -12,6 +13,15 @@ function PrivateInfo() {
         history.push(url);
     };
     const dateFormat = 'YYYY-MM-DD';
+
+    useEffect(() => {
+        fetch(`${USER_SERVER}/customer/chargePoint/`)
+          .then((response) => response.json())
+          .then((response) => {
+            console.log(response);
+          });
+      }, []);
+
     return (
         <div className={styles.container}>
             <TitleBar title_name="마이 페이지" />
