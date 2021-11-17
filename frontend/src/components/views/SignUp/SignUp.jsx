@@ -10,7 +10,7 @@ function SignUp() {
   const state = '';
   const onFinish = (values) => {
     console.log('Success:', values);
-    fetch("http://127.0.0.1:8000/signup", {
+    fetch("http://127.0.0.1:8000/signup/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -19,12 +19,12 @@ function SignUp() {
         user_id: values.userId,
         user_name : values.username,
         password: values.password,
-        birthday : values.birthDate,
+        birthday : values.birthDate.format('YYYY-MM-DD'),
+        phone_number : values.phone,
         car_number : values.carNumber,
         car_type : values.carType
       }),
     })
-      .then((response) => response.json())
       .then((response) => {
         console.log(response);
       });
