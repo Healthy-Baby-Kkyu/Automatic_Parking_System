@@ -1,3 +1,4 @@
+from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 from rest_framework import generics
 from rest_framework.serializers import Serializer
@@ -5,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import User, Cars, ParkingSlot, Reservation
 from .serializers import UserSerializer, CarsSerializer, ParkingSlotSerializer, ReservationSerializer
+import json
 
 # 현재 로그인 중인 유저의 정보를 담는 클래스(일종의 세션 역할)
 global current_user
@@ -74,40 +76,39 @@ class CheckValidation(generics.ListAPIView):
     serializer_class = UserSerializer  
     
 # 회원가입 시, 새로운 아이디 중복체크 (*테스트 가능) 
-class CheckDuplication(generics.ListAPIView):
-    # 데이터 받아오기 파트 
-    id = ''
-    pw = ''
+# 세션 연동 필요
+def login(request):
+    data = json.loads(request.body)
+    if request.method == 'POST':
+        id = data['user_id']
+        pw = data['password']
+        return HttpResponse('login')
     
     # -------------------------------------
     
     # 중복 체크 (반환된 queryset이 있으면 중복)
-    queryset = User.objects.filter(user_id=id)
-    serializer_class = UserSerializer  
+    # queryset = User.objects.filter(user_id=id)
+    # serializer_class = UserSerializer  
 
 # 회원가입 정보를 받아와 신규 회원 추가 
-def CheckDuplication(request):
-     # 데이터 받아오기 파트 
-     if request.method == 'POST':
+def CreateNewUser(request):
+    data = json.loads(request.body)
+    if request.method == 'POST':
         user = User()
         car = Cars()
-        user.user_id = request.POST['Id']
-        user.password = request.POST['Password']
-        # birthday input 형식 frontend에서 정해지면 수정
-        birthday_year = request.POST['year']
-        birthday_monthDate = request.POST['monthDate']
-        print("birthday_year"+birthday_year)
-        print("birthday_monthDate"+birthday_monthDate)
-        #birthday
-        #post.birthday = birthday_year
-        user.phone_number = request.POST['phone']
+        user.user_id = data['user_id']
+        user.user_name = data['user_name']
+        user.password = data['password']
+        user.birthday = data['birthday']
+        user.phone_number = data['phone_number']
         user.point = 0
         user.total_fee = 0
-        car.car_number = request.POST['Car Number']
-        car.user_id = user.user_id
-        car.car_type = request.POST['Car Type']
+        car.car_number = data['car_number']
+        car.user_id = data['user_id']
+        car.car_type = data['car_type']
         user.save()
-        return redirect('signup')
+        car.save()
+        return HttpResponse('signup')
     
 
 # 새로운 예약 등록

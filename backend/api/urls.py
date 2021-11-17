@@ -20,9 +20,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('customer/', include('customer.urls')),
     path('master/', include('master.urls')),
-    path('login/', views.CheckValidation.as_view()),
-    path('getCustomerIDs/', views.CheckDuplication.as_view()),
-    path('signup/', views.CreateNewUser.as_view(), name='signup'),
+    path('login/', views.login, name='login'),
+    path('signup/', views.CreateNewUser, name='signup'),
     
     #테스트용
     path('', views.Test.as_view())
