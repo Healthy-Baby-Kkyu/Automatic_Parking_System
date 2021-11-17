@@ -7,8 +7,7 @@ import moment from "moment";
 import { Button, DatePicker, Select, Form, Input } from "antd";
 import ParkingLot from "@reservationPage/sections/ParkingLot";
 import { DownOutlined } from "@ant-design/icons";
-import {USER_SERVER} from "@/Config.js";
-
+import { USER_SERVER } from "@/Config.js";
 
 function ReservationPage() {
   const history = useHistory();
@@ -63,14 +62,15 @@ function ReservationPage() {
       },
       body: JSON.stringify({
         //user_id: values.userId,
-        parking_slot_id : values.floor + values.slot,
-        reservation_date : moment(current).format('YYYY-MM-DD HH:MM:SS'),
-        srart_date : moment(values.start_date).format('YYYY-MM-DD HH:MM:SS'),
-        end_date : moment(values.end_date).format('YYYY-MM-DD HH:MM:SS'),
-        price : 0,
-        state : 0
+        parking_slot_id: values.floor + values.slot,
+        reservation_date: moment(current).format("YYYY-MM-DD HH:MM:SS"),
+        srart_date: moment(values.start_date).format("YYYY-MM-DD HH:MM:SS"),
+        end_date: moment(values.end_date).format("YYYY-MM-DD HH:MM:SS"),
+        price: 0,
+        state: 0,
       }),
     })
+      // .then((response) => response.json())
       .then((response) => {
         console.log(response);
       });
