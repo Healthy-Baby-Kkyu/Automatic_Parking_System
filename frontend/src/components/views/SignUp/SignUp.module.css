@@ -1,5 +1,8 @@
 .submit {
-  width: 400px;
+  width: 50%;
   background-color: #5172ff;
   border: none;
+}
+.form {
+  padding-top: 50px;
 }

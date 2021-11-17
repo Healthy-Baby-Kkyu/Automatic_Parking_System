@@ -1,5 +1,5 @@
-import React from "react";
-import { Button, Menu, Dropdown } from "antd";
+import React, { useState } from "react";
+import { Button, Menu, Dropdown, Select } from "antd";
 import styles from "@monitoring/Monitoring.module.css";
 import ParkingLot from "@/components/views/Monitoring/sections/AdminParkingLot";
 import Sider from "@/components/common/Sider/Sider";
@@ -7,15 +7,14 @@ import TitleBar from "@titleBar/TitleBar";
 import { DownOutlined } from "@ant-design/icons";
 
 function Monitoring() {
-  const menu = (
-    <Menu>
-      <Menu.Item key="b2">B2</Menu.Item>
-      <Menu.Item key="b3">B3</Menu.Item>
-      <Menu.Item key="add">
-        <Button size="small">층 추가</Button>
-      </Menu.Item>
-    </Menu>
-  );
+  const { Option } = Select;
+  const [floor, setFloor] = useState("B1");
+
+  const handleChange = (value) => {
+    // console.log(`selected ${value}`);
+    setFloor(value);
+  };
+
   return (
     <div className={styles.container}>
       <TitleBar title_name="주차장 관리" />
@@ -24,15 +23,17 @@ function Monitoring() {
       </div>
       <div className={styles.rs}>
         <div className={styles.subtitle}>주차장 접근 제어</div>
-        <Dropdown overlay={menu} placement="bottomLeft">
-          <Button size="large">
-            B1
-            <span style={{ paddingRight: "60px" }} />
-            <DownOutlined />
-          </Button>
-        </Dropdown>
+        <Select
+          defaultValue="B1"
+          style={{ width: 120 }}
+          onChange={handleChange}
+        >
+          <Option value="B1">B1</Option>
+          <Option value="B2">B2</Option>
+          <Option value="B3">B3</Option>
+        </Select>
         <div className={styles.parking_lot_table}>
-          <ParkingLot />
+          <ParkingLot selected_floor={floor} />
         </div>
       </div>
     </div>
