@@ -1,11 +1,10 @@
-
 import TitleBar from '@/components/common/TitleBar/TitleBar'
 import styles from '@/components/views/SignIn/SignIn.module.css'
 import React, {useEffect} from 'react'
 import 'antd/dist/antd.css';
 import { Form, Input, Button, Checkbox } from 'antd';
 
-function Login() {
+function SignIn() {
   const onFinish = (values) => {
     console.log('Success:', values);
     fetch("http://127.0.0.1:8000/login/", {
@@ -111,4 +110,4 @@ function Login() {
   )
 }
 
-export default Login
+export default SignIn
