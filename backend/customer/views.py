@@ -118,19 +118,56 @@ class DeleteResv(generics.UpdateAPIView):
     
 # 개인 정보 조회 
 class GetUserInfo(generics.RetrieveAPIView):
-    queryset = ''
+    def post(self, request):
+        data = json.loads(request.body)
+        id = data['session_id']
+        
+        queryset = User.objects.filter(user_id=id)
+        if queryset:
+            return JsonResponse({'data' : queryset.values()[0]}, status=200)
     
 # 개인 정보 수정
 class UpdateUserInfo(generics.RetrieveUpdateAPIView):
-    queryset = ''
+    def post(self, request):
+        data = json.loads(request.body)
+        id = data['session_id']
+        
+        user = User.objects.get(user_id=id)
+        car = Cars.objects.get(user_id=id)
+        
+        user.password = data['password']
+        user.birthday = data['birthday']
+        user.phone_number = data['phone_number']
+        car.car_type = data['car_type']
+        car.car_number = data['car_number']
+        
+        user.save()
+        car.save()
+        
+        return JsonResponse({'message' : '정보가 성공적으로 수정되었습니다!'}, status=200)
+        
 
 # 개인 보유 포인트 조회 ?   
 class GetUserPoint(generics.RetrieveAPIView):
-    queryset = ''
+    def post(self, request):
+        data = json.loads(request.body)
+        id = data['session_id']
+        
+        point = User.objects.get(user_id=id).point
+        return JsonResponse({'data': point, 'message' : '사용자 보유 포인트 조회 성공'}, status=200)
 
 # 포인트 충전
 class ChargeUserPoint(generics.RetrieveUpdateAPIView):
-    queryset = ''
+    def post(self, request):
+        data = json.loads(request.body)
+        id = data['session_id']
+        point = data['point']
+        
+        user = User.objects.get(user_id=id)
+        user.point = point
+        user.save()
+        
+        return JsonResponse({'data' : user.point, 'message' : '포인트가 성공적으로 충전되었습니다!'}, status=200)
 
 
 
