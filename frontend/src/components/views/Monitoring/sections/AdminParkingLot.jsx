@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import styles from "@monitoring/Monitoring.module.css";
 import { Button, Popover, message } from "antd";
 import { ParkingLotData } from "@monitoring/sections/ParkingLotData";
+import { USER_SERVER } from "@/Config";
 
 function ParkingLot({ selected_floor }) {
   const history = useHistory();
@@ -19,11 +20,27 @@ function ParkingLot({ selected_floor }) {
     setHovered(visible);
   };
 
-  const content_empty = (
+  const addParkingSlot = (item) => {
+    let value = item.floor + item.section + item.slotID;
+    fetch(`${USER_SERVER}/admin/addSlot/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        slot_state: "1",
+        parking_slot_id: value,
+      }),
+    }).then((response) => {
+      console.log(response);
+    });
+  };
+
+  const content_empty = (item) => (
     <div>
       <div style={{ marginBottom: "10px" }}>새 슬롯을 추가하시겠습니까?</div>
       <span style={{ paddingLeft: "80px" }} />
-      <Button type="primary" size="small">
+      <Button type="primary" size="small" onClick={() => addParkingSlot(item)}>
         Add
       </Button>
       &nbsp;
@@ -58,11 +75,8 @@ function ParkingLot({ selected_floor }) {
       case "0": // Empty
         return (
           <Popover
-            content={content_empty}
+            content={content_empty(param)}
             title={param.section + param.slotID}
-            trigger="hover"
-            visible={hovered}
-            onVisibleChange={handleHoverChange}
           >
             <td style={{ backgroundColor: "#F2F2F2" }}> </td>
           </Popover>
