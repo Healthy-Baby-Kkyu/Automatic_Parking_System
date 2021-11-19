@@ -63,7 +63,7 @@ function ReservationPage() {
       body: JSON.stringify({
         parking_slot_id: values.floor + values.slot,
         reservation_date: moment(current).format("YYYY-MM-DD HH:MM:SS"),
-        srart_date: moment(values.start_date).format("YYYY-MM-DD HH:MM:SS"),
+        start_date: moment(values.start_date).format("YYYY-MM-DD HH:MM:SS"),
         end_date: moment(values.end_date).format("YYYY-MM-DD HH:MM:SS"),
         price: 0,
         state: 0,
