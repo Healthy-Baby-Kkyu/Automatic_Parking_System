@@ -93,9 +93,16 @@ class GetUserInfo(generics.RetrieveAPIView):
         data = json.loads(request.body)
         id = data['session_id']
         
-        queryset = User.objects.filter(user_id=id)
-        if queryset:
-            return JsonResponse({'data' : queryset.values()[0]}, status=200)
+        user = User.objects.get(user_id=id)
+        car = Cars.objects.get(user_id=id)
+        result = {
+            'user_id' : user.user_id,
+            'birthday' : user.birthday,
+            'phone_number' : user.phone_number,
+            'car_type' : car.car_type,
+            'car_number' : car.car_number                       
+        }
+        return JsonResponse({'data' : result}, status=200)
     
 # 개인 정보 수정
 class UpdateUserInfo(generics.RetrieveUpdateAPIView):
