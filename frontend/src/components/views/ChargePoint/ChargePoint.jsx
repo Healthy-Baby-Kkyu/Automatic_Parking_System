@@ -7,8 +7,8 @@ import { USER_SERVER } from "@/Config.js";
 
 function ChargePoint() {
   const [count, setCount] = useState(0);
-
   const [point, setPoint] = useState(0);
+  const [originPoint, setOriginPoint] = useState();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -23,8 +23,6 @@ function ChargePoint() {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
-
-  const originPoint = 45000; // 사용자가 원래 가지고 있는 포인트
 
   const onPointChange = (e) => {
     setPoint(parseInt(e.target.value));
@@ -56,6 +54,7 @@ function ChargePoint() {
       .then((response) => response.json())
       .then((response) => {
         console.log(response);
+        setOriginPoint(response.data);
       });
   }, []);
 
@@ -76,7 +75,8 @@ function ChargePoint() {
     })
       .then((response) => response.json())
       .then((response) => {
-        console.log(response);
+        console.log(response.data);
+        window.location.replace("/chargePoint");
       });
   };
 

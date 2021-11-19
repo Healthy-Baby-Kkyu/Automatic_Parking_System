@@ -4,8 +4,15 @@ import React, { useEffect } from "react";
 import "antd/dist/antd.css";
 import { Form, Input, Button, Checkbox } from "antd";
 import { USER_SERVER } from "@/Config.js";
+import { useHistory } from "react-router";
 
 function SignIn() {
+  const history = useHistory();
+
+  const movePage = (url) => {
+    history.push(url);
+  };
+
   const onFinish = (values) => {
     console.log("Success:", values);
     fetch(`${USER_SERVER}/login/`, {
@@ -21,8 +28,7 @@ function SignIn() {
       console.log(response);
     }).then(() => {
       localStorage.setItem('id',values.userId);
-    // console.log(localStorage.getItem('id'));
-    // console.log(localStorage);
+      movePage('/mainPage');
     });
     
   };

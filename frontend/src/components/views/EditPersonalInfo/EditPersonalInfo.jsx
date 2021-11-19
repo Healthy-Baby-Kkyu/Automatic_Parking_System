@@ -12,12 +12,12 @@ function EditPersonalInfo() {
     const dateFormat = 'YYYY-MM-DD';
 
     // 기존 사용자 정보
-    const originID = "User1";
-    const originPassword = "password";
-    const originBirth = moment("XXXX-XX-XX", dateFormat);
-    const originPhone = "010-xxxx-xxxx";
-    const originCarType = "경차";
-    const originCarNumber = "123가 3456";
+    const [originID, setOriginID] = useState();
+    const [originPassword, setOriginPassword] = useState();
+    const [originBirth, setOriginBirth] = useState();
+    const [originPhone, setOriginPhone] = useState();
+    const [originCarType, setOriginCarType] = useState();
+    const [originCarNumber, setOriginCarNumber] = useState();
 
     useEffect(() => {
         fetch(`${USER_SERVER}/customer/getPersonalInfo/`, {
@@ -29,7 +29,7 @@ function EditPersonalInfo() {
                 session_id: window.localStorage.getItem('id'),
             }),
         }).then((response) => {
-            console.log(response);
+            console.log(response.data);
         });
     }, [])
 
@@ -87,8 +87,13 @@ function EditPersonalInfo() {
             }),
         }).then((response) => {
             console.log(response);
+            setOriginID(response.data.user_id);
+            setOriginPassword(response.data.password);
+            setOriginBirth(response.data.birthday);
+            setOriginPhone(response.data.phone_number);
+            setOriginCarType(response.data.car_type);
+            setOriginCarNumber(response.data.car_number);
         });
-
         console.log('Success:', values);
     };
 

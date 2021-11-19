@@ -6,9 +6,9 @@ import { Button, Select } from 'antd';
 const { Option } = Select;
 
 function Header() {
-  const [userID, setuserID] = useState( localStorage.getItem('id'));
+  const [UserID, setUserID] = useState( localStorage.getItem('id'));
 
-  const UserID = 'admin'; // null | admin | userId
+  //const UserID = 'admin'; // null | admin | userId
   const history = useHistory();
 
   const movePage = (url) => {
@@ -16,9 +16,10 @@ function Header() {
   };
   
   const logout = (url) => {
-    setuserID("");
+    setUserID("");
     history.push(url);
   };
+
   return (
     <div className={styles.container}>
       <img className = {styles.logo} src = '/assets/logo/logo.png' onClick={() => movePage("/mainPage")}></img>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { Button, DatePicker, Space } from "antd";
 import Sider from "@/components/common/Sider/Sider";
@@ -16,13 +16,13 @@ function PersonalInfo() {
   const dateFormat = "YYYY-MM-DD";
 
   // 사용자 정보
-  const userID = "User1";
-  const totalFee = 0;
-  const currentPoint = 10000;
-  const phone = "010-xxxx-xxxx";
-  const birth = moment("2021-11-19", dateFormat);
-  const carType = "대형차";
-  const carNumber = "12가 3456";
+  const [userID, setUserID] = useState();
+  const [totalFee, setTotalFee] = useState();
+  const [currentPoint, setCurrentPoint] = useState(0);
+  const [phone, setPhone] = useState();
+  const [birth, setBirth] = useState();
+  const [carType, setCarType] = useState();
+  const [carNumber, setCarNumber] = useState();
 
   useEffect(() => {
     fetch(`${USER_SERVER}/customer/getPersonalInfo/`, {
@@ -37,6 +37,15 @@ function PersonalInfo() {
       .then((response) => response.json())
       .then((response) => {
         console.log(response);
+        
+        setUserID(response.data.user_id);
+        setTotalFee(response.data.total_fee);
+        setCurrentPoint(response.data.point);
+        setPhone(response.data.phone_number);
+        setBirth(moment(response.data.birthday,dateFormat));
+        console.log(birth);
+        setCarType(response.data.car_type);
+        setCarNumber(response.data.car_number);
       });
   }, []);
 

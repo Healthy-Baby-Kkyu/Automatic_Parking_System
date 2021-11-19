@@ -4,11 +4,18 @@ import React, { useEffect } from "react";
 import "antd/dist/antd.css";
 import { Form, Input, Button, Select, DatePicker } from "antd";
 import { USER_SERVER } from "@/Config.js";
+import { useHistory } from "react-router";
 
 const { Option } = Select;
 
 function SignUp() {
   const state = "";
+  const history = useHistory();
+
+  const movePage = (url) => {
+    history.push(url);
+  };
+
   const onFinish = (values) => {
     console.log("Success:", values);
     fetch(`${USER_SERVER}/signup/`, {
@@ -30,6 +37,7 @@ function SignUp() {
       .then((response) => response.json())
       .then((response) => {
         console.log(response);
+        movePage('/');
       });
   };
 
