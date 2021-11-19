@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Sider from "@/components/common/Sider/Sider"
 import TitleBar from "@/components/common/TitleBar/TitleBar"
 import { Button, Form, Input, Modal } from "antd"
 import styles from "@/components/views/ChargePoint/ChargePoint.module.css"
+import { USER_SERVER } from "@/Config.js"
 
 
 function ChargePoint() {
@@ -25,7 +26,7 @@ function ChargePoint() {
         setIsModalVisible(false);
     };
 
-    const originPoint = 45000
+    const originPoint = 45000  // 사용자가 원래 가지고 있는 포인트
 
     const onPointChange = (e) => {
         setPoint(parseInt(e.target.value));
@@ -37,17 +38,44 @@ function ChargePoint() {
     }
 
     function calcPoint(original, plus) {
-        
-        if(isNaN(plus)) {
+        if (isNaN(plus)) {
             return original
         }
-        
+
         return (original + plus)
     }
+
+    useEffect(() => {
+        fetch(`${USER_SERVER}/customer/getPersonalPoint/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                session_id: window.localStorage.getItem('id'),
+            }),
+        }).then((response) => {
+            console.log(response);
+        });
+    }, []);
 
     const onFinish = (values) => {
         values.point = calcPoint(originPoint, point)
         console.log('Success:', values);
+
+        fetch(`${USER_SERVER}/customer/chargePoint/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                user_id: values.userID,
+                point: values.point,
+                session_id: window.localStorage.getItem('id'),
+            }),
+        }).then((response) => {
+            console.log(response);
+        });
     };
 
     const onFinishFailed = (errorInfo) => {

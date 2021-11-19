@@ -1,20 +1,35 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import Sider from "@/components/common/Sider/Sider"
 import TitleBar from "@/components/common/TitleBar/TitleBar"
 import styles from "@/components/views/EditPersonalInfo/EditPersonalInfo.module.css"
 import { Form, Input, Button, DatePicker, Select } from "antd"
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons'
 import moment from "moment"
+import { USER_SERVER } from "@/Config.js"
 
 function PrivateInfoEdit() {
 
-    const dateFormat = 'YYYY-MM-DD';
+    // 기존 사용자 정보
     const originID = "User1";
-    const originPassword = "password"
-    const originBirth = moment("2001-02-10", dateFormat)
-    const originPhone = "010-xxxx-xxxx"
-    const originCarType = "경차"
-    const originCarNumber = "123가 3456"
+    const originPassword = "password";
+    const originBirth = moment("XXXX-XX-XX").format("YYYY-MM-DD");
+    const originPhone = "010-xxxx-xxxx";
+    const originCarType = "경차";
+    const originCarNumber = "123가 3456";
+
+    useEffect(() => {
+        fetch(`${USER_SERVER}/customer/getPersonalInfo/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                session_id: window.localStorage.getItem('id'),
+            }),
+        }).then((response) => {
+            console.log(response);
+        });
+    }, [])
 
     const onFinish = (values) => {
         values.id = originID;
@@ -26,17 +41,16 @@ function PrivateInfoEdit() {
             values.password = password;
         }
 
-        if(birth == undefined) {
+        if (birth == undefined) {
             values.birth = originBirth;
         }
         else {
-            values.birth = moment(birth, dateFormat);
+            values.birth = moment(birth).format("YYYY-MM-DD");
         }
 
         if (phone == undefined) {
             values.phone = originPhone;
         }
-
         else {
             values.phone = phone;
         }
@@ -55,13 +69,30 @@ function PrivateInfoEdit() {
             values.carNumber = carNumber;
         }
 
+        fetch(`${USER_SERVER}/customer/editPersonalInfo`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                user_id: values.id,
+                password: values.password,
+                birthday: values.birth,
+                phone_number: values.phone,
+                car_type: values.carType,
+                car_number: values.carNumber,
+                session_id: window.localStorage.getItem('id'),
+            }),
+        }).then((response) => {
+            console.log(response);
+        });
+
         console.log('Success:', values);
     };
 
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
-
 
     const { Option } = Select;
     const inputRef = useRef(null);
@@ -81,7 +112,7 @@ function PrivateInfoEdit() {
     function onBirthChange(date) {
         console.log(date);
         setBirth(date);
-      }
+    }
 
     const onPhoneChange = (e) => {
         setPhone(e.target.value);

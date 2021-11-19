@@ -1,26 +1,42 @@
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 import { useHistory } from "react-router";
 import { Button, DatePicker, Space } from "antd"
 import Sider from "@/components/common/Sider/Sider"
 import TitleBar from '@/components/common/TitleBar/TitleBar'
 import styles from "./PersonalInfo.module.css"
 import moment from 'moment';
-import {USER_SERVER} from "@/Config.js";
+import { USER_SERVER } from "@/Config.js";
 
-function PrivateInfo() {
+function PersonalInfo() {
     const history = useHistory();
     const movePage = (url) => {
         history.push(url);
     };
+
     const dateFormat = 'YYYY-MM-DD';
 
+    // 사용자 정보
+    const userID = "User1";
+    const totalFee = 0;
+    const currentPoint = 10000;
+    const phone = "010-xxxx-xxxx";
+    const birth = moment('2021-11-19', dateFormat)
+    const carType="대형차";
+    const carNumber="12가 3456"
+
     useEffect(() => {
-        fetch(`${USER_SERVER}/customer/chargePoint/`)
-          .then((response) => response.json())
-          .then((response) => {
+        fetch(`${USER_SERVER}/customer/getPersonalInfo/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                session_id: window.localStorage.getItem('id'),
+            }),
+        }).then((response) => {
             console.log(response);
-          });
-      }, []);
+        });
+    }, []);
 
     return (
         <div className={styles.container}>
@@ -43,13 +59,13 @@ function PrivateInfo() {
                             <img src="/assets/PersonalInfo/user.png" style={{ height: "70px", width: "70px" }}></img>
                         </div>
                         <div style={{ textAlign: "left", borderRight: "1px dotted #D9D9D9", paddingRight: "80px" }}>
-                            <div style={{ display: "flex", flexDirection: "row", fontSize: "15px", width:"170px" }}>
-                                <div style={{ marginBottom: "5px" }}>user1</div>
+                            <div style={{ display: "flex", flexDirection: "row", fontSize: "15px", width: "170px" }}>
+                                <div style={{ marginBottom: "5px" }}>{userID}</div>
                                 <div>님 안녕하세요.</div>
                             </div>
                             <div style={{ display: "flex", flexDirection: "row", fontSize: "12px" }}>
                                 <div style={{ marginRight: "5px" }}>누적 결제 금액 : </div>
-                                <div>0</div>
+                                <div>{totalFee}</div>
                                 <div>원</div>
                             </div>
                         </div>
@@ -60,7 +76,7 @@ function PrivateInfo() {
                                 포인트
                             </div>
                             <div style={{ display: "flex", flexDirection: "row", fontSize: "20px", fontWeight: "bold" }}>
-                                <div style={{ marginRight:"5px"}}>10,000</div>
+                                <div style={{ marginRight: "5px" }}>{currentPoint}</div>
                                 <div>P</div>
                             </div>
                         </div>
@@ -75,23 +91,23 @@ function PrivateInfo() {
                 <div className={styles.info2}>
                     <div className={styles.info2_inside}>
                         <div style={{ marginRight: "100px", marginBottom: "15px" }}>휴대폰 번호</div>
-                        <div>010-1234-5678</div>
+                        <div>{phone}</div>
                     </div>
                     <div className={styles.info2_inside}>
                         <div style={{ marginLeft: "46px", marginRight: "100px", paddingTop: "5px" }}>생일</div>
-                        <DatePicker defaultValue={moment('2001-02-10', dateFormat)} disabled />
+                        <DatePicker defaultValue={birth} disabled />
                     </div>
                 </div>
 
-                <div style={{width:"900px"}} className={styles.subtitle}>차량 정보</div>
+                <div style={{ width: "900px" }} className={styles.subtitle}>차량 정보</div>
                 <div className={styles.carInfo}>
                     <div className={styles.info2_inside}>
                         <div style={{ marginBottom: "15px", marginLeft: "32px", marginRight: "80px" }}>차종</div>
-                        <div>소형차</div>
+                        <div>{carType}</div>
                     </div>
                     <div className={styles.info2_inside}>
                         <div style={{ marginRight: "80px" }}>차량 번호</div>
-                        <div>123마 1234</div>
+                        <div>{carNumber}</div>
                     </div>
                 </div>
 
@@ -100,4 +116,4 @@ function PrivateInfo() {
     )
 }
 
-export default PrivateInfo
+export default PersonalInfo
