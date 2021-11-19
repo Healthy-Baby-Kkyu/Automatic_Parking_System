@@ -19,12 +19,21 @@ function SignIn() {
       }),
     }).then((response) => {
       console.log(response);
+    }).then(() => {
+      localStorage.setItem('id',values.userId);
+    // console.log(localStorage.getItem('id'));
+    // console.log(localStorage);
     });
+    
   };
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
+
+  useEffect(() => {
+   console.log(localStorage);
+  }, [])
 
   return (
     <>
