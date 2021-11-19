@@ -24,16 +24,16 @@ class User(models.Model):
         managed = False                                                  
         db_table = 'user'                 
 
-class ParkingSlot(models.Model):                                            
-    parking_slot_id = models.CharField(primary_key=True, max_length=20)     
-    floor = models.IntegerField()                                           
-    section = models.IntegerField()                                         
-    number = models.IntegerField()                                          
-    slot_state = models.CharField(max_length=30)                            
-                                                                            
-    class Meta:                                                             
-        managed = False                                                     
-        db_table = 'parking_slot'                                           
+class ParkingSlot(models.Model):
+    parking_slot_id = models.CharField(primary_key=True, max_length=20)
+    floor = models.CharField(max_length=5)
+    section = models.CharField(max_length=5)
+    number = models.CharField(max_length=5)
+    slot_state = models.CharField(max_length=5)
+
+    class Meta:
+        managed = False
+        db_table = 'parking_slot'                                          
                                                                             
                                                                             
 class Reservation(models.Model):                                            
