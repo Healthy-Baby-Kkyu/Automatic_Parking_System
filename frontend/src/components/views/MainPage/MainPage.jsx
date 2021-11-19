@@ -4,7 +4,7 @@ import styles from '@/components/views/MainPage/MainPage.module.css'
 import { Row, Col } from 'antd';
 
 function MainPage() {
-  const UserID = 'admin'; // null | admin | userId
+  const UserID = 'user'; // null | admin | userId
   const history = useHistory();
 
   const movePage = (url) => {
@@ -14,9 +14,8 @@ function MainPage() {
   return (
     <div className={styles.main}>
      <div className={styles.intro}>
-      {/* <img className={styles.img} src="/assets/MainPage/introMain.jpg"></img> */}
-      <h1
-       className={styles.textOn}>AUTOMATIC PARKING SYSTEM</h1>
+      <img className={styles.mainImg} src="/assets/MainPage/main.jpg"></img>
+      <h1 className={styles.textOn}>AUTOMATIC PARKING SYSTEM</h1>
      </div>
      <div className={styles.lbox}>
       <hr className={styles.line}></hr>
@@ -41,11 +40,13 @@ function MainPage() {
         </Col>
         <Col xs={{ span: 5, offset: 5 }} lg={{ span: 6, offset: 2 }} >
           { !UserID ? 
-            <img 
+            <><img 
             className={styles.img} 
             src="/assets/MainPage/img2.png" 
             onClick={() => alert('로그인이 필요한 서비스입니다!')}
-            />:
+            />
+            <center className={styles.text2}>주차 예약</center>
+            <center className={styles.text3}>원활한 주차장 이용을 위해<br></br>미리 예약을 진행합니다.</center></>:
             ( UserID=='admin'?
             <><img 
               className={styles.img} 
@@ -68,11 +69,13 @@ function MainPage() {
         </Col>
         <Col xs={{ span: 5, offset: 5 }} lg={{ span: 6, offset: 2 }} >
           {!UserID ?
-          <img 
+          <><img 
           className={styles.img} 
           src="/assets/MainPage/img3.png" 
           onClick={() => alert('로그인이 필요한 서비스입니다!')}
           />
+          <center className={styles.text2}>예약 내역</center>
+          <center className={styles.text3}>가입된 회원의 예약 내역<br></br> 확인이 가능합니다.</center></>
           :
           ( UserID=='admin'?
           <><img 

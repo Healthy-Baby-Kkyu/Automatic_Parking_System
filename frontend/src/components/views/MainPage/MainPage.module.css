@@ -8,18 +8,19 @@
   width: 100%;
   height: 550px;
 }
-.img {
+.mainImg {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 68%;
+  opacity: 80%;
 }
 .textOn {
   position: absolute;
-  color: #233399;
+  color: #f5f6ff;
   font-size: 50px;
   top: 400px;
-  left: 80px;
+  left: 750px;
+  text-shadow: 3px 3px 1px#808080;
 }
 .lbox {
   background-color: #102297;

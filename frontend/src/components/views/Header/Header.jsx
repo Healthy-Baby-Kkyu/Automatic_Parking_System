@@ -15,6 +15,10 @@ function Header() {
     history.push(url);
   };
   
+  const logout = (url) => {
+    setuserID("");
+    history.push(url);
+  };
   return (
     <div className={styles.container}>
       <img className = {styles.logo} src = '/assets/logo/logo.png' onClick={() => movePage("/mainPage")}></img>
@@ -37,18 +41,26 @@ function Header() {
       )
       }
 
-      { UserID ? 
-      <>
-        <Select className = {styles.Settings} defaultValue="Settings">
-          <Option value="myPage"><div onClick={() => movePage("/personalInfo")}>MyPage</div></Option>
-          <Option value="Logout"><div onClick={() => movePage("/")}>Logout</div></Option>
-        </Select>
-        <div className={styles.userID}><i>{UserID}</i> 님 환영합니다! </div>
-      </> : 
+      { !UserID ? 
       <>
         <Button className={styles.btn} onClick={()=>movePage("/signUp")}>SIGN UP</Button>
         <Button className={styles.btn} style={{left:"20px"}} onClick={()=>movePage("/")}>SIGN IN</Button>
+      </> : 
+      ( UserID =='admin'?
+      <>
+        <Select className = {styles.Settings} defaultValue="Settings">
+          <Option value="Logout"><div onClick={() => logout("/")}>Logout</div></Option>
+        </Select>
+        <div className={styles.userID}><i>{UserID}</i> 님 환영합니다! </div>
+      </>:
+      <>
+      <Select className = {styles.Settings} defaultValue="Settings">
+        <Option value="myPage"><div onClick={() => movePage("/personalInfo")}>MyPage</div></Option>
+        <Option value="Logout"><div onClick={() => logout("/")}>Logout</div></Option>
+      </Select>
+      <div className={styles.userID}><i>{UserID}</i> 님 환영합니다! </div>
       </>
+      )
       }
     </div>
   );
