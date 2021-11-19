@@ -21,8 +21,5 @@ urlpatterns = [
     path('customer/', include('customer.urls')),
     path('master/', include('master.urls')),
     path('login/', views.CheckLogin.as_view(), name='login'),
-    path('signup/', views.CreateNewUser, name='signup'),
-    
-    #테스트용
-    path('', views.Test.as_view())
+    path('signup/', views.CreateNewUser.as_view(), name='signup'),
 ]
