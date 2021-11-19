@@ -1,4 +1,4 @@
-from django.http.response import HttpResponse
+from django.http.response import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from rest_framework import generics
 from rest_framework.serializers import Serializer
@@ -51,29 +51,29 @@ class Test(generics.ListAPIView):
     
 # ----------------------------------------------------------------------------
 # 로그인 화면에서 id, pw 받아와 유효성 검증
-class CheckValidation(generics.ListAPIView):
-    # 데이터 받아오기 파트 
-    id = ''
-    pw = ''
-    
-    # -------------------------------------
-
-    # 유효성 검증
-    queryset = User.objects.filter(user_id=id)  # user_id에 위에서 얻어온 id값이 들어가야 함
-    if queryset:
-        values = queryset.values()[0]
-        # id 존재, 그러나 pw 불일치
-        if values.get('password') == pw: 
-            # 로그인 성공 시, 받아온 정보를 담은 UserInfo 클래스 인스턴스 생성
-            global current_user
-            current_user = UserInfo('ddd', 'ddd', 'ddd') 
+class CheckLogin(generics.ListAPIView):
+    def post(self, request):
+        data = json.loads(request.body)
+        id = data['user_id']
+        pw = data['password']
+       # 유효성 검증
+        values = []
+        queryset = User.objects.filter(user_id=id)  # user_id에 위에서 얻어온 id값이 들어가야 함
+        if queryset:
+            values = queryset.values()[0]
+            # id 존재, 그러나 pw 불일치
+            if values.get('password') == pw: 
+                # 로그인 성공 시, 받아온 정보를 담은 UserInfo 클래스 인스턴스 생성
+                global current_user
+                current_user = UserInfo('ddd', 'ddd', 'ddd') 
+            else:
+                queryset = User.objects.none()    # valid하지 않으면 empty queryset 반환하는 것으로 valid 여부 판단  
+        # id 존재하지 않음
         else:
-            queryset = User.objects.none()    # valid하지 않으면 empty queryset 반환하는 것으로 valid 여부 판단  
-    # id 존재하지 않음
-    else:
-        queryset = User.objects.none()
+            queryset = User.objects.none()
+        # serializer_class = UserSerializer  
         
-    serializer_class = UserSerializer  
+        return JsonResponse({'data': list(queryset.values())}, status = 200)
     
 # 회원가입 시, 새로운 아이디 중복체크 (*테스트 가능) 
 # 세션 연동 필요
