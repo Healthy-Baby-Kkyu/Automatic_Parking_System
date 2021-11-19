@@ -99,6 +99,8 @@ class GetUserInfo(generics.RetrieveAPIView):
             'user_id' : user.user_id,
             'birthday' : user.birthday,
             'phone_number' : user.phone_number,
+            'point' : user.point,
+            'total_fee' : user.total_fee,
             'car_type' : car.car_type,
             'car_number' : car.car_number                       
         }
