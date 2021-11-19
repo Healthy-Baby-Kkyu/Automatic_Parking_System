@@ -58,9 +58,8 @@ class CreateResv(generics.CreateAPIView):
         data = json.loads(request.body)
         resv = Reservation()
         a = uuid.uuid4()
-        b = list(a.int)
-        resv.reservation_id = b[:10]
-        print(resv.user_id)
+        b = str(a.int)
+        resv.reservation_id = b[:8]
         resv.user_id = data['session_id']
         resv.parking_slot_id = data['parking_slot_id']
         resv.reservation_date = data['reservation_date']
