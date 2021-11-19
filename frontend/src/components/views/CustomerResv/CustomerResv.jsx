@@ -41,9 +41,11 @@ function CustomerResv() {
         state: "0",
         resvID: item.resvID,
       }),
-    }).then((response) => {
-      console.log(response);
-    });
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response);
+      });
   };
 
   const handleCancel = () => {

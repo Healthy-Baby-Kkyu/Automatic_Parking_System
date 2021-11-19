@@ -31,9 +31,11 @@ function ParkingLot({ selected_floor }) {
         slot_state: "1",
         parking_slot_id: value,
       }),
-    }).then((response) => {
-      console.log(response);
-    });
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response);
+      });
   };
 
   const content_empty = (item) => (

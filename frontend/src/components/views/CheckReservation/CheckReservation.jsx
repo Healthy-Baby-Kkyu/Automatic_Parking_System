@@ -23,28 +23,32 @@ function CheckReservation() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        session_id: window.localStorage.getItem('id'),
+        session_id: window.localStorage.getItem("id"),
       }),
-    }).then((response) => {
-      console.log(response);
-    });
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response);
+      });
   }, []);
 
   const handleOk = (item) => {
     setIsModalVisible(false);
-    fetch(`${USER_SERVER}/customer/cancelResv`,{
-      method:"POST",
+    fetch(`${USER_SERVER}/customer/cancelResv`, {
+      method: "POST",
       headers: {
-        "Content-Type" : "application/json",
+        "Content-Type": "application/json",
       },
-      body:JSON.stringify({
-        state:"0",
+      body: JSON.stringify({
+        state: "0",
         resvID: item.resvID,
-        session_id: window.localStorage.getItem('id'),
+        session_id: window.localStorage.getItem("id"),
       }),
-    }).then((response) => {
-      console.log(response);
-    });
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response);
+      });
   };
 
   const handleCancel = () => {

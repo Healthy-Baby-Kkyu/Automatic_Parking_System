@@ -67,9 +67,11 @@ function ReservationPage() {
         end_date: moment(values.end_date).format("YYYY-MM-DD HH:MM:SS"),
         price: 0,
         state: 0,
-        session_id: window.localStorage.getItem('id'),
+        session_id: window.localStorage.getItem("id"),
       }),
-    }).then((response) => {
+    })
+      .then((response) => response.json())
+      .then((response) => {
         console.log(response);
       });
   };
