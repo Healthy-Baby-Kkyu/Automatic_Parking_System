@@ -19,6 +19,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { ResvList } from "@checkReservation/sections/ResvList";
+import {USER_SERVER} from "@/Config.js";
 
 function CustomerResv() {
   const { Option } = Select;
@@ -106,6 +107,14 @@ function CustomerResv() {
   const handleChangeSearch = (value) => {
     console.log(`selected ${value}`);
   };
+
+  useEffect(() => {
+    fetch(`${USER_SERVER}/admin/getCustomerResv/`)
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response);
+      });
+  }, []);
 
   return (
     <div className={styles.container}>
