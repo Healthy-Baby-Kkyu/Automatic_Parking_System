@@ -19,7 +19,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { ResvList } from "@checkReservation/sections/ResvList";
-import {USER_SERVER} from "@/Config.js";
+import { USER_SERVER } from "@/Config.js";
 
 function CustomerResv() {
   const { Option } = Select;
@@ -30,8 +30,22 @@ function CustomerResv() {
     setIsModalVisible(true);
   };
 
-  const handleOk = () => {
+  const handleOk = (item) => {
     setIsModalVisible(false);
+    fetch(`${USER_SERVER}/admin/cancelResv/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        state: "0",
+        resvID: item.resvID,
+      }),
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response);
+      });
   };
 
   const handleCancel = () => {
@@ -200,7 +214,11 @@ function CustomerResv() {
                         <Button key="back" onClick={handleCancel}>
                           취소
                         </Button>,
-                        <Button key="submit" type="primary" onClick={handleOk}>
+                        <Button
+                          key="submit"
+                          type="primary"
+                          onClick={() => handleOk(item)}
+                        >
                           확인
                         </Button>,
                       ]}

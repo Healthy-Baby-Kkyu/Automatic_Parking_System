@@ -61,16 +61,16 @@ function ReservationPage() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        //user_id: values.userId,
         parking_slot_id: values.floor + values.slot,
         reservation_date: moment(current).format("YYYY-MM-DD HH:MM:SS"),
         srart_date: moment(values.start_date).format("YYYY-MM-DD HH:MM:SS"),
         end_date: moment(values.end_date).format("YYYY-MM-DD HH:MM:SS"),
         price: 0,
         state: 0,
+        session_id: window.localStorage.getItem("id"),
       }),
     })
-      // .then((response) => response.json())
+      .then((response) => response.json())
       .then((response) => {
         console.log(response);
       });

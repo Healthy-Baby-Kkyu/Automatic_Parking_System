@@ -8,7 +8,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { ResvList } from "@checkReservation/sections/ResvList";
-import {USER_SERVER} from "@/Config.js";
+import { USER_SERVER } from "@/Config.js";
 
 function CheckReservation() {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -16,21 +16,44 @@ function CheckReservation() {
     setIsModalVisible(true);
   };
 
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
-
   useEffect(() => {
-    fetch(`${USER_SERVER}/customer/getPersonalResv/`)
+    fetch(`${USER_SERVER}/customer/getPersonalResv/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        session_id: window.localStorage.getItem("id"),
+      }),
+    })
       .then((response) => response.json())
       .then((response) => {
         console.log(response);
       });
   }, []);
+
+  const handleOk = (item) => {
+    setIsModalVisible(false);
+    fetch(`${USER_SERVER}/customer/cancelResv`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        state: "0",
+        resvID: item.resvID,
+        session_id: window.localStorage.getItem("id"),
+      }),
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response);
+      });
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
 
   return (
     <div className={styles.container}>

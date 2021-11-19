@@ -26,9 +26,11 @@ function SignUp() {
         car_type: values.carType,
         total_fee: 0,
       }),
-    }).then((response) => {
-      console.log(response);
-    });
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response);
+      });
   };
 
   const onFinishFailed = (errorInfo) => {
