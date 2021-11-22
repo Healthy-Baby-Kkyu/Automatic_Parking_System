@@ -23,9 +23,9 @@ class CheckLogin(generics.ListAPIView):
         if queryset:
             # id, pw 모두 일치
             if queryset.values()[0].get('password') == pw:
-                return JsonResponse({'message' : '로그인 성공', 'data' : queryset.values()[0]}, status = 200)
+                return JsonResponse({'message' : 'success', 'data' : queryset.values()[0]}, status = 200)
         # id 존재하지 않음
-        return JsonResponse({'message' : '아이디 혹은 비밀번호가 올바르지 않습니다'}, status= 200)
+        return JsonResponse({'message' : 'not exist'}, status= 200)
     
 
 # 회원가입 정보를 받아와 신규 회원 추가 
@@ -33,14 +33,13 @@ class CreateNewUser(generics.CreateAPIView):
     def post(self, request):
         data = json.loads(request.body)
         if User.objects.filter(user_id = data['user_id']).exists():
-            return JsonResponse({'message' : '사용할 수 없는 아이디입니다.'}, status = 200)
+            return JsonResponse({'message' : 'duplicate'}, status = 200)
         user = User()
         car = Cars()
         user.user_name = data['user_name']
         user.user_id = data['user_id']
         user.password = data['password']
         user.birthday = data['birthday']
-        print(user.birthday)
         user.phone_number = data['phone_number']
         user.point = 0
         user.total_fee = 0
@@ -49,7 +48,7 @@ class CreateNewUser(generics.CreateAPIView):
         car.car_type = data['car_type']
         user.save()
         car.save()
-        return JsonResponse({'message' : '회원가입 성공'}, status= 200)
+        return JsonResponse({'message' : 'success'}, status= 200)
     
 
 # 새로운 예약 등록
@@ -68,14 +67,14 @@ class CreateResv(generics.CreateAPIView):
         resv.price = data['price']
         resv.state = data['state']
         resv.save()
-        return JsonResponse({'message' : '예약에 성공하였습니다.'}, status = 200)
+        return JsonResponse({'data' : resv.reservation_id, 'message' : 'success'}, status = 200)
     
 # 개인 예약 내역 조회 (*테스트 가능)
 class GetUserResv(generics.RetrieveAPIView):
     def post(self, request):
         data = json.loads(request.body)
         queryset = Reservation.objects.filter(user_id=data['session_id'])
-        return JsonResponse({'data' : queryset.values()[0]}, status = 200)
+        return JsonResponse({'data' : list(queryset.values())}, status = 200)
     
 # 예약 취소
 class DeleteResv(generics.UpdateAPIView):
@@ -84,7 +83,7 @@ class DeleteResv(generics.UpdateAPIView):
         resv = Reservation.objects.get(reservation_id=data['resvID'])
         resv.state = data['state']
         resv.save()
-        return JsonResponse({'message' : '예약을 취소하였습니다.'}, status = 200)
+        return JsonResponse({'message' : 'success'}, status = 200)
         
 # 개인 정보 조회 
 class GetUserInfo(generics.RetrieveAPIView):
@@ -123,7 +122,7 @@ class UpdateUserInfo(generics.RetrieveUpdateAPIView):
         user.save()
         car.save()
         
-        return JsonResponse({'message' : '정보가 성공적으로 수정되었습니다!'}, status=200)
+        return JsonResponse({'message' : 'success'}, status=200)
         
 
 # 개인 보유 포인트 조회 ?   
@@ -133,7 +132,7 @@ class GetUserPoint(generics.RetrieveAPIView):
         id = data['session_id']
         
         point = User.objects.get(user_id=id).point
-        return JsonResponse({'data': point, 'message' : '사용자 보유 포인트 조회 성공'}, status=200)
+        return JsonResponse({'data': point, 'message' : 'success'}, status=200)
 
 # 포인트 충전
 class ChargeUserPoint(generics.RetrieveUpdateAPIView):
@@ -146,7 +145,7 @@ class ChargeUserPoint(generics.RetrieveUpdateAPIView):
         user.point = point
         user.save()
         
-        return JsonResponse({'data' : user.point, 'message' : '포인트가 성공적으로 충전되었습니다!'}, status=200)
+        return JsonResponse({'data' : user.point, 'message' : 'success'}, status=200)
 
 
 

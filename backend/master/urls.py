@@ -7,4 +7,5 @@ urlpatterns = [
     path('cancelResv/', views.DeleteResv.as_view()),
     path('getMonitoring/', views.GetAllParkingSlotInfo.as_view()),
     path('addSlot/', views.CreateNewSlot.as_view()),
+    path('statistics/', views.SendStatistics.as_view()),
 ]
