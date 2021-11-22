@@ -37,21 +37,14 @@ function SignUp() {
       .then((response) => response.json())
       .then((response) => {
         console.log(response);
-        movePage('/');
+        window.alert("회원가입에 성공했습니다");
+        movePage("/");
       });
   };
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
-
-  useEffect(() => {
-    fetch(`${USER_SERVER}/getCustomerIDs/`)
-      .then((response) => response.json())
-      .then((response) => {
-        console.log(response);
-      });
-  }, []);
 
   return (
     <>

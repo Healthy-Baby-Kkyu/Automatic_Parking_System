@@ -25,8 +25,8 @@ function CustomerInfos() {
     },
   }));
   const { Option } = Select;
-  const [customerInfos, setCustomerInfos] = useState(rows);
-
+  const [tmpData, setTmpData] = useState();
+  const [listData, setListData] = useState();
   const [count, setCount] = useState(0);
 
   function handleChange(value) {
@@ -37,29 +37,34 @@ function CustomerInfos() {
     console.log("Success:", values);
     console.log(values.search_input);
 
+    if (values.search_input === "") {
+      setTmpData(listData);
+      return;
+    }
+
     switch (values.search_type) {
       case "고객 ID":
-        setCustomerInfos(
-          rows.filter((value) => value.customerID === values.search_input)
+        setTmpData(
+          listData.filter((value) => value.user_id === values.search_input)
         );
         break;
       case "이름":
-        setCustomerInfos(
-          rows.filter((value) => value.name === values.search_input)
+        setTmpData(
+          listData.filter((value) => value.user_name === values.search_input)
         );
         break;
       case "차 번호":
-        setCustomerInfos(
-          rows.filter((value) => value.carNumber === values.search_input)
+        setTmpData(
+          listData.filter((value) => value.car_number === values.search_input)
         );
         break;
       case "차종":
-        setCustomerInfos(
-          rows.filter((value) => value.carType === values.search_input)
+        setTmpData(
+          listData.filter((value) => value.car_type === values.search_input)
         );
         break;
       case "":
-        setCustomerInfos(rows);
+        setTmpData(listData);
     }
   };
 
@@ -68,9 +73,11 @@ function CustomerInfos() {
   };
 
   useEffect(() => {
-    fetch(`${USER_SERVER}/admin/getCustomerInfos/`)
+    fetch(`${USER_SERVER}/master/getCustomerInfos/`)
       .then((response) => response.json())
       .then((response) => {
+        setListData(response);
+        setTmpData(response);
         console.log(response);
       });
   }, []);
@@ -129,7 +136,7 @@ function CustomerInfos() {
               검색 결과
             </div>
             <div style={{ fontWeight: "bold", color: "#0F31FE" }}>
-              {customerInfos.length}
+              {tmpData && tmpData.length}
             </div>
             <div>명</div>
           </div>
@@ -142,33 +149,32 @@ function CustomerInfos() {
                   <StyledTableCell align="left">차 번호</StyledTableCell>
                   <StyledTableCell align="left">차종</StyledTableCell>
                   <StyledTableCell align="left">포인트</StyledTableCell>
-                  <StyledTableCell align="left">누적 이용금액</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {customerInfos.map((row, idx) => (
-                  <TableRow
-                    key={idx}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <StyledTableCell component="th" scope="row">
-                      {row.customerID}
-                    </StyledTableCell>
-                    <StyledTableCell align="left">{row.name}</StyledTableCell>
-                    <StyledTableCell align="left">
-                      {row.carNumber}
-                    </StyledTableCell>
-                    <StyledTableCell align="left">
-                      {row.carType}
-                    </StyledTableCell>
-                    <StyledTableCell align="left">
-                      {row.point} P
-                    </StyledTableCell>
-                    <StyledTableCell align="left">
-                      {row.totalFee} 원
-                    </StyledTableCell>
-                  </TableRow>
-                ))}
+                {tmpData &&
+                  tmpData.map((row, idx) => (
+                    <TableRow
+                      key={idx}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <StyledTableCell component="th" scope="row">
+                        {row.user_id}
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        {row.user_name}
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        {row.car_number}
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        {row.car_type}
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        {row.point} P
+                      </StyledTableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </TableContainer>

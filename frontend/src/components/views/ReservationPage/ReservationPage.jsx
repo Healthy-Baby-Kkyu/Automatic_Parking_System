@@ -18,14 +18,33 @@ function ReservationPage() {
   const [step, setStep] = useState(1);
   const [selectedFloor, setSelectedFloor] = useState();
   const [selectedSlot, setSelectedSlot] = useState();
+  const [selectedDates, setSelectedDates] = useState();
+  const [cost, setCost] = useState();
+  const [resvId, setResvID] = useState();
+  const [personalPoint, setPersonalPoint] = useState();
 
   const getSelectedDate = (val) => {
     let startDate = val[0]._d;
     let endDate = val[1]._d;
+    setSelectedDates([startDate, endDate]);
     if (val !== undefined && val !== "undefined") {
       setStep(2);
       // 해당 시간 주차자리 정보 가져오기
     }
+    setCost(parseInt(((endDate - startDate) / 1000 / 60 / 60) * 2000));
+    fetch(`${USER_SERVER}/customer/getPersonalPoint/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        session_id: window.localStorage.getItem("id"),
+      }),
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        setPersonalPoint(response.data);
+      });
   };
 
   const handleChange = (val) => {
@@ -53,6 +72,10 @@ function ReservationPage() {
     var current = new Date();
     values.start_date = values.dates[0]._d;
     values.end_date = values.dates[1]._d;
+    // var times =
+    //   values.end_date.getHours() * 60 +
+    //   values.end_date.getMinutes() -
+    //   (values.start_date.getHours() * 60 + values.start_date.getMinutes());
     values.slot = selectedSlot;
     console.log(values);
     fetch(`${USER_SERVER}/customer/createResv/`, {
@@ -61,18 +84,21 @@ function ReservationPage() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        parking_slot_id: values.floor + values.section + values.slot,
-        reservation_date: moment(current).format("YYYY-MM-DD HH:MM:SS"),
-        start_date: moment(values.start_date).format("YYYY-MM-DD HH:MM:SS"),
-        end_date: moment(values.end_date).format("YYYY-MM-DD HH:MM:SS"),
-        price: 0,
-        state: 0,
+        parking_slot_id: values.floor + values.slot,
+        reservation_date: moment(current).format("YYYY-MM-DD"),
+        start_date: moment(values.start_date, "YYYY-MM-DD HH:MM:SS"),
+        end_date: moment(values.end_date, "YYYY-MM-DD HH:MM:SS"),
+        price: ((values.end_date - values.start_date) / 1000 / 60 / 60) * 2000,
+        state: 1,
         session_id: window.localStorage.getItem("id"),
       }),
     })
       .then((response) => response.json())
       .then((response) => {
         console.log(response);
+        setResvID(response.data);
+        window.alert("예약 완료되었습니다.");
+        window.location.replace("/reservationPage");
       });
   };
 
@@ -93,17 +119,13 @@ function ReservationPage() {
   };
 
   const disabledRangeTime = (_, type) => {
-    if (type === "start") {
-      return {
-        disabledHours: () => range(0, 60).splice(4, 20),
-        disabledMinutes: () => range(30, 60),
-        disabledSeconds: () => [55, 56],
-      };
-    }
     return {
-      disabledHours: () => range(0, 60).splice(20, 4),
-      disabledMinutes: () => range(0, 31),
-      disabledSeconds: () => [55, 56],
+      disabledMinutes: () => [
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+        21, 22, 23, 24, 25, 26, 27, 28, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39,
+        40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57,
+        58, 59,
+      ],
     };
   };
 
@@ -134,11 +156,11 @@ function ReservationPage() {
                 showTime={{
                   hideDisabledOptions: true,
                   defaultValue: [
-                    moment("09:00:00", "HH:mm:ss"),
-                    moment("23:00:00", "HH:mm:ss"),
+                    moment("09:00", "HH:mm"),
+                    moment("10:00", "HH:mm"),
                   ],
                 }}
-                format="YYYY-MM-DD HH:mm:ss"
+                format="YYYY-MM-DD HH:mm"
                 onChange={(val) => setValue(val)}
               />
             </Form.Item>
@@ -182,22 +204,26 @@ function ReservationPage() {
                 <p style={{ fontSize: "1.2em" }}>3. 자리 및 결제 정보 확인</p>
                 <div className={styles.paper}>
                   <div>
-                    <b>시간권 주차티켓 (#190293)</b>
+                    <b>시간권 주차티켓 </b>
                   </div>
                   <div className={styles.ticket}>
                     <div>
                       주차 장소
-                      <span style={{ paddingLeft: "67px" }}>B1층 A1</span>
+                      <span style={{ paddingLeft: "67px" }}>
+                        {selectedFloor + "층 " + selectedSlot}
+                      </span>
                     </div>
                     <div>
                       이용일
                       <span style={{ paddingLeft: "82px" }}>
-                        2021-08-18 16:30 ~ 2021-08-18 21:30
+                        {selectedDates[0].toLocaleString() +
+                          " ~ " +
+                          selectedDates[1].toLocaleString()}
                       </span>
                     </div>
                     <div>
                       결제 금액
-                      <span style={{ paddingLeft: "67px" }}>5000 P</span>
+                      <span style={{ paddingLeft: "67px" }}>{cost} P</span>
                     </div>
                   </div>
                 </div>
@@ -207,36 +233,59 @@ function ReservationPage() {
                 <div className={styles.paper}>
                   <div style={{ paddingBottom: "10px" }}>
                     나의 보유 포인트
-                    <span style={{ paddingLeft: "300px" }}>50000 P</span>
+                    <span style={{ paddingLeft: "300px" }}>
+                      {personalPoint} P
+                    </span>
                   </div>
                   <div style={{ paddingBottom: "10px" }}>
                     결제 금액
                     <span style={{ paddingLeft: "340px", color: "#5172FF" }}>
-                      - 5000 P
+                      - {cost} P
                     </span>
                   </div>
                   <hr />
                   <div style={{ paddingTop: "10px", paddingBottom: "20px" }}>
                     결제 후 포인트
-                    <span style={{ paddingLeft: "315px" }}>45000 P</span>
+                    <span style={{ paddingLeft: "315px" }}>
+                      {personalPoint - cost} P
+                    </span>
                   </div>
-                  <div style={{ float: "left", marginRight: "10px" }}>
-                    <Button
-                      className={styles.button_4}
-                      onClick={console.log("hi")}
-                    >
-                      포인트 충전하기
-                    </Button>
-                  </div>
-                  <div>
-                    <Button
-                      className={styles.button_4}
-                      type="primary"
-                      htmlType="submit"
-                    >
-                      결제하기
-                    </Button>
-                  </div>
+                  {personalPoint > cost ? (
+                    <>
+                      <div style={{ float: "left", marginRight: "10px" }}>
+                        <Button className={styles.button_4}>
+                          포인트 충전하기
+                        </Button>
+                      </div>
+                      <div>
+                        <Button
+                          className={styles.button_4}
+                          type="primary"
+                          htmlType="submit"
+                        >
+                          결제하기
+                        </Button>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div style={{ float: "left", marginRight: "10px" }}>
+                        <Button className={styles.button_4}>
+                          포인트 충전하기
+                        </Button>
+                      </div>
+                      <div>
+                        <Button
+                          className={styles.button_4}
+                          type="primary"
+                          htmlType="submit"
+                          disabled
+                        >
+                          결제하기
+                        </Button>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             </>
