@@ -14,7 +14,7 @@
 }
 
 .rs {
-  width: 80vw;
+  width: 90 vw;
   min-height: 100vh;
   padding-left: 250px;
 }
@@ -22,4 +22,33 @@
 .subtitle {
   font-size: 1.3em;
   font-weight: bold;
+}
+
+.cols {
+  background: #ffffff;
+  border: 2px rgb(207, 207, 207);
+  border-style: dashed;
+  padding: 15px 20px 25px 20px;
+  margin: 30px 2px;
+  height: 120px;
+}
+.cols:hover {
+  background: #f1f8ff;
+  border: 2px rgb(187, 186, 186);
+  border-style: solid;
+  padding: 15px 20px 25px 20px;
+  margin: 30px 2px;
+  height: 120px;
+}
+
+.icons {
+  width: 30px;
+  height: 30px;
+}
+.text {
+  float: right;
+}
+.numbers {
+  font-size: 3em;
+  padding-left: 60px;
 }

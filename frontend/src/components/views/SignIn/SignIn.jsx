@@ -9,12 +9,7 @@ import { useHistory } from "react-router";
 function SignIn() {
   const history = useHistory();
 
-  const movePage = (url) => {
-    history.push(url);
-  };
-
   const onFinish = (values) => {
-    console.log("Success:", values);
     fetch(`${USER_SERVER}/login/`, {
       method: "POST",
       headers: {
@@ -24,13 +19,16 @@ function SignIn() {
         user_id: values.userId,
         password: values.password,
       }),
-    }).then((response) => {
-      console.log(response);
-    }).then(() => {
-      localStorage.setItem('id',values.userId);
-      movePage('/mainPage');
-    });
-    
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        if (response.message === "not exist") {
+          window.alert("아이디/비밀번호를 다시 확인하세요.");
+        } else {
+          localStorage.setItem("id", values.userId);
+          window.location.replace("/mainPage");
+        }
+      });
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -38,8 +36,9 @@ function SignIn() {
   };
 
   useEffect(() => {
-   console.log(localStorage);
-  }, [])
+    localStorage.clear();
+    console.log(localStorage);
+  }, []);
 
   return (
     <>

@@ -22,13 +22,13 @@ function ParkingLot({ selected_floor }) {
 
   const addParkingSlot = (item) => {
     let value = item.floor + item.section + item.slotID;
-    fetch(`${USER_SERVER}/admin/addSlot/`, {
+    fetch(`${USER_SERVER}/master/addSlot/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        slot_state: "1",
+        slot_state: 1,
         parking_slot_id: value,
       }),
     })

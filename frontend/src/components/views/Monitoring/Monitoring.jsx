@@ -17,7 +17,7 @@ function Monitoring() {
   };
 
   useEffect(() => {
-    fetch(`${USER_SERVER}/admin/getMonitoring/`)
+    fetch(`${USER_SERVER}/master/getMonitoring/`)
       .then((response) => response.json())
       .then((response) => {
         console.log(response);
