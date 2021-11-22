@@ -1,10 +1,10 @@
-import React from "react";
+import React ,{ useState } from "react";
 import { useHistory } from "react-router";
 import styles from '@/components/views/MainPage/MainPage.module.css'
 import { Row, Col } from 'antd';
 
 function MainPage() {
-  const UserID = 'user'; // null | admin | userId
+  const [UserID, setUserID] = useState(window.localStorage.getItem('id'));
   const history = useHistory();
 
   const movePage = (url) => {
