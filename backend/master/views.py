@@ -12,7 +12,7 @@ import datetime
 class GetAllCustomerInfo(generics.ListAPIView):
     def get(self, request):
         queryset_user = User.objects.all()
-        queryset_car = Cars.objects.all()
+        queryset_car = Cars.objects.all().order_by('user_id')
         return JsonResponse({'user' : list(queryset_user.values()), 'car' : list(queryset_car.values())}, status=200)
     
 # 전체 고객 예약 내역 조회 (*테스트 가능)
