@@ -11,7 +11,6 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button, Input, Select, Form } from "antd";
-import { rows } from "./sections/CustomerInfosList";
 import { USER_SERVER } from "@/Config.js";
 
 function CustomerInfos() {
@@ -27,7 +26,6 @@ function CustomerInfos() {
   const { Option } = Select;
   const [tmpData, setTmpData] = useState();
   const [listData, setListData] = useState();
-  const [count, setCount] = useState(0);
 
   function handleChange(value) {
     console.log(`selected ${value}`);

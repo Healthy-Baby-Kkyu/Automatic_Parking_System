@@ -7,7 +7,6 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { ResvList } from "@checkReservation/sections/ResvList";
 import { USER_SERVER } from "@/Config.js";
 
 function CheckReservation() {
@@ -30,16 +29,6 @@ function CheckReservation() {
       .then((response) => response.json())
       .then((response) => {
         setListData(response.data);
-        // console.log(new Date(response.data[0].start_date));
-        // console.log(new Date());
-
-        // console.log(new Date(response.data[0].start_date) > new Date());
-        // response.data.map((item, idx) => {
-        //   if (item.end_date < new Date()) listData.temp = 0;
-        //   else if (item.start_date <= new Date() && new Date() <= item.end_date)
-        //     listData.temp = 1;
-        //   else listData.temp = 2;
-        // });
       });
   }, []);
 
@@ -59,6 +48,8 @@ function CheckReservation() {
       .then((response) => response.json())
       .then((response) => {
         console.log(response);
+        alert("예약이 취소되었습니다.");
+        window.location.replace("/checkReservation")
       });
   };
 

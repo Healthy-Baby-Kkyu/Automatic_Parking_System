@@ -4,6 +4,7 @@ import TitleBar from "@titleBar/TitleBar";
 import Sider from "@sider/Sider";
 import { Row, Col } from 'antd';
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
+import { USER_SERVER } from "@/Config.js";
 
 function Statistics() {
   useEffect(() => {

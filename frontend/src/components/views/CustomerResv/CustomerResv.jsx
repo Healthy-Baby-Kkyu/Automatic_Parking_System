@@ -4,8 +4,6 @@ import TitleBar from "@/components/common/TitleBar/TitleBar";
 import Sider from "@sider/Sider";
 import {
   Button,
-  Menu,
-  Dropdown,
   Input,
   Row,
   Col,
@@ -13,7 +11,6 @@ import {
   Select,
   Form,
 } from "antd";
-import { DownOutlined } from "@ant-design/icons";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -39,12 +36,14 @@ function CustomerResv() {
       },
       body: JSON.stringify({
         state: -1,
-        resvID: item.resvID,
+        reservation_id: item.reservation_id,
       }),
     })
       .then((response) => response.json())
       .then((response) => {
         console.log(response);
+        alert("예약이 취소되었습니다.");
+        window.location.replace("/customerResv");
       });
   };
 
@@ -54,7 +53,7 @@ function CustomerResv() {
 
   const compareCurrentBefore = (element) => {
     return new Date(element.end_date) < new Date();
-    // if (element.startDate < current) return true;
+    
   };
 
   const compareCurrent = (element) => {
@@ -62,12 +61,12 @@ function CustomerResv() {
       new Date(element.start_date) <= new Date() &&
       new Date() <= new Date(element.end_date)
     );
-    // if (element.startDate === current) return true;
+    
   };
 
   const compareCurrentAfter = (element) => {
     return new Date(element.start_date) > new Date();
-    // if (element.startDate > current) return true;
+    
   };
 
   const handleChangeSort = (value) => {
@@ -248,7 +247,12 @@ function CustomerResv() {
                         >
                           주차 장소
                           <span style={{ paddingLeft: "67px" }}>
-                            {item.slot}
+                            {item.parking_slot_id.substr(0, 2) +
+                              "층 " +
+                              item.parking_slot_id.substr(
+                                2,
+                                item.parking_slot_id.length
+                              )}
                           </span>
                         </div>
                         <div
@@ -276,7 +280,7 @@ function CustomerResv() {
                         >
                           환불 예정 금액
                           <span style={{ paddingLeft: "42px" }}>
-                            {item.payment} P
+                            {item.price} P
                           </span>
                         </div>
                       </Modal>
