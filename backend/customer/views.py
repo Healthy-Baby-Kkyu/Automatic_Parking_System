@@ -66,7 +66,13 @@ class CreateResv(generics.CreateAPIView):
         resv.end_date = data['end_date']
         resv.price = data['price']
         resv.state = data['state']
+        
+        user = User.objects.get(user_id=data['session_id'])
+        user.point = int(user.point) - int(data['price'])
+        
         resv.save()
+        user.save()
+        
         return JsonResponse({'data' : resv.reservation_id, 'message' : 'success'}, status = 200)
     
 # 개인 예약 내역 조회 (*테스트 가능)
@@ -95,6 +101,7 @@ class GetUserInfo(generics.RetrieveAPIView):
         car = Cars.objects.get(user_id=id)
         result = {
             'user_id' : user.user_id,
+            'password' : user.password,
             'birthday' : user.birthday,
             'phone_number' : user.phone_number,
             'point' : user.point,
