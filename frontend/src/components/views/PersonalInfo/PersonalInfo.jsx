@@ -42,8 +42,7 @@ function PersonalInfo() {
         setTotalFee(response.data.total_fee);
         setCurrentPoint(response.data.point);
         setPhone(response.data.phone_number);
-        setBirth(moment(response.data.birthday,dateFormat));
-        console.log(birth);
+        setBirth(response.data.birthday);
         setCarType(response.data.car_type);
         setCarNumber(response.data.car_number);
       });
@@ -153,7 +152,7 @@ function PersonalInfo() {
             >
               생일
             </div>
-            <DatePicker defaultValue={birth} disabled />
+            <DatePicker value={moment(birth, dateFormat)} disabled />
           </div>
         </div>
 

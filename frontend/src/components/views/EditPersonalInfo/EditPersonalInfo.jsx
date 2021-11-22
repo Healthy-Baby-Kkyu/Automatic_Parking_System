@@ -28,9 +28,18 @@ function EditPersonalInfo() {
             body: JSON.stringify({
                 session_id: window.localStorage.getItem('id'),
             }),
-        }).then((response) => {
-            console.log(response.data);
-        });
+        })
+            .then((response) => response.json())
+            .then((response) => {
+                console.log(response);
+                setOriginID(response.data.user_id);
+                setOriginPassword(response.data.password);
+                setOriginBirth(response.data.birthday);
+                setOriginPhone(response.data.phone_number);
+                setOriginCarType(response.data.car_type);
+                setOriginCarNumber(response.data.car_number);
+            });
+
     }, [])
 
     const onFinish = (values) => {
@@ -71,7 +80,7 @@ function EditPersonalInfo() {
             values.carNumber = carNumber;
         }
 
-        fetch(`${USER_SERVER}/customer/editPersonalInfo`, {
+        fetch(`${USER_SERVER}/customer/editPersonalInfo/`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -85,16 +94,18 @@ function EditPersonalInfo() {
                 car_number: values.carNumber,
                 session_id: window.localStorage.getItem('id'),
             }),
-        }).then((response) => {
-            console.log(response);
-            setOriginID(response.data.user_id);
-            setOriginPassword(response.data.password);
-            setOriginBirth(response.data.birthday);
-            setOriginPhone(response.data.phone_number);
-            setOriginCarType(response.data.car_type);
-            setOriginCarNumber(response.data.car_number);
-        });
-        console.log('Success:', values);
+        })
+            .then((response) => response.json())
+            .then((response) => {
+                console.log(response);
+                setOriginID(response.data.user_id);
+                setOriginPassword(response.data.password);
+                setOriginBirth(response.data.birthday);
+                setOriginPhone(response.data.phone_number);
+                setOriginCarType(response.data.car_type);
+                setOriginCarNumber(response.data.car_number);
+                window.location.replace("/editPersonalInfo");
+            });
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -214,7 +225,7 @@ function EditPersonalInfo() {
                                 <Form.Item name="birth">
                                     <DatePicker
                                         style={{ marginRight: "10px", width: "254px" }}
-                                        defaultValue={originBirth}
+                                        value={moment(originBirth, dateFormat)}
                                         disabled />
                                 </Form.Item>
                             )}
@@ -222,7 +233,7 @@ function EditPersonalInfo() {
                                 <Form.Item name="birth" >
                                     <DatePicker
                                         style={{ marginRight: "10px", width: "254px" }}
-                                        defaultValue={originBirth}
+                                        value={moment(originBirth, dateFormat)}
                                         onChange={onBirthChange}
                                     />
                                 </Form.Item>
