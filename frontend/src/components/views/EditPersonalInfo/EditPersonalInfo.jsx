@@ -43,6 +43,7 @@ function EditPersonalInfo() {
     }, [])
 
     const onFinish = (values) => {
+
         values.id = originID;
 
         if (password == undefined) {
@@ -98,12 +99,12 @@ function EditPersonalInfo() {
             .then((response) => response.json())
             .then((response) => {
                 console.log(response);
-                setOriginID(response.data.user_id);
-                setOriginPassword(response.data.password);
-                setOriginBirth(response.data.birthday);
-                setOriginPhone(response.data.phone_number);
-                setOriginCarType(response.data.car_type);
-                setOriginCarNumber(response.data.car_number);
+                setOriginID(values.id);
+                setOriginPassword(values.password);
+                setOriginBirth(values.birth);
+                setOriginPhone(values.phone);
+                setOriginCarType(values.carType);
+                setOriginCarNumber(values.carNumber);
                 window.location.replace("/editPersonalInfo");
             });
     };
@@ -187,24 +188,30 @@ function EditPersonalInfo() {
                     </div>
                     <div className={styles.edit_main}>
                         <div className={styles.edit_inside}>
-                            <div style={{ marginLeft: "73px", marginRight: "30px" }}>ID :</div>
+                            <div style={{ marginLeft: "73px", marginRight: "30px" }}>ID : </div>
                             <Form.Item name="id">
-                                <Input
-                                    style={{ width: "500px" }}
-                                    defaultValue={originID}
-                                    disabled />
+                                {originID && (
+                                    <Input
+                                        style={{ width: "500px" }}
+                                        defaultValue={originID}
+                                        disabled
+                                    />
+                                )}
                             </Form.Item>
                         </div>
                         <div style={{ marginTop: "5px" }} className={styles.edit_inside}>
                             <div style={{ marginLeft: "20px", marginRight: "30px" }}>Password :</div>
                             {count % 2 == "0" && (
                                 <Form.Item name="password">
-                                    <Input.Password
-                                        style={{ width: "500px" }}
-                                        iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
-                                        defaultValue={originPassword}
-                                        disabled
-                                    />
+                                    {originPassword && (
+                                        <Input.Password
+                                            style={{ width: "500px" }}
+                                            iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+                                            defaultValue={originPassword}
+                                            disabled
+                                        />
+                                    )}
+
                                 </Form.Item>
                             )}
                             {count % 2 == "1" && (
@@ -223,17 +230,19 @@ function EditPersonalInfo() {
                             <div style={{ marginLeft: "55px", marginRight: "30px" }}>Birth :</div>
                             {count % 2 == "0" && (
                                 <Form.Item name="birth">
-                                    <DatePicker
-                                        style={{ marginRight: "10px", width: "254px" }}
-                                        value={moment(originBirth, dateFormat)}
-                                        disabled />
+                                    {originBirth && (
+                                        <DatePicker
+                                            style={{ marginRight: "10px", width: "254px" }}
+                                            defaultValue={moment(originBirth, dateFormat)}
+                                            disabled />
+                                    )}
                                 </Form.Item>
                             )}
                             {count % 2 == "1" && (
                                 <Form.Item name="birth" >
                                     <DatePicker
                                         style={{ marginRight: "10px", width: "254px" }}
-                                        value={moment(originBirth, dateFormat)}
+                                        defaultValue={moment(originBirth, dateFormat)}
                                         onChange={onBirthChange}
                                     />
                                 </Form.Item>
@@ -244,7 +253,9 @@ function EditPersonalInfo() {
                             <div style={{ marginLeft: "42px", marginRight: "16px", width: "70px" }}>Phone :</div>
                             {count % 2 == "0" && (
                                 <Form.Item name="phone">
-                                    <Input style={{ width: '106%', marginRight: "5px" }} defaultValue={originPhone} disabled />
+                                    {originPhone && (
+                                        <Input style={{ width: '106%', marginRight: "5px" }} defaultValue={originPhone} disabled />
+                                    )}
                                 </Form.Item>
                             )}
                             {count % 2 == "1" && (
@@ -258,12 +269,14 @@ function EditPersonalInfo() {
 
                             {count % 2 == "0" && (
                                 <Form.Item name="carType">
-                                    <Select defaultValue={originCarType} style={{ width: 200 }} disabled>
-                                        <Option value="경차">경차</Option>
-                                        <Option value="소형차">소형차</Option>
-                                        <Option value="중형차">중형차</Option>
-                                        <Option value="대형차">대형차</Option>
-                                    </Select>
+                                    {originCarType && (
+                                        <Select defaultValue={originCarType} style={{ width: 200 }} disabled>
+                                            <Option value="경차">경차</Option>
+                                            <Option value="소형차">소형차</Option>
+                                            <Option value="중형차">중형차</Option>
+                                            <Option value="대형차">대형차</Option>
+                                        </Select>
+                                    )}
                                 </Form.Item>
                             )}
                             {count % 2 == "1" && (
@@ -276,13 +289,14 @@ function EditPersonalInfo() {
                                     </Select>
                                 </Form.Item>
                             )}
-
                         </div>
                         <div style={{ marginTop: "10px" }} className={styles.edit_inside}>
                             <div style={{ marginRight: "30px" }}>Car Number :</div>
                             {count % 2 == "0" && (
                                 <Form.Item name="carNumber">
-                                    <Input style={{ width: "200px" }} defaultValue={originCarNumber} disabled />
+                                    {originCarNumber && (
+                                        <Input style={{ width: "200px" }} defaultValue={originCarNumber} disabled />
+                                    )}
                                 </Form.Item>
                             )}
                             {count % 2 == "1" && (
