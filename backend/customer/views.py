@@ -69,10 +69,8 @@ class CreateResv(generics.CreateAPIView):
         
         user = User.objects.get(user_id=data['session_id'])
         user.point = int(user.point) - int(data['price'])
-        
         resv.save()
         user.save()
-        
         return JsonResponse({'data' : resv.reservation_id, 'message' : 'success'}, status = 200)
     
 # 개인 예약 내역 조회 (*테스트 가능)
