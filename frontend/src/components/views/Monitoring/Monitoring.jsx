@@ -16,14 +16,6 @@ function Monitoring() {
     setFloor(value);
   };
 
-  useEffect(() => {
-    fetch(`${USER_SERVER}/master/getMonitoring/`)
-      .then((response) => response.json())
-      .then((response) => {
-        console.log(response);
-      });
-  }, []);
-
   return (
     <div className={styles.container}>
       <TitleBar title_name="주차장 관리" />
