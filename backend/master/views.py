@@ -6,13 +6,14 @@ from django.http.response import HttpResponse, JsonResponse
 from customer.serializers import UserSerializer, ReservationSerializer, CarsSerializer, ParkingSlotSerializer
 from customer.models import User, Cars, ParkingSlot, Reservation
 import json
+from datetime import date
 import datetime
 
 # 전체 고객 정보 조회 (*테스트 가능)
 class GetAllCustomerInfo(generics.ListAPIView):
     def get(self, request):
         queryset_user = User.objects.all()
-        queryset_car = Cars.objects.all()
+        queryset_car = Cars.objects.all().order_by('user_id')
         return JsonResponse({'user' : list(queryset_user.values()), 'car' : list(queryset_car.values())}, status=200)
     
 # 전체 고객 예약 내역 조회 (*테스트 가능)
@@ -24,7 +25,7 @@ class GetAllCustomerResv(generics.ListAPIView):
 class DeleteResv(generics.RetrieveDestroyAPIView):
     def post(self, request):
         data = json.loads(request.body)
-        resv = Reservation.objects.get(reservation_id=data['resvID'])
+        resv = Reservation.objects.get(reservation_id=data['reservation_id'])
         resv.state = data['state']
         resv.save()
         return JsonResponse({'message' : 'success'}, status=200)
@@ -49,15 +50,15 @@ class SendStatistics(generics.ListAPIView):
         queryset_users = User.objects.all()
         total_users = len(queryset_users)
         
-        today = datetime.datetime.today()
+        today = date.today()
 
         queryset_monthly = Reservation.objects.filter(reservation_date__month=today.month)
         monthly_visitors = len(queryset_monthly)
-        print('queryset_monthly', queryset_monthly)
+        #print('queryset_monthly', queryset_monthly)
         
         queryset_daily = Reservation.objects.filter(reservation_date=today)
         daily_visitors = len(queryset_daily)
-        print('queryset_daily', queryset_daily)
+        #print('queryset_daily', queryset_daily)
 
         weekly_visitors = []
         weekly_canceler = []
@@ -66,24 +67,33 @@ class SendStatistics(generics.ListAPIView):
             queryset_canceler = Reservation.objects.filter(reservation_date = today - datetime.timedelta(days=i), state='-1')
             weekly_visitors.append(len(queryset_weekly))
             weekly_canceler.append(len(queryset_canceler))
-        print('weekly_visitors', weekly_visitors)
-        print('weekly_canceler', weekly_canceler)
+        #print('weekly_visitors', weekly_visitors)
+        #print('weekly_canceler', weekly_canceler)
 
+        queryset_slot = ParkingSlot.objects.all()
+        all_slot_count = len(queryset_slot)
+        slot_rate = daily_visitors / all_slot_count * 100
+        #print('today', today)
+        
         resv_time = []
         resv_slot = []
         for j in range(0,24,3):
             count_resv = 0
-            count_slot = 0
             for k in range(0,3):
-                queryset_resv = Reservation.objects.filter(start_date__date = today, start_date__hour = j)
-                queryset_slot = Reservation.objects.filter(start_date__date = today, start_date__hour = j, state='1')
+                if j == 0:
+                    queryset_resv = Reservation.objects.filter(start_date__contains = str(today) + ' 0'+str(j+k)+':3')
+                    count_resv += len(queryset_resv)
+                    queryset_resv = Reservation.objects.filter(start_date__contains = str(today) + ' 0'+str(j+k)+':0')
+                elif j < 7:
+                    queryset_resv = Reservation.objects.filter(start_date__contains = str(today) + ' 0'+str(j+k)+':')
+                else:
+                    queryset_resv = Reservation.objects.filter(start_date__contains = str(today) + ' ' + str(j+k)+':')
                 count_resv += len(queryset_resv)
-                count_slot += len(queryset_slot)
             resv_time.append(count_resv)
-            resv_slot.append(count_slot)
+            resv_slot.append(count_resv / all_slot_count * 100)
 
-        # print('resv_time', resv_time)
-        # print('resv_slot', resv_slot)
+        #print('resv_time', resv_time)
+        #print('resv_slot', resv_slot)
 
         result = {
             'total_users' : total_users,
@@ -93,6 +103,7 @@ class SendStatistics(generics.ListAPIView):
             'weekly_canceler' : weekly_canceler,
             'resv_time' : resv_time,
             'resv_slot' : resv_slot,
+            'slot_rate' : slot_rate,
         }
 
         return JsonResponse({'data' : result}, status=200)
