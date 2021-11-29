@@ -156,6 +156,7 @@ function CustomerInfos() {
                   <Select
                     style={{ width: "100px", marginRight: "10px", marginLeft: "65px" }}
                     onChange={handleChange}
+                    placeholder="고객 ID"
                   >
                     <Option value="고객 ID">고객 ID</Option>
                     <Option value="이름">이름</Option>

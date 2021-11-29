@@ -47,10 +47,12 @@
   height: 250px;
   padding: 40px 0px 0px 60px;
 }
+.box_3 {
+  cursor: pointer;
+}
 .img {
   width: 100px;
   height: 100px;
-  cursor: pointer;
 }
 .text2 {
   color: rgb(58, 110, 255);

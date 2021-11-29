@@ -32,6 +32,14 @@ function CheckReservation() {
       });
   }, []);
 
+  function modifyDateFormat(date) {
+    
+    date = date.replace("T", " ");
+    date = date.replace("Z", "");
+    date = date.substr(0, 16);
+    return date;
+  }
+
   const handleOk = (item) => {
     setIsModalVisible(false);
     fetch(`${USER_SERVER}/customer/cancelResv`, {
@@ -124,7 +132,7 @@ function CheckReservation() {
                         >
                           이용시작일
                           <span style={{ paddingLeft: "60px" }}>
-                            {item.start_date}
+                            {modifyDateFormat(item.start_date)}
                           </span>
                         </div>
                         <div
@@ -132,7 +140,7 @@ function CheckReservation() {
                         >
                           이용종료일
                           <span style={{ paddingLeft: "60px" }}>
-                            {item.end_date}
+                            {modifyDateFormat(item.end_date)}
                           </span>
                         </div>
                         <div
@@ -168,13 +176,13 @@ function CheckReservation() {
                       <div style={{ paddingBottom: "5px" }}>
                         이용시작일
                         <span style={{ paddingLeft: "60px" }}>
-                          {item.start_date.toLocaleString()}
+                          {modifyDateFormat(item.start_date)}
                         </span>
                       </div>
                       <div style={{ paddingBottom: "5px" }}>
                         이용종료일
                         <span style={{ paddingLeft: "60px" }}>
-                          {item.end_date.toLocaleString()}
+                          {modifyDateFormat(item.end_date)}
                         </span>
                       </div>
                       <div style={{ paddingBottom: "5px" }}>
