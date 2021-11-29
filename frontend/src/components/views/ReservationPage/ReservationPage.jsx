@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import styles from "@reservationPage/ReservationPage.module.css";
 import TitleBar from "@titleBar/TitleBar";
 import Sider from "@/components/common/Sider/Sider";
 import moment from "moment";
-import { Button, DatePicker, Select, Form, Input } from "antd";
-import ParkingLot from "@reservationPage/sections/ParkingLot";
+import { Button, DatePicker, Select, Form, Input, Popover } from "antd";
 import { USER_SERVER } from "@/Config.js";
+import ParkingLot from "@reservationPage/sections/ParkingLot";
 
 function ReservationPage() {
   const history = useHistory();
@@ -15,7 +15,7 @@ function ReservationPage() {
   const { RangePicker } = DatePicker;
   const [value, setValue] = useState();
   const [step, setStep] = useState(1);
-  const [selectedFloor, setSelectedFloor] = useState();
+  const [selectedFloor, setSelectedFloor] = useState("B1");
   const [selectedSlot, setSelectedSlot] = useState();
   const [selectedDates, setSelectedDates] = useState();
   const [cost, setCost] = useState();
@@ -34,7 +34,7 @@ function ReservationPage() {
       setStep(2);
       // 해당 시간 주차자리 정보 가져오기
     }
-    setCost(parseInt(((endDate - startDate) / 1000 / 60 / 60) * 2000));
+    setCost(parseInt((endDate - startDate) / 1000 / 60 / 60) * 2000);
     fetch(`${USER_SERVER}/customer/getPersonalPoint/`, {
       method: "POST",
       headers: {
@@ -51,14 +51,16 @@ function ReservationPage() {
   };
 
   const handleChange = (val) => {
-    // console.log(val);
     setSelectedFloor(val);
-    if (selectedFloor !== null) setStep(3);
+    if (selectedFloor !== null) {
+      setStep(3);
+    }
   };
 
   const getSelectedData = (val) => {
     if (val !== null) setStep(4);
     setSelectedSlot(val);
+    return val;
   };
 
   const rangeConfig = {
@@ -170,7 +172,7 @@ function ReservationPage() {
               <div style={{ float: "left", marginRight: "10px" }}>
                 <Form.Item name="floor">
                   <Select
-                    placehorder="층 선택"
+                    defaultValue="B1"
                     style={{ width: "120px" }}
                     onChange={handleChange}
                   >
@@ -269,7 +271,10 @@ function ReservationPage() {
                   ) : (
                     <>
                       <div style={{ float: "left", marginRight: "10px" }}>
-                        <Button onClick={()=>movePage("/chargePoint")} className={styles.button_4}>
+                        <Button
+                          onClick={() => movePage("/chargePoint")}
+                          className={styles.button_4}
+                        >
                           포인트 충전하기
                         </Button>
                       </div>
