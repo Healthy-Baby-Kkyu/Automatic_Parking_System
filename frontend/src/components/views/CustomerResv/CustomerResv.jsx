@@ -13,22 +13,29 @@ function CustomerResv() {
   const { Option } = Select;
   const [resvList, setResvList] = useState();
   const [tmpList, setTmpList] = useState();
+  const [values, setValues] = useState();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const showModal = () => {
+  const showModal = (item) => {
+    console.log(item);
+    setValues(item);
     setIsModalVisible(true);
   };
 
   const handleOk = (item) => {
+    // 취소
+    console.log(values);
     setIsModalVisible(false);
+
     fetch(`${USER_SERVER}/master/cancelResv/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        state: -1,
-        reservation_id: item.reservation_id,
+        state: "-1",
+        reservation_id: values.reservation_id,
+        price: values.price,
       }),
     })
       .then((response) => response.json())
@@ -119,13 +126,17 @@ function CustomerResv() {
     console.log(`selected ${value}`);
   };
 
+  const convertDate = (str_date) => {
+    let result = str_date.substr(0, 10) + " " + str_date.substr(11, 5);
+    return result;
+  };
+
   useEffect(() => {
-    console.log(new Date());
     fetch(`${USER_SERVER}/master/getCustomerResv/`)
       .then((response) => response.json())
       .then((response) => {
-        setResvList(response);
-        setTmpList(response);
+        setResvList(response.slice(0, 50));
+        setTmpList(response.slice(0, 50));
         console.log(response);
       });
   }, []);
@@ -162,7 +173,7 @@ function CustomerResv() {
                   <Form.Item name="search_type">
                     <Select
                       defaultValue="예약 번호"
-                      style={{ width: 100 }}
+                      style={{ width: 120 }}
                       onChange={handleChangeSearch}
                     >
                       <Option value="예약 번호">예약 번호</Option>
@@ -203,80 +214,100 @@ function CustomerResv() {
                   <div>
                     <b>NO. {item.reservation_id}</b>
                   </div>
-                  {new Date(item.start_date) > new Date() && (
-                    <>
-                      <span style={{ paddingLeft: "20px" }} />
-                      &nbsp;
-                      <Button type="primary" size="small" onClick={showModal}>
-                        예약 취소
-                      </Button>
-                      <Modal
-                        title="예약 내역 취소"
-                        visible={isModalVisible}
-                        footer={[
-                          <Button key="back" onClick={handleCancel}>
-                            취소
-                          </Button>,
-                          <Button
-                            key="submit"
-                            type="primary"
-                            onClick={() => handleOk(item)}
-                          >
-                            확인
-                          </Button>,
-                        ]}
-                      >
-                        <div style={{ marginBottom: "20px" }}>
-                          <div>해당 고객의 예약 건을 취소하시겠습니까?</div>
-                          <div style={{ fontSize: "0.9em" }}>
-                            <b>[주의]</b> 예약 취소 행위는 고객의 요청에
-                            의해서만 진행되어야 합니다.
-                          </div>
-                        </div>
-                        <div
-                          style={{ paddingBottom: "5px", fontSize: "0.9em" }}
+                  {new Date(item.start_date) > new Date() &&
+                    item.state !== "-1" && (
+                      <>
+                        <span style={{ paddingLeft: "20px" }} />
+                        &nbsp;
+                        <Button
+                          type="primary"
+                          size="small"
+                          onClick={() => showModal(item)}
                         >
-                          주차 장소
-                          <span style={{ paddingLeft: "67px" }}>
-                            {item.parking_slot_id.substr(0, 2) +
-                              "층 " +
-                              item.parking_slot_id.substr(
-                                2,
-                                item.parking_slot_id.length
-                              )}
-                          </span>
-                        </div>
-                        <div
-                          style={{ paddingBottom: "5px", fontSize: "0.9em" }}
+                          예약 취소
+                        </Button>
+                        <Modal
+                          title="예약 내역 취소"
+                          visible={isModalVisible}
+                          footer={[
+                            <Button key="back" onClick={handleCancel}>
+                              취소
+                            </Button>,
+                            <Button
+                              key="submit"
+                              type="primary"
+                              onClick={() => handleOk(item)}
+                            >
+                              확인
+                            </Button>,
+                          ]}
                         >
-                          이용시작일
-                          <span style={{ paddingLeft: "60px" }}>
-                            {item.start_date}
-                          </span>
-                        </div>
-                        <div
-                          style={{ paddingBottom: "5px", fontSize: "0.9em" }}
-                        >
-                          이용종료일
-                          <span style={{ paddingLeft: "60px" }}>
-                            {item.end_date}
-                          </span>
-                        </div>
-                        <div
-                          style={{
-                            paddingBottom: "5px",
-                            fontSize: "0.9em",
-                            color: "red",
-                          }}
-                        >
-                          환불 예정 금액
-                          <span style={{ paddingLeft: "42px" }}>
-                            {item.price} P
-                          </span>
-                        </div>
-                      </Modal>
-                    </>
-                  )}
+                          {values && (
+                            <>
+                              <div style={{ marginBottom: "20px" }}>
+                                <div>
+                                  해당 고객의 예약 건을 취소하시겠습니까?
+                                </div>
+                                <div style={{ fontSize: "0.9em" }}>
+                                  <b>[주의]</b> 예약 취소 행위는 고객의 요청에
+                                  의해서만 진행되어야 합니다.
+                                </div>
+                              </div>
+                              <div
+                                style={{
+                                  paddingBottom: "5px",
+                                  fontSize: "0.9em",
+                                }}
+                              >
+                                주차 장소
+                                <span style={{ paddingLeft: "67px" }}>
+                                  {values.parking_slot_id.substr(0, 2) +
+                                    "층 " +
+                                    values.parking_slot_id.substr(
+                                      2,
+                                      values.parking_slot_id.length
+                                    )}
+                                </span>
+                              </div>
+                              <div
+                                style={{
+                                  paddingBottom: "5px",
+                                  fontSize: "0.9em",
+                                }}
+                              >
+                                이용시작일
+                                <span style={{ paddingLeft: "60px" }}>
+                                  {convertDate(values.start_date)}
+                                </span>
+                              </div>
+                              <div
+                                style={{
+                                  paddingBottom: "5px",
+                                  fontSize: "0.9em",
+                                }}
+                              >
+                                이용종료일
+                                <span style={{ paddingLeft: "60px" }}>
+                                  {convertDate(values.end_date)}
+                                </span>
+                              </div>
+                              <div
+                                style={{
+                                  paddingBottom: "5px",
+                                  fontSize: "0.9em",
+                                  color: "red",
+                                }}
+                              >
+                                환불 예정 금액
+                                <span style={{ paddingLeft: "42px" }}>
+                                  {values.price} P
+                                </span>
+                              </div>
+                            </>
+                          )}
+                        </Modal>
+                      </>
+                    )}
                 </AccordionSummary>
                 <AccordionDetails>
                   <Row gutter={[8, 8]}>
@@ -301,13 +332,13 @@ function CustomerResv() {
                       <div style={{ paddingBottom: "5px" }}>
                         이용시작일
                         <span style={{ paddingLeft: "60px" }}>
-                          {item.start_date}
+                          {convertDate(item.start_date)}
                         </span>
                       </div>
                       <div style={{ paddingBottom: "5px" }}>
                         이용시작일
                         <span style={{ paddingLeft: "60px" }}>
-                          {item.end_date}
+                          {convertDate(item.end_date)}
                         </span>
                       </div>
                       <div style={{ paddingBottom: "5px" }}>
@@ -318,22 +349,29 @@ function CustomerResv() {
                       </div>
                     </Col>
                     <Col span={6}>
-                      {new Date(item.end_date) < new Date() ? (
+                      {item.state === "-1" && (
                         <img
                           className={styles.car}
-                          src="/assets/CheckReservation/expired.png"
-                        />
-                      ) : new Date(item.start_date) > new Date() ? (
-                        <img
-                          className={styles.car}
-                          src="/assets/CheckReservation/expected.png"
-                        />
-                      ) : (
-                        <img
-                          className={styles.car}
-                          src="/assets/CheckReservation/using.png"
+                          src="/assets/CheckReservation/cancel.png"
                         />
                       )}
+                      {item.state !== "-1" &&
+                        (new Date(item.end_date) < new Date() ? (
+                          <img
+                            className={styles.car}
+                            src="/assets/CheckReservation/expired.png"
+                          />
+                        ) : new Date(item.start_date) > new Date() ? (
+                          <img
+                            className={styles.car}
+                            src="/assets/CheckReservation/expected.png"
+                          />
+                        ) : (
+                          <img
+                            className={styles.car}
+                            src="/assets/CheckReservation/using.png"
+                          />
+                        ))}
                     </Col>
                     <Col span={2} />
                   </Row>
