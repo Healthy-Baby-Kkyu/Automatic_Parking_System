@@ -69,15 +69,7 @@ function Header() {
         <Button className={styles.Button} type="text" disabled="disabled">
           예약 내역
         </Button>
-      ) : UserID == "admin" ? (
-        <Button
-          className={styles.Button}
-          type="text"
-          onClick={() => movePage("/statistics")}
-        >
-          주차장 사용 통계
-        </Button>
-      ) : (
+      ) : UserID != "admin" && (
         <Button
           className={styles.Button}
           type="text"

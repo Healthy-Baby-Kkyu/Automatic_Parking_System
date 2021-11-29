@@ -8,7 +8,7 @@ import { USER_SERVER } from "@/Config.js"
 function AccessControl() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isReserved, setIsReserved] = useState(false);
-  const [random_num, setRandom] = useState(Math.floor(Math.random() * 6));
+  const [random_num, setRandom] = useState(Math.floor(Math.random() * 5) + 1);
 
   const car_data = [
     ['/assets/AccessControl/1_input.png','/assets/AccessControl/1_result.png','222머 8018'],
@@ -20,6 +20,7 @@ function AccessControl() {
 
   const onFinish = () => {
     console.log("success");
+    if (random_num !==0 ){
     fetch(`${USER_SERVER}/master/checkCar/`, {
       method: "POST",
       headers: {
@@ -34,6 +35,7 @@ function AccessControl() {
         console.log(response.data);
         setIsReserved(response.data.result);
     });
+  }
   };
 
   const showModal = () => {
