@@ -128,25 +128,39 @@ function ParkingLot({ selected_floor }) {
     fetch(`${USER_SERVER}/master/getMonitoring/`)
       .then((response) => response.json())
       .then((response) => {
-        let tmp = response.filter((value) => value.floor === selected_floor);
-        let sort_tmp = tmp
-          .sort(function (c, d) {
-            return c.floor > d.floor;
-          })
-          .sort(function (a, b) {
-            return parseInt(a.number) < parseInt(b.number);
-          });
+        let cnt = parseInt(selected_floor.substr(-1, 1));
+        let tmp = response.slice((cnt - 1) * 50, (cnt - 1) * 50 + 50);
+        console.log(response.slice((cnt - 1) * 50, (cnt - 1) * 50 + 50));
         let result = create2DArray(5, 10);
         let idx = 0;
         for (let i = 0; i < 5; i++) {
           for (let j = 0; j < 10; j++) {
-            result[i][j] = sort_tmp[idx];
+            result[i][j] = tmp[idx];
             idx++;
           }
         }
         setParkingLotData(result);
       });
   }, []);
+
+  useEffect(() => {
+    setParkingLotData([]);
+    fetch(`${USER_SERVER}/master/getMonitoring/`)
+      .then((response) => response.json())
+      .then((response) => {
+        let cnt = parseInt(selected_floor.substr(-1, 1));
+        let tmp = response.slice((cnt - 1) * 50, (cnt - 1) * 50 + 50);
+        let result = create2DArray(5, 10);
+        let idx = 0;
+        for (let i = 0; i < 5; i++) {
+          for (let j = 0; j < 10; j++) {
+            result[i][j] = tmp[idx];
+            idx++;
+          }
+        }
+        setParkingLotData(result);
+      });
+  }, [selected_floor]);
 
   return (
     <div>

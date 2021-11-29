@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react";
 import styles from "@reservationPage/ReservationPage.module.css";
 import { Button, Popover } from "antd";
-import { ParkingLotData } from "@monitoring/sections/ParkingLotData";
+import { USER_SERVER } from "@/Config";
 
 function ParkingLot({ getSelectedData, selectedFloor }) {
   const sections = ["A", "B", "C", "D", "E"];
@@ -9,8 +9,7 @@ function ParkingLot({ getSelectedData, selectedFloor }) {
   const [parkingLotData, setParkingLotData] = useState();
 
   const onSelected = (param, idx) => {
-    getSelectedData(sections[idx] + param.slotID);
-    // console.log(sections[idx] + param.slotID);
+    getSelectedData(sections[idx] + param.number);
   };
 
   const content_available_slot = (index, param, idx) => (
@@ -30,13 +29,13 @@ function ParkingLot({ getSelectedData, selectedFloor }) {
   );
   const content_slot = (index, param) => <div>- State : {states[index]}</div>;
 
-  const renderSwitch = (param, idx, idx2) => {
+  const renderSwitch = (param, idx) => {
     switch (param.slot_state) {
       case "1": // 주차 가능
         return (
           <Popover
             content={() => content_available_slot(0, param, idx)}
-            title={sections[idx] + param.slotID}
+            title={sections[idx] + param.number}
           >
             <td style={{ backgroundColor: "#5172FF" }}> </td>
           </Popover>
@@ -46,7 +45,7 @@ function ParkingLot({ getSelectedData, selectedFloor }) {
         return (
           <Popover
             content={() => content_slot(1, param)}
-            title={sections[idx] + param.slotID}
+            title={sections[idx] + param.number}
           >
             <td style={{ backgroundColor: "#D9D9D9" }}> </td>
           </Popover>
@@ -66,17 +65,46 @@ function ParkingLot({ getSelectedData, selectedFloor }) {
   };
 
   useEffect(() => {
-    let tmp = ParkingLotData.filter((value) => value.floor === selectedFloor);
-    let result = create2DArray(5, 10);
-    let idx = 0;
-    for (let i = 0; i < 5; i++) {
-      for (let j = 0; j < 10; j++) {
-        result[i][j] = tmp[idx];
-        idx++;
-      }
-    }
-    setParkingLotData(result);
+    console.log(getSelectedData, selectedFloor);
+    setParkingLotData([]);
+    fetch(`${USER_SERVER}/master/getMonitoring/`)
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response);
+        console.log(selectedFloor);
+        let cnt = parseInt(selectedFloor.substr(-1, 1));
+        let tmp = response.slice((cnt - 1) * 50, (cnt - 1) * 50 + 50);
+        let result = create2DArray(5, 10);
+        let idx = 0;
+        for (let i = 0; i < 5; i++) {
+          for (let j = 0; j < 10; j++) {
+            result[i][j] = tmp[idx];
+            idx++;
+          }
+        }
+        setParkingLotData(result);
+      });
+  }, []);
+
+  useEffect(() => {
+    setParkingLotData([]);
+    fetch(`${USER_SERVER}/master/getMonitoring/`)
+      .then((response) => response.json())
+      .then((response) => {
+        let cnt = parseInt(selectedFloor.substr(-1, 1));
+        let tmp = response.slice((cnt - 1) * 50, (cnt - 1) * 50 + 50);
+        let result = create2DArray(5, 10);
+        let idx = 0;
+        for (let i = 0; i < 5; i++) {
+          for (let j = 0; j < 10; j++) {
+            result[i][j] = tmp[idx];
+            idx++;
+          }
+        }
+        setParkingLotData(result);
+      });
   }, [selectedFloor]);
+
   return (
     <div>
       <p />{" "}

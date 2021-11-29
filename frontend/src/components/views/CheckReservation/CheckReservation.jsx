@@ -17,6 +17,7 @@ function CheckReservation() {
   };
 
   useEffect(() => {
+    console.log(new Date());
     fetch(`${USER_SERVER}/customer/getPersonalResv/`, {
       method: "POST",
       headers: {
@@ -33,7 +34,6 @@ function CheckReservation() {
   }, []);
 
   function modifyDateFormat(date) {
-    
     date = date.replace("T", " ");
     date = date.replace("Z", "");
     date = date.substr(0, 16);
@@ -57,7 +57,7 @@ function CheckReservation() {
       .then((response) => {
         console.log(response);
         alert("예약이 취소되었습니다.");
-        window.location.replace("/checkReservation")
+        window.location.replace("/checkReservation");
       });
   };
 
@@ -193,25 +193,25 @@ function CheckReservation() {
                       </div>
                     </Col>
                     <Col span={6}>
-                      {new Date(item.end_date) < new Date() && (
+                      {new Date(item.end_date) <= new Date() && (
                         <img
                           className={styles.car}
                           src="/assets/CheckReservation/expired.png"
                         />
                       )}
-                      {new Date(item.start_date) <= new Date() &&
-                        new Date() <= new Date(item.end_date) && (
-                          <img
-                            className={styles.car}
-                            src="/assets/CheckReservation/using.png"
-                          />
-                        )}
-                      {new Date(item.start_date) > new Date() && (
+                      {new Date(item.start_date) >= new Date() && (
                         <img
                           className={styles.car}
                           src="/assets/CheckReservation/expected.png"
                         />
                       )}
+                      {new Date(item.start_date) < new Date() &&
+                        new Date(item.end_date) > new Date() && (
+                          <img
+                            className={styles.car}
+                            src="/assets/CheckReservation/using.png"
+                          />
+                        )}
                     </Col>
                     <Col span={2} />
                   </Row>

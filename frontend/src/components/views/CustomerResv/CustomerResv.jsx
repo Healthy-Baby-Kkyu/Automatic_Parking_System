@@ -120,6 +120,7 @@ function CustomerResv() {
   };
 
   useEffect(() => {
+    console.log(new Date());
     fetch(`${USER_SERVER}/master/getCustomerResv/`)
       .then((response) => response.json())
       .then((response) => {
@@ -317,23 +318,20 @@ function CustomerResv() {
                       </div>
                     </Col>
                     <Col span={6}>
-                      {new Date(item.end_date) < new Date() && (
+                      {new Date(item.end_date) < new Date() ? (
                         <img
                           className={styles.car}
                           src="/assets/CheckReservation/expired.png"
                         />
-                      )}
-                      {new Date(item.start_date) <= new Date() &&
-                        new Date() <= new Date(item.end_date) && (
-                          <img
-                            className={styles.car}
-                            src="/assets/CheckReservation/using.png"
-                          />
-                        )}
-                      {new Date(item.start_date) > new Date() && (
+                      ) : new Date(item.start_date) > new Date() ? (
                         <img
                           className={styles.car}
                           src="/assets/CheckReservation/expected.png"
+                        />
+                      ) : (
+                        <img
+                          className={styles.car}
+                          src="/assets/CheckReservation/using.png"
                         />
                       )}
                     </Col>
