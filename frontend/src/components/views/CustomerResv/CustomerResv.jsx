@@ -2,18 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "@customerResv/CustomerResv.module.css";
 import TitleBar from "@/components/common/TitleBar/TitleBar";
 import Sider from "@sider/Sider";
-import {
-  Button,
-  Menu,
-  Dropdown,
-  Input,
-  Row,
-  Col,
-  Modal,
-  Select,
-  Form,
-} from "antd";
-import { DownOutlined } from "@ant-design/icons";
+import { Button, Input, Row, Col, Modal, Select, Form } from "antd";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -39,12 +28,14 @@ function CustomerResv() {
       },
       body: JSON.stringify({
         state: -1,
-        resvID: item.resvID,
+        reservation_id: item.reservation_id,
       }),
     })
       .then((response) => response.json())
       .then((response) => {
         console.log(response);
+        alert("예약이 취소되었습니다.");
+        window.location.replace("/customerResv");
       });
   };
 
@@ -54,7 +45,6 @@ function CustomerResv() {
 
   const compareCurrentBefore = (element) => {
     return new Date(element.end_date) < new Date();
-    // if (element.startDate < current) return true;
   };
 
   const compareCurrent = (element) => {
@@ -62,12 +52,10 @@ function CustomerResv() {
       new Date(element.start_date) <= new Date() &&
       new Date() <= new Date(element.end_date)
     );
-    // if (element.startDate === current) return true;
   };
 
   const compareCurrentAfter = (element) => {
     return new Date(element.start_date) > new Date();
-    // if (element.startDate > current) return true;
   };
 
   const handleChangeSort = (value) => {
@@ -87,7 +75,6 @@ function CustomerResv() {
     }
   };
   const onFinish = (values) => {
-    console.log("Success:", values);
     if (values.search_input === "") {
       setTmpList(resvList);
       return;
@@ -96,15 +83,15 @@ function CustomerResv() {
       case "예약 번호":
         setTmpList(
           resvList.filter(
-            (value) => value.reservation_id === values.search_input
+            (value) => value.reservation_id === parseInt(values.search_input)
           )
         );
         break;
-      case "주차 장소":
+      case "주차 장소": // 주차 장소 검색은 slotID로만 가능 (예: E5)
         setTmpList(
           resvList.filter(
             (value) =>
-              value.parking_slot_id.substr(2, value.parking_slot_id.length) ===
+              value.parking_slot_id.substr(-2, value.parking_slot_id.length) ===
               values.search_input
           )
         );
@@ -168,37 +155,39 @@ function CustomerResv() {
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
           >
-            <Form.Item name="search">
-              <Input.Group compact>
-                <Form.Item name="search_type">
-                  <Select
-                    defaultValue="예약 번호"
-                    style={{ width: 100, marginLeft: "490px" }}
-                    onChange={handleChangeSearch}
-                  >
-                    <Option value="예약 번호">예약 번호</Option>
-                    <Option value="주차 장소">주차 장소</Option>
-                    <Option value="이용시작일">이용시작일</Option>
-                    <Option value="예약자 ID">예약자 ID</Option>
-                  </Select>
-                </Form.Item>
-                <Form.Item name="search_input">
-                  <Input
-                    style={{ width: "200px", marginLeft: "10px" }}
-                    allowClear
-                  />
-                </Form.Item>
-                <Form.Item>
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    style={{ marginLeft: "10px" }}
-                  >
-                    검색
-                  </Button>
-                </Form.Item>
-              </Input.Group>
-            </Form.Item>
+            <div className={styles.search_form}>
+              <Form.Item name="search">
+                <Input.Group compact>
+                  <Form.Item name="search_type">
+                    <Select
+                      defaultValue="예약 번호"
+                      style={{ width: 100 }}
+                      onChange={handleChangeSearch}
+                    >
+                      <Option value="예약 번호">예약 번호</Option>
+                      <Option value="주차 장소">주차 장소</Option>
+                      <Option value="이용시작일">이용시작일</Option>
+                      <Option value="예약자 ID">예약자 ID</Option>
+                    </Select>
+                  </Form.Item>
+                  <Form.Item name="search_input">
+                    <Input
+                      style={{ width: "200px", marginLeft: "10px" }}
+                      allowClear
+                    />
+                  </Form.Item>
+                  <Form.Item>
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      style={{ marginLeft: "10px" }}
+                    >
+                      검색
+                    </Button>
+                  </Form.Item>
+                </Input.Group>
+              </Form.Item>
+            </div>
           </Form>
         </div>
         <div className={styles.paper}>
@@ -248,7 +237,12 @@ function CustomerResv() {
                         >
                           주차 장소
                           <span style={{ paddingLeft: "67px" }}>
-                            {item.slot}
+                            {item.parking_slot_id.substr(0, 2) +
+                              "층 " +
+                              item.parking_slot_id.substr(
+                                2,
+                                item.parking_slot_id.length
+                              )}
                           </span>
                         </div>
                         <div
@@ -276,7 +270,7 @@ function CustomerResv() {
                         >
                           환불 예정 금액
                           <span style={{ paddingLeft: "42px" }}>
-                            {item.payment} P
+                            {item.price} P
                           </span>
                         </div>
                       </Modal>

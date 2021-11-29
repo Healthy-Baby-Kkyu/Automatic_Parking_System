@@ -6,7 +6,6 @@ import Sider from "@/components/common/Sider/Sider";
 import moment from "moment";
 import { Button, DatePicker, Select, Form, Input } from "antd";
 import ParkingLot from "@reservationPage/sections/ParkingLot";
-import { DownOutlined } from "@ant-design/icons";
 import { USER_SERVER } from "@/Config.js";
 
 function ReservationPage() {
@@ -22,6 +21,10 @@ function ReservationPage() {
   const [cost, setCost] = useState();
   const [resvId, setResvID] = useState();
   const [personalPoint, setPersonalPoint] = useState();
+
+  const movePage = (url) => {
+    history.push(url);
+  };
 
   const getSelectedDate = (val) => {
     let startDate = val[0]._d;
@@ -72,10 +75,6 @@ function ReservationPage() {
     var current = new Date();
     values.start_date = values.dates[0]._d;
     values.end_date = values.dates[1]._d;
-    // var times =
-    //   values.end_date.getHours() * 60 +
-    //   values.end_date.getMinutes() -
-    //   (values.start_date.getHours() * 60 + values.start_date.getMinutes());
     values.slot = selectedSlot;
     console.log(values);
     fetch(`${USER_SERVER}/customer/createResv/`, {
@@ -97,8 +96,8 @@ function ReservationPage() {
       .then((response) => {
         console.log(response);
         setResvID(response.data);
-        window.alert("예약 완료되었습니다.");
-        window.location.replace("/reservationPage");
+        window.alert("예약이 완료되었습니다.");
+        window.location.replace("/checkReservation");
       });
   };
 
@@ -270,7 +269,7 @@ function ReservationPage() {
                   ) : (
                     <>
                       <div style={{ float: "left", marginRight: "10px" }}>
-                        <Button className={styles.button_4}>
+                        <Button onClick={()=>movePage("/chargePoint")} className={styles.button_4}>
                           포인트 충전하기
                         </Button>
                       </div>
