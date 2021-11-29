@@ -18,7 +18,7 @@ class GetAllCustomerInfo(generics.ListAPIView):
     
 # 전체 고객 예약 내역 조회 (*테스트 가능)
 class GetAllCustomerResv(generics.ListAPIView):
-    queryset = Reservation.objects.all()
+    queryset = Reservation.objects.all().order_by('-start_date')
     serializer_class = ReservationSerializer
     
 # 관리자 고객 예약 취소

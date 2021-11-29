@@ -77,7 +77,7 @@ class CreateResv(generics.CreateAPIView):
 class GetUserResv(generics.RetrieveAPIView):
     def post(self, request):
         data = json.loads(request.body)
-        queryset = Reservation.objects.filter(user_id=data['session_id'])
+        queryset = Reservation.objects.filter(user_id=data['session_id']).order_by('-start_date')
         return JsonResponse({'data' : list(queryset.values())}, status = 200)
     
 # 예약 취소
