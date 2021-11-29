@@ -51,6 +51,7 @@
 }
 .numbers {
   font-size: 3em;
+  text-align: right;
   padding-left: 60px;
 }
 .imgGraph {

@@ -22,14 +22,14 @@ function getCurrentWeek() {
 function Statistics() {
   const result = getCurrentWeek();
   
-  const [totalUsers, setTotalUsers] = useState();
-  const [monthlyVisitors, setMonthlyVisitors] = useState();
-  const [dailyVisitors, setDailyVisitors] = useState();
-  const [slotRate, setSlotRate] = useState();
-  const [weekly_visitors, setWeeklyVisitors] = useState([70,80,30,90,70,40,80]);
-  const [weekly_canceler, setWeeklyCanceler] = useState([70,80,30,90,70,40,80]);
-  const [resv_time, setResvTime] = useState([70,80,30,90,70,40,80,10,40]);
-  const [resv_slot, setResvSlot] = useState([70,80,30,90,70,40,80,10,40]);
+  const [totalUsers, setTotalUsers] = useState(0);
+  const [monthlyVisitors, setMonthlyVisitors] = useState(0);
+  const [dailyVisitors, setDailyVisitors] = useState(0);
+  const [slotRate, setSlotRate] = useState(0);
+  const [weekly_visitors, setWeeklyVisitors] = useState([0,0,0,0,0,0,0]);
+  const [weekly_canceler, setWeeklyCanceler] = useState([0,0,0,0,0,0,0]);
+  const [resv_time, setResvTime] = useState([0,0,0,0,0,0,0,0,0]);
+  const [resv_slot, setResvSlot] = useState([0,0,0,0,0,0,0,0,0]);
 
   useEffect(() => {
     fetch(`${USER_SERVER}/master/statistics/`)
@@ -39,16 +39,16 @@ function Statistics() {
         setTotalUsers(response.data.total_users);
         setMonthlyVisitors(response.data.monthly_visitors);
         setDailyVisitors(response.data.daily_visitors);
-        //setSlotRate(response.data.slot_rate);
-        setSlotRate(70);
-        //setWeeklyVisitors(response.data.weekly_visitors);
-        setWeeklyVisitors([70,80,30,90,70,40,80]);
-        //setWeeklyCanceler(response.data.weekly_canceler);
-        setWeeklyCanceler([5,10,15,2,14,8,9]);
-        //setResvTime(response.data.resv_slot);
-        setResvTime([70,80,30,90,70,40,80,10,40]);
-        //setResvSlot(response.data.resv_time);
-        setResvSlot([70,80,30,90,70,40,80,10,40]);
+        setSlotRate(response.data.slot_rate);
+        //setSlotRate(70);
+        setWeeklyVisitors(response.data.weekly_visitors);
+        //setWeeklyVisitors([70,80,30,90,70,40,80]);
+        setWeeklyCanceler(response.data.weekly_canceler);
+        //setWeeklyCanceler([5,10,15,2,14,8,9]);
+        setResvTime(response.data.resv_slot);
+        //setResvTime([70,80,30,90,70,40,80,10,40]);
+        setResvSlot(response.data.resv_time);
+        //setResvSlot([70,80,30,90,70,40,80,10,40]);
       });
   }, []);
 

@@ -44,9 +44,15 @@
 
 .checkBtn {
   float: right;
-  left: 125px;
+  left: 25px;
   margin: 10px 20px 10px 0px;
   background-color: #c5c5c5;
+}
+
+.ctrbtn {
+  left: 20px;
+  margin: 10px 5px 10px 0px;
+  float: right;
 }
 
 .wrapper {
@@ -85,9 +91,8 @@
   width: 100px;
   padding-right: 10px;
 }
-
-.ctrbtn {
-  left: 130px;
-  margin: 10px 5px 10px 0px;
-  float: right;
+.OCR_img {
+  margin: auto;
+  display: block;
+  margin-top: 10px;
 }
