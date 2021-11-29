@@ -68,7 +68,8 @@ class CreateResv(generics.CreateAPIView):
         resv.state = data['state']
         
         user = User.objects.get(user_id=data['session_id'])
-        user.point = int(user.point) - int(data['price'])
+        user.point -= int(data['price'])
+        user.total_fee += int(data['price'])
         resv.save()
         user.save()
         return JsonResponse({'data' : resv.reservation_id, 'message' : 'success'}, status = 200)
@@ -77,7 +78,7 @@ class CreateResv(generics.CreateAPIView):
 class GetUserResv(generics.RetrieveAPIView):
     def post(self, request):
         data = json.loads(request.body)
-        queryset = Reservation.objects.filter(user_id=data['session_id'])
+        queryset = Reservation.objects.filter(user_id=data['session_id']).order_by('-start_date')
         return JsonResponse({'data' : list(queryset.values())}, status = 200)
     
 # 예약 취소
@@ -87,6 +88,11 @@ class DeleteResv(generics.UpdateAPIView):
         resv = Reservation.objects.get(reservation_id=data['resvID'])
         resv.state = data['state']
         resv.save()
+        
+        user = User.objects.get(user_id=resv.user_id)
+        user.point += int(data['price'])
+        user.total_fee -= int(data['price']) 
+        user.save()
         return JsonResponse({'message' : 'success'}, status = 200)
         
 # 개인 정보 조회 

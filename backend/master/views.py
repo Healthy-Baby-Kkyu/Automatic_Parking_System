@@ -18,7 +18,7 @@ class GetAllCustomerInfo(generics.ListAPIView):
     
 # 전체 고객 예약 내역 조회 (*테스트 가능)
 class GetAllCustomerResv(generics.ListAPIView):
-    queryset = Reservation.objects.all()
+    queryset = Reservation.objects.all().order_by('-start_date')
     serializer_class = ReservationSerializer
     
 # 관리자 고객 예약 취소
@@ -28,6 +28,11 @@ class DeleteResv(generics.RetrieveDestroyAPIView):
         resv = Reservation.objects.get(reservation_id=data['reservation_id'])
         resv.state = data['state']
         resv.save()
+        
+        user = User.objects.get(user_id=resv.user_id)
+        user.point += int(data['price'])
+        user.total_fee -= int(data['price']) 
+        user.save()
         return JsonResponse({'message' : 'success'}, status=200)
 
 # 전체 주차 자리 정보 조회
@@ -107,3 +112,26 @@ class SendStatistics(generics.ListAPIView):
         }
 
         return JsonResponse({'data' : result}, status=200)
+
+class checkCar(generics.ListAPIView):
+    def post(self, request):
+        data = json.loads(request.body)
+        queryset_car = Cars.objects.filter(car_number = data['car_number']) 
+        now = datetime.datetime.today()
+        if queryset_car.count() == 0:
+            result = False
+            # print('queryset_car', queryset_car)
+            return JsonResponse({'data' : result}, status=200)
+        else:
+            user = queryset_car.values()[0].get('user_id')
+            # print('user', user)
+            queryset_resv = Reservation.objects.filter(user_id = user, start_date__lte = now, end_date__gte = now)
+            # print('qureyset_resv', queryset_resv)
+            if queryset_resv.count == 0:
+                result = False
+                # print('queryset_resv', queryset_resv)
+                return JsonResponse({'data' : result}, status=200)
+            else:
+                result = True
+                # print('queryset_resv', queryset_resv)
+                return JsonResponse({'data' : result}, status=200)
