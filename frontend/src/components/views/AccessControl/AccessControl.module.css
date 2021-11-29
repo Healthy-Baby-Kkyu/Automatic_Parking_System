@@ -44,7 +44,9 @@
 
 .checkBtn {
   float: right;
-  margin: 10px 30px 10px 0px;
+  left: 125px;
+  margin: 10px 20px 10px 0px;
+  background-color: #c5c5c5;
 }
 
 .wrapper {
@@ -82,4 +84,10 @@
 .paper img {
   width: 100px;
   padding-right: 10px;
+}
+
+.ctrbtn {
+  left: 130px;
+  margin: 10px 5px 10px 0px;
+  float: right;
 }
