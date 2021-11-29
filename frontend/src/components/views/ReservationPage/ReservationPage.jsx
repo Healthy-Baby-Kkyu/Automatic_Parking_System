@@ -75,8 +75,12 @@ function ReservationPage() {
 
   const onFinish = (values) => {
     var current = new Date();
-    values.start_date = values.dates[0]._d;
-    values.end_date = values.dates[1]._d;
+    let temp_start_date = new Date(values.dates[0]._d);
+    temp_start_date.setHours(temp_start_date.getHours() + 9);
+    values.start_date = temp_start_date;
+    let temp_end_date = new Date(values.dates[1]._d);
+    temp_end_date.setHours(temp_end_date.getHours() + 9);
+    values.end_date = temp_end_date;
     values.slot = selectedSlot;
     console.log(values);
     fetch(`${USER_SERVER}/customer/createResv/`, {
