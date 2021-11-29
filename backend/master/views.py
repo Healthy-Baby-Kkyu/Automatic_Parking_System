@@ -18,7 +18,7 @@ class GetAllCustomerInfo(generics.ListAPIView):
     
 # 전체 고객 예약 내역 조회 (*테스트 가능)
 class GetAllCustomerResv(generics.ListAPIView):
-    queryset = Reservation.objects.all().order_by('-start_date')
+    queryset = Reservation.objects.all().order_by('-reservation_date')
     serializer_class = ReservationSerializer
     
 # 관리자 고객 예약 취소
@@ -45,7 +45,9 @@ class CreateNewSlot(generics.CreateAPIView):
     def post(self, request):
         data = json.loads(request.body)
         parking_slot_id = data['parking_slot_id']
+        print('parking_slot_id', parking_slot_id)
         slot = ParkingSlot.objects.get(parking_slot_id=parking_slot_id)
+        
         slot.slot_state = data['slot_state']
         slot.save()
         return JsonResponse({'message' : 'success'}, status=200)
