@@ -28,6 +28,11 @@ class DeleteResv(generics.RetrieveDestroyAPIView):
         resv = Reservation.objects.get(reservation_id=data['reservation_id'])
         resv.state = data['state']
         resv.save()
+        
+        user = User.objects.get(user_id=resv.user_id)
+        user.point += int(data['price'])
+        user.total_fee -= int(data['price']) 
+        user.save()
         return JsonResponse({'message' : 'success'}, status=200)
 
 # 전체 주차 자리 정보 조회
