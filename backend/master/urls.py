@@ -8,4 +8,5 @@ urlpatterns = [
     path('getMonitoring/', views.GetAllParkingSlotInfo.as_view()),
     path('addSlot/', views.CreateNewSlot.as_view()),
     path('statistics/', views.SendStatistics.as_view()),
+    path('checkCar/', views.checkCar.as_view()),
 ]

@@ -107,3 +107,26 @@ class SendStatistics(generics.ListAPIView):
         }
 
         return JsonResponse({'data' : result}, status=200)
+
+class checkCar(generics.ListAPIView):
+    def post(self, request):
+        data = json.loads(request.body)
+        queryset_car = Cars.objects.filter(car_number = data['car_number']) 
+        now = datetime.datetime.today()
+        if queryset_car.count() == 0:
+            result = False
+            # print('queryset_car', queryset_car)
+            return JsonResponse({'data' : result}, status=200)
+        else:
+            user = queryset_car.values()[0].get('user_id')
+            # print('user', user)
+            queryset_resv = Reservation.objects.filter(user_id = user, start_date__lte = now, end_date__gte = now)
+            # print('qureyset_resv', queryset_resv)
+            if queryset_resv.count == 0:
+                result = False
+                # print('queryset_resv', queryset_resv)
+                return JsonResponse({'data' : result}, status=200)
+            else:
+                result = True
+                # print('queryset_resv', queryset_resv)
+                return JsonResponse({'data' : result}, status=200)
