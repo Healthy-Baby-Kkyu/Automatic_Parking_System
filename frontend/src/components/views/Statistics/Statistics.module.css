@@ -2,7 +2,7 @@
   width: 1200px;
   padding-bottom: 2%;
   word-break: break-all;
-  /* margin: 0 auto; */
+  margin: 0 auto;
 }
 
 .box {
@@ -27,10 +27,10 @@
 .cols {
   background: #ffffff;
   border: 2px rgb(207, 207, 207);
-  border-style: dashed;
+  border-style: solid;
   padding: 15px 20px 25px 20px;
   margin: 30px 2px;
-  height: 120px;
+  height: 130px;
 }
 .cols:hover {
   background: #f1f8ff;
@@ -38,16 +38,17 @@
   border-style: solid;
   padding: 15px 20px 25px 20px;
   margin: 30px 2px;
-  height: 120px;
+  height: 130px;
 }
 
 .icons {
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
 }
 .text {
   float: right;
   text-align: right;
+  font-size: 1.2em;
 }
 .numbers {
   font-size: 3em;

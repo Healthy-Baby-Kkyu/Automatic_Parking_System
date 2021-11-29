@@ -45,10 +45,15 @@
   float: right;
   width: 70%;
   height: 250px;
-  padding: 40px 0px 0px 60px;
 }
-.box_3 {
+.Col {
+  padding-top: 50px;
   cursor: pointer;
+}
+.Col:hover {
+  padding-top: 50px;
+  cursor: pointer;
+  background-color: rgb(241, 241, 241);
 }
 .img {
   width: 100px;
@@ -56,12 +61,11 @@
 }
 .text2 {
   color: rgb(58, 110, 255);
-  margin-top: 12px;
-  padding-right: 140px;
+  margin-top: 14px;
   font-weight: bolder;
 }
 .text3 {
   color: rgb(3, 10, 31);
-  margin: 5px 0px 0px -150px;
+  margin-top: 3px;
   font-weight: bold;
 }

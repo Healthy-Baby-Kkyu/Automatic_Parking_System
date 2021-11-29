@@ -5,6 +5,7 @@ import Sider from "@sider/Sider";
 import { Row, Col } from 'antd';
 import { USER_SERVER } from "@/Config.js";
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
+import { padding } from '@mui/system';
 
 function getCurrentWeek() { 
   const day = new Date();  
@@ -106,91 +107,83 @@ function Statistics() {
   ];
   return (
     <div className={styles.container}>
-      <TitleBar title_name="주차장 사용 통계" />
-      <div className={styles.ls}>
-        <Sider selected_key="주차장 사용 통계" />
-      </div>
-      <div className={styles.rs}>
-        <div className={styles.subtitle}>주차장 사용 통계</div>
-        <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-          <Col className="gutter-row" span={6}>
-            <div className={styles.cols}>
-              <img className={styles.icons} src="/assets/Statistics/people.png"/>
-              <div className={styles.text}>Total users</div>
-              <div className={styles.numbers}>{totalUsers}</div>
-            </div>
-          </Col>
-          <Col className="gutter-row" span={6}>
-            <div className={styles.cols}>
-              <img className={styles.icons} src="/assets/Statistics/reservation.png"/>
-              <div className={styles.text}>Monthly reservation</div>
-              <div className={styles.numbers}>{monthlyVisitors}</div>
-            </div>
-          </Col>
-          <Col className="gutter-row" span={6}>
-            <div className={styles.cols}>
-              <img className={styles.icons} src="/assets/Statistics/visitor.png"/>
-              <div className={styles.text}>Today visitors</div>
-              <div className={styles.numbers}>{dailyVisitors}</div>
-            </div>
-          </Col>
-          <Col className="gutter-row" span={6}>
-            <div className={styles.cols}>
-              <img className={styles.icons} src="/assets/Statistics/parking.png"/>
-              <div className={styles.text}>Today Usage rate</div>
-              <div className={styles.numbers}>{slotRate}%</div>
-            </div>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={12}>
-          <div>
-            <img className={styles.imgGraph} src="/assets/Statistics/bargraph.png"/>
-            <div className={styles.textGraph}>Statistics Of Users For Last Week </div>
+      <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+        <Col className="gutter-row" span={6}>
+          <div className={styles.cols}>
+            <img className={styles.icons} src="/assets/Statistics/people.png"/>
+            <div className={styles.text}>Total users</div>
+            <div className={styles.numbers}>{totalUsers}</div>
           </div>
-          <BarChart
-            width={500}
-            height={300}
-            data={resv_data}
-            margin={{
-              top: 30, right: 70, left: -30, bottom: -20,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Bar type="monotone" dataKey="total" fill="#8884d8" />
-            <Bar type="monotone" dataKey="cancel" fill="#82ca9d"/>
-          </BarChart>
-          </Col>
+        </Col>
+        <Col className="gutter-row" span={6}>
+          <div className={styles.cols}>
+            <img className={styles.icons} src="/assets/Statistics/reservation.png"/>
+            <div className={styles.text}>Monthly reservation</div>
+            <div className={styles.numbers}>{monthlyVisitors}</div>
+          </div>
+        </Col>
+        <Col className="gutter-row" span={6}>
+          <div className={styles.cols}>
+            <img className={styles.icons} src="/assets/Statistics/visitor.png"/>
+            <div className={styles.text}>Today visitors</div>
+            <div className={styles.numbers}>{dailyVisitors}</div>
+          </div>
+        </Col>
+        <Col className="gutter-row" span={6}>
+          <div className={styles.cols}>
+            <img className={styles.icons} src="/assets/Statistics/parking.png"/>
+            <div className={styles.text}>Today Usage rate</div>
+            <div className={styles.numbers} style={{width:"180px", margin:"0px 0px 0px 35px"}}>{slotRate.toFixed(1)}%</div>
+          </div>
+        </Col>
+      </Row>
+      <Row>
+        <Col span={12}>
+        <div style={{margin:"0px 0px 0px 20px", fontSize:"1.2em"}}>
+          <img className={styles.imgGraph} src="/assets/Statistics/bargraph.png"/>
+          <div className={styles.textGraph}>Statistics Of Users For Last Week </div>
+        </div>
+        <BarChart
+          width={550}
+          height={350}
+          data={resv_data}
+          margin={{
+            top: 30, right: 0, left: 0, bottom: -20,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar type="monotone" dataKey="total" fill="#8884d8" />
+          <Bar type="monotone" dataKey="cancel" fill="#82ca9d"/>
+        </BarChart>
+        </Col>
 
-          <Col span={12}>
-          <div style={{padding:"0px 0px 0px 20px"}}>
-            <img className={styles.imgGraph} src="/assets/Statistics/linegraph.png"/>
-            <div className={styles.textGraph}>Statistics Of Reservations By Time </div>
-          </div>
-          <LineChart
-            width={500}
-            height={300}
-            data={resvRate_data}
-            margin={{
-              top: 30, right: 0, left: -10, bottom: -20,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis yAxisId="left"/>
-            <YAxis yAxisId="right" orientation="right" />
-            <Tooltip />
-            <Legend />
-            <Line yAxisId="left"type="monotone" dataKey="reservation" stroke="#8884d8"  />
-            <Line yAxisId="right"type="monotone" dataKey="slot" stroke="#82ca9d" />
-          </LineChart>
-          </Col>
-        </Row>
-      </div>
+        <Col span={12}>
+        <div style={{margin:"0px 0px 0px 30px", fontSize:"1.2em"}}>
+          <img className={styles.imgGraph} src="/assets/Statistics/linegraph.png"/>
+          <div className={styles.textGraph}>Statistics Of Reservations By Time </div>
+        </div>
+        <LineChart
+          width={550}
+          height={350}
+          data={resvRate_data}
+          margin={{
+            top: 30, right: 0, left: 0, bottom: -20,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis/>
+          <Tooltip />
+          <Legend />
+          <Line type="monotone" dataKey="reservation" stroke="#8884d8" />
+          <Line type="monotone" dataKey="slot" stroke="#82ca9d" />
+        </LineChart>
+        </Col>
+      </Row>
     </div>
   );
 }

@@ -20,7 +20,7 @@ function ParkingLot({ selected_floor }) {
   };
 
   const addParkingSlot = (item) => {
-    let value = item.floor + item.section + item.slotID;
+    let value = item.parking_slot_id;
     fetch(`${USER_SERVER}/master/addSlot/`, {
       method: "POST",
       headers: {
@@ -34,6 +34,8 @@ function ParkingLot({ selected_floor }) {
       .then((response) => response.json())
       .then((response) => {
         console.log(response);
+        window.alert("슬롯이 추가되었습니다.");
+        window.location.reload();
       });
   };
 
