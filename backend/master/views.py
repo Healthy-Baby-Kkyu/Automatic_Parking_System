@@ -37,8 +37,16 @@ class DeleteResv(generics.RetrieveDestroyAPIView):
 
 # 전체 주차 자리 정보 조회
 class GetAllParkingSlotInfo(generics.ListAPIView):
-    queryset = ParkingSlot.objects.all()
-    serializer_class = ParkingSlotSerializer
+    def get(self, request):       
+        now = datetime.datetime.now()
+        now = now + datetime.timedelta(hours=9)
+           
+        # start_date가 현재 시간보다 작고, end_date가 현재 시간보다 큰 예약만  
+        current_resv = Reservation.objects.filter(start_date__lte=now, end_date__gte=now)
+        parking_slot = ParkingSlot.objects.all()
+
+        return JsonResponse({'resv' : list(current_resv.values()), 'parking_slot' : list(parking_slot.values())}, status=200)       
+        
     
 # 주차 자리 추가
 class CreateNewSlot(generics.CreateAPIView):
