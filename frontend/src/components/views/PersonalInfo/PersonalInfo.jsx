@@ -173,7 +173,7 @@ function PersonalInfo() {
             <div>{carType}</div>
           </div>
           <div className={styles.info2_inside}>
-            <div style={{ marginRight: "80px" }}>차량 번호</div>
+            <div style={{ marginRight: "80px", marginLeft:"5px" }}>차량 번호</div>
             <div>{carNumber}</div>
           </div>
         </div>

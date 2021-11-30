@@ -258,7 +258,9 @@ function ReservationPage() {
                   {personalPoint > cost ? (
                     <>
                       <div style={{ float: "left", marginRight: "10px" }}>
-                        <Button className={styles.button_4}>
+                        <Button
+                          onClick={() => movePage("/chargePoint")}
+                          className={styles.button_4}>
                           포인트 충전하기
                         </Button>
                       </div>

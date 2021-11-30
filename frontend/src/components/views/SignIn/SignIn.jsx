@@ -60,7 +60,7 @@ function SignIn() {
         autoComplete="off"
       >
         <Form.Item
-          label="UserID"
+          label="ID"
           name="userId"
           rules={[
             {

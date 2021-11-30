@@ -97,7 +97,7 @@ function EditPersonalInfo() {
         setOriginPhone(values.phone);
         setOriginCarType(values.carType);
         setOriginCarNumber(values.carNumber);
-        window.alert("수정 완료되었습니다.");
+        window.alert("개인 정보 수정이 완료되었습니다.");
         window.location.replace("/editPersonalInfo");
       });
   };
