@@ -10,6 +10,7 @@ from .models import User, Cars, ParkingSlot, Reservation
 from .serializers import UserSerializer, CarsSerializer, ParkingSlotSerializer, ReservationSerializer
 import json
 import uuid
+from datetime import datetime, timedelta
 # Create your views here.
 # ----------------------------------------------------------------------------
 # 로그인 화면에서 id, pw 받아와 유효성 검증
@@ -158,10 +159,44 @@ class ChargeUserPoint(generics.RetrieveUpdateAPIView):
         
         return JsonResponse({'data' : user.point, 'message' : 'success'}, status=200)
 
+# 예약 시작/끝 시간 기준 주차 슬롯의 예약 내역 조회
+class alreadyReserved(generics.ListAPIView):
+    def post(self, request):
+        data = json.loads(request.body)
+        start_date = data['start_date']
+        end_date = data['end_date']
+        
+        start_time = datetime.strptime(start_date, '%Y-%m-%d %H:%M') + timedelta(hours=9)
+        end_time = datetime.strptime(end_date, '%Y-%m-%d %H:%M') + timedelta(hours=9)
 
+        print('start_date', start_time)
+        print('end_date', end_time)
+        result = []
+        queryset_resv1 = Reservation.objects.filter(start_date__lte = start_time, end_date__gte = start_time)
+        queryset_resv2 = Reservation.objects.filter(start_date__lte = start_time, end_date__gte = end_time )
+        queryset_resv3 = Reservation.objects.filter(start_date__lte = end_time, end_date__gte = end_time)
 
+        parking_slot = ParkingSlot.objects.all().order_by('parking_slot_id').values()
+        result_parking_slot = list(parking_slot)
+        
+        result.append(queryset_resv1.values())
+        result.append(queryset_resv2.values())
+        result.append(queryset_resv3.values())
 
+        index = 0
+        for i in range(0, 3):
+            for resv in result[i]:
+                print(resv.get('reservation_id'))
+                while index < len(result_parking_slot):
+                    if resv.get('parking_slot_id') != result_parking_slot[index].get('parking_slot_id'):
+                        pass
+                    else:
+                        result_parking_slot[index]['slot_state'] = '2'
+                        break
+                    index += 1
 
+        return JsonResponse({'parking_slot' : result_parking_slot}, status=200)  
 
+                        
     
     
