@@ -145,7 +145,7 @@ function PersonalInfo() {
           <div className={styles.info2_inside}>
             <div
               style={{
-                marginLeft: "46px",
+                marginLeft: "40px",
                 marginRight: "100px",
                 paddingTop: "5px",
               }}
