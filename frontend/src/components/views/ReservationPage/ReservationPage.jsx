@@ -272,7 +272,7 @@ function ReservationPage() {
                       {personalPoint - cost} P
                     </span>
                   </div>
-                  {personalPoint > cost ? (
+                  {personalPoint >= cost ? (
                     <>
                       <div style={{ float: "left", marginRight: "10px" }}>
                         <Button
