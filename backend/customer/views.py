@@ -57,9 +57,15 @@ class CreateResv(generics.CreateAPIView):
     def post(self, request):
         data = json.loads(request.body)
         resv = Reservation()
+        
         a = uuid.uuid4()
-        b = str(a.int)
-        resv.reservation_id = b[:8]
+        b = str(a.int)[:8]
+        # 예약 번호 중복 없을 때까지 생성 반복
+        while Reservation.objects.filter(reservation_id=b).exists():
+            a = uuid.uuid4()
+            b = str(a.int)[:8]
+        
+        resv.reservation_id = b
         resv.user_id = data['session_id']
         resv.parking_slot_id = data['parking_slot_id']
         resv.reservation_date = data['reservation_date']

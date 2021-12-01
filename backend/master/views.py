@@ -44,8 +44,20 @@ class GetAllParkingSlotInfo(generics.ListAPIView):
         # start_date가 현재 시간보다 작고, end_date가 현재 시간보다 큰 예약만  
         current_resv = Reservation.objects.filter(start_date__lte=now, end_date__gte=now)
         parking_slot = ParkingSlot.objects.all()
+        result_parking_slot = list(parking_slot)
+        
+        # 현재 예약이 진행 중인 슬롯의 state를 2로 변경
+        index = 0
+        for resv in current_resv.values():
+            while index < len(result_parking_slot):
+                if resv.get('parking_slot_id') != result_parking_slot[index].get('parking_slot_id'):
+                    pass
+                else:
+                    result_parking_slot[index]['slot_state'] = '2'
+                    break
+                index += 1
 
-        return JsonResponse({'resv' : list(current_resv.values()), 'parking_slot' : list(parking_slot.values())}, status=200)       
+        return JsonResponse({'resv' : list(current_resv.values()), 'parking_slot' : result_parking_slot}, status=200)      
         
     
 # 주차 자리 추가
