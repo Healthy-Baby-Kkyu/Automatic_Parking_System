@@ -21,6 +21,7 @@ function ReservationPage() {
   const [cost, setCost] = useState();
   const [resvId, setResvID] = useState();
   const [personalPoint, setPersonalPoint] = useState();
+  const [parkingLot, setParkingLot] = useState();
 
   const movePage = (url) => {
     history.push(url);
@@ -33,6 +34,21 @@ function ReservationPage() {
     if (val !== undefined && val !== "undefined") {
       setStep(2);
       // 해당 시간 주차자리 정보 가져오기
+      fetch(`${USER_SERVER}/customer/getAlreadyReserved/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          start_date: val[0].format("YYYY-MM-DD HH:MM"),
+          end_date: val[1].format("YYYY-MM-DD HH:MM"),
+        }),
+      })
+        .then((response) => response.json())
+        .then((response) => {
+          console.log(response);
+          setParkingLot(response);
+        });
     }
     setCost(parseInt((endDate - startDate) / 1000 / 60 / 60) * 2000);
     fetch(`${USER_SERVER}/customer/getPersonalPoint/`, {
@@ -199,6 +215,7 @@ function ReservationPage() {
                 <ParkingLot
                   getSelectedData={getSelectedData}
                   selectedFloor={selectedFloor}
+                  parkingLot={parkingLot}
                 />
               )}
             </div>
@@ -260,7 +277,8 @@ function ReservationPage() {
                       <div style={{ float: "left", marginRight: "10px" }}>
                         <Button
                           onClick={() => movePage("/chargePoint")}
-                          className={styles.button_4}>
+                          className={styles.button_4}
+                        >
                           포인트 충전하기
                         </Button>
                       </div>

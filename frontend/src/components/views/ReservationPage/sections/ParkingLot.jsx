@@ -3,7 +3,7 @@ import styles from "@reservationPage/ReservationPage.module.css";
 import { Button, Popover } from "antd";
 import { USER_SERVER } from "@/Config";
 
-function ParkingLot({ getSelectedData, selectedFloor }) {
+function ParkingLot({ getSelectedData, selectedFloor, parkingLot }) {
   const sections = ["A", "B", "C", "D", "E"];
   const states = ["Available", "Unavailable"];
   const [parkingLotData, setParkingLotData] = useState();
@@ -35,7 +35,7 @@ function ParkingLot({ getSelectedData, selectedFloor }) {
         return (
           <Popover
             content={() => content_available_slot(0, param, idx)}
-            title={sections[idx] + param.number}
+            title={param.floor + " " + sections[idx] + param.number}
           >
             <td style={{ backgroundColor: "#5172FF" }}> </td>
           </Popover>
@@ -45,7 +45,7 @@ function ParkingLot({ getSelectedData, selectedFloor }) {
         return (
           <Popover
             content={() => content_slot(1, param)}
-            title={sections[idx] + param.number}
+            title={param.floor + " " + sections[idx] + param.number}
           >
             <td style={{ backgroundColor: "#D9D9D9" }}> </td>
           </Popover>
@@ -65,44 +65,22 @@ function ParkingLot({ getSelectedData, selectedFloor }) {
   };
 
   useEffect(() => {
-    console.log(getSelectedData, selectedFloor);
     setParkingLotData([]);
-    fetch(`${USER_SERVER}/master/getMonitoring/`)
-      .then((response) => response.json())
-      .then((response) => {
-        console.log(response);
-        console.log(selectedFloor);
-        let cnt = parseInt(selectedFloor.substr(-1, 1));
-        let tmp = response.slice((cnt - 1) * 50, (cnt - 1) * 50 + 50);
-        let result = create2DArray(5, 10);
-        let idx = 0;
-        for (let i = 0; i < 5; i++) {
-          for (let j = 0; j < 10; j++) {
-            result[i][j] = tmp[idx];
-            idx++;
-          }
-        }
-        setParkingLotData(result);
-      });
-  }, []);
-
-  useEffect(() => {
-    setParkingLotData([]);
-    fetch(`${USER_SERVER}/master/getMonitoring/`)
-      .then((response) => response.json())
-      .then((response) => {
-        let cnt = parseInt(selectedFloor.substr(-1, 1));
-        let tmp = response.slice((cnt - 1) * 50, (cnt - 1) * 50 + 50);
-        let result = create2DArray(5, 10);
-        let idx = 0;
-        for (let i = 0; i < 5; i++) {
-          for (let j = 0; j < 10; j++) {
-            result[i][j] = tmp[idx];
-            idx++;
-          }
-        }
-        setParkingLotData(result);
-      });
+    console.log(parkingLot);
+    let cnt = parseInt(selectedFloor.substr(-1, 1));
+    let tmp = parkingLot.parking_slot.slice(
+      (cnt - 1) * 50,
+      (cnt - 1) * 50 + 50
+    );
+    let result = create2DArray(5, 10);
+    let idx = 0;
+    for (let i = 0; i < 5; i++) {
+      for (let j = 0; j < 10; j++) {
+        result[i][j] = tmp[idx];
+        idx++;
+      }
+    }
+    setParkingLotData(result);
   }, [selectedFloor]);
 
   return (

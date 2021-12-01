@@ -7,8 +7,10 @@ import { USER_SERVER } from "@/Config";
 function ParkingLot({ selected_floor }) {
   const history = useHistory();
   const sections = ["A", "B", "C", "D", "E"];
-  const states = ["Empty", "주차 가능", "예약 완료", "주차 중"];
+  const states = ["Empty", "주차 가능", "이용 중", "주차 중"];
   const [parkingLotData, setParkingLotData] = useState();
+  const [resvList, setResvList] = useState();
+  const [tmpData, setTmpData] = useState();
   const [hovered, setHovered] = useState(false);
 
   const hide = () => {
@@ -55,15 +57,21 @@ function ParkingLot({ selected_floor }) {
 
   const clickDeleteButton = () => {
     message.info("고객 예약 내역 페이지로 이동합니다.");
-    history.push("/checkReservation");
+    history.push("/customerResv");
   };
 
   const content_slot = (index, param) => (
     <div>
-      <div style={{ marginBottom: "10px" }}>
-        <div>- State : {states[index]}</div>
-        <div>- Booker : user</div>
-      </div>
+      {index === 1 ? ( // 예약자 없는 상태
+        <div style={{ marginBottom: "10px" }}>
+          <div>- State : {states[index]}</div>
+        </div>
+      ) : (
+        <div style={{ marginBottom: "10px" }}>
+          <div>- State : {states[index]}</div>
+          <div>- Booker : user</div>
+        </div>
+      )}
       &nbsp;
       <Button type="primary" size="small" onClick={clickDeleteButton}>
         Delete
@@ -93,22 +101,13 @@ function ParkingLot({ selected_floor }) {
             <td style={{ backgroundColor: "#BFBFBF" }}> </td>
           </Popover>
         );
-      case "2": // 예약 완료
+      case "2": // 이용 중
         return (
           <Popover
             content={() => content_slot(2, param)}
             title={param.floor + "층 " + param.section + param.number}
           >
-            <td style={{ backgroundColor: "#E6F2FF" }}> </td>
-          </Popover>
-        );
-      case "3": // 주차 중
-        return (
-          <Popover
-            content={() => content_slot(3, param)}
-            title={param.floor + "층 " + param.section + param.number}
-          >
-            <td style={{ backgroundColor: "#5172FF" }}> </td>
+            <td style={{ backgroundColor: "#5172ff" }}> </td>
           </Popover>
         );
       default:
@@ -127,31 +126,16 @@ function ParkingLot({ selected_floor }) {
 
   useEffect(() => {
     setParkingLotData([]);
+    setTmpData([]);
     fetch(`${USER_SERVER}/master/getMonitoring/`)
       .then((response) => response.json())
       .then((response) => {
+        console.log(response);
         let cnt = parseInt(selected_floor.substr(-1, 1));
-        let tmp = response.slice((cnt - 1) * 50, (cnt - 1) * 50 + 50);
-        console.log(response.slice((cnt - 1) * 50, (cnt - 1) * 50 + 50));
-        let result = create2DArray(5, 10);
-        let idx = 0;
-        for (let i = 0; i < 5; i++) {
-          for (let j = 0; j < 10; j++) {
-            result[i][j] = tmp[idx];
-            idx++;
-          }
-        }
-        setParkingLotData(result);
-      });
-  }, []);
-
-  useEffect(() => {
-    setParkingLotData([]);
-    fetch(`${USER_SERVER}/master/getMonitoring/`)
-      .then((response) => response.json())
-      .then((response) => {
-        let cnt = parseInt(selected_floor.substr(-1, 1));
-        let tmp = response.slice((cnt - 1) * 50, (cnt - 1) * 50 + 50);
+        let tmp = response.parking_slot.slice(
+          (cnt - 1) * 50,
+          (cnt - 1) * 50 + 50
+        );
         let result = create2DArray(5, 10);
         let idx = 0;
         for (let i = 0; i < 5; i++) {
@@ -194,18 +178,10 @@ function ParkingLot({ selected_floor }) {
         <div>
           <div
             className={styles.small_square}
-            style={{ backgroundColor: "#E6F2FF" }}
+            style={{ backgroundColor: "#5172ff" }}
           />
           <span style={{ paddingRight: "20px" }} />
-          예약 완료
-        </div>
-        <div>
-          <div
-            className={styles.small_square}
-            style={{ backgroundColor: "#5172FF" }}
-          />
-          <span style={{ paddingRight: "20px" }} />
-          주차 중
+          이용 중
         </div>
         <div>
           <div
