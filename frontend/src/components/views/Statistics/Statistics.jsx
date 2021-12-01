@@ -29,8 +29,8 @@ function Statistics() {
   const [slotRate, setSlotRate] = useState(0);
   const [weekly_visitors, setWeeklyVisitors] = useState([0,0,0,0,0,0,0]);
   const [weekly_canceler, setWeeklyCanceler] = useState([0,0,0,0,0,0,0]);
-  const [resv_time, setResvTime] = useState([0,0,0,0,0,0,0,0,0]);
-  const [resv_slot, setResvSlot] = useState([0,0,0,0,0,0,0,0,0]);
+  const [resv_time, setResvTime] = useState([0,0,0,0,0,0,0,0]);
+  const [resv_slot, setResvSlot] = useState([0,0,0,0,0,0,0,0]);
 
   useEffect(() => {
     fetch(`${USER_SERVER}/master/statistics/`)
@@ -101,9 +101,6 @@ function Statistics() {
     {
       name: '21:00', slot: resv_slot[7], reservation: resv_time[7], 
     },
-    {
-      name: '24:00', slot: resv_slot[8], reservation: resv_time[8], 
-    },
   ];
   return (
     <div className={styles.container}>
@@ -125,14 +122,14 @@ function Statistics() {
         <Col className="gutter-row" span={6}>
           <div className={styles.cols}>
             <img className={styles.icons} src="/assets/Statistics/visitor.png"/>
-            <div className={styles.text}>Today visitors</div>
+            <div className={styles.text}>Daily reservation</div>
             <div className={styles.numbers}>{dailyVisitors}</div>
           </div>
         </Col>
         <Col className="gutter-row" span={6}>
           <div className={styles.cols}>
             <img className={styles.icons} src="/assets/Statistics/parking.png"/>
-            <div className={styles.text}>Today Usage rate</div>
+            <div className={styles.text}>Current Slot Usage rate</div>
             <div className={styles.numbers} style={{width:"180px", margin:"0px 0px 0px 35px"}}>{slotRate.toFixed(1)}%</div>
           </div>
         </Col>

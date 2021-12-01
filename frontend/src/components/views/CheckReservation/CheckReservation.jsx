@@ -12,8 +12,10 @@ import { USER_SERVER } from "@/Config.js";
 function CheckReservation() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [listData, setListData] = useState();
+  const [values, setValues] = useState();
   const showModal = (item) => {
     console.log(item);
+    setValues(item);
     setIsModalVisible(true);
   };
 
@@ -42,7 +44,7 @@ function CheckReservation() {
   }
 
   const handleOk = (item) => {
-    console.log(item);
+    console.log(values);
     setIsModalVisible(false);
     fetch(`${USER_SERVER}/customer/cancelResv/`, {
       method: "POST",
@@ -51,8 +53,8 @@ function CheckReservation() {
       },
       body: JSON.stringify({
         state: "-1",
-        resvID: item.reservation_id,
-        price: item.price,
+        resvID: values.reservation_id,
+        price: values.price,
         session_id: window.localStorage.getItem("id"),
       }),
     })
@@ -115,54 +117,67 @@ function CheckReservation() {
                             </Button>,
                           ]}
                         >
-                          <div style={{ marginBottom: "20px" }}>
-                            <div>해당 예약 건을 취소하시겠습니까?</div>
-                            <div>
-                              취소 시 수정 내역을 되돌릴 수 없으며, 환불은
-                              포인트 충전으로 이뤄집니다.
-                            </div>
-                          </div>
-                          <div
-                            style={{ paddingBottom: "5px", fontSize: "0.9em" }}
-                          >
-                            주차 장소
-                            <span style={{ paddingLeft: "67px" }}>
-                              {item.parking_slot_id.substr(0, 2) +
-                                "층 " +
-                                item.parking_slot_id.substr(
-                                  2,
-                                  item.parking_slot_id.length
-                                )}
-                            </span>
-                          </div>
-                          <div
-                            style={{ paddingBottom: "5px", fontSize: "0.9em" }}
-                          >
-                            이용시작일
-                            <span style={{ paddingLeft: "60px" }}>
-                              {modifyDateFormat(item.start_date)}
-                            </span>
-                          </div>
-                          <div
-                            style={{ paddingBottom: "5px", fontSize: "0.9em" }}
-                          >
-                            이용종료일
-                            <span style={{ paddingLeft: "60px" }}>
-                              {modifyDateFormat(item.end_date)}
-                            </span>
-                          </div>
-                          <div
-                            style={{
-                              paddingBottom: "5px",
-                              fontSize: "0.9em",
-                              color: "#5172FF",
-                            }}
-                          >
-                            환불 예정 금액
-                            <span style={{ paddingLeft: "42px" }}>
-                              {item.price} P
-                            </span>
-                          </div>
+                          {values && (
+                            <>
+                              <div style={{ marginBottom: "20px" }}>
+                                <div>해당 예약 건을 취소하시겠습니까?</div>
+                                <div>
+                                  취소 시 수정 내역을 되돌릴 수 없으며, 환불은
+                                  포인트 충전으로 이뤄집니다.
+                                </div>
+                              </div>
+                              <div
+                                style={{
+                                  paddingBottom: "5px",
+                                  fontSize: "0.9em",
+                                }}
+                              >
+                                주차 장소
+                                <span style={{ paddingLeft: "67px" }}>
+                                  {values.parking_slot_id.substr(0, 2) +
+                                    "층 " +
+                                    values.parking_slot_id.substr(
+                                      2,
+                                      values.parking_slot_id.length
+                                    )}
+                                </span>
+                              </div>
+                              <div
+                                style={{
+                                  paddingBottom: "5px",
+                                  fontSize: "0.9em",
+                                }}
+                              >
+                                이용시작일
+                                <span style={{ paddingLeft: "60px" }}>
+                                  {modifyDateFormat(values.start_date)}
+                                </span>
+                              </div>
+                              <div
+                                style={{
+                                  paddingBottom: "5px",
+                                  fontSize: "0.9em",
+                                }}
+                              >
+                                이용종료일
+                                <span style={{ paddingLeft: "60px" }}>
+                                  {modifyDateFormat(values.end_date)}
+                                </span>
+                              </div>
+                              <div
+                                style={{
+                                  paddingBottom: "5px",
+                                  fontSize: "0.9em",
+                                  color: "#5172FF",
+                                }}
+                              >
+                                환불 예정 금액
+                                <span style={{ paddingLeft: "42px" }}>
+                                  {values.price} P
+                                </span>
+                              </div>
+                            </>
+                          )}
                         </Modal>
                       </>
                     )}

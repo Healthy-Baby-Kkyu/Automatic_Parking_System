@@ -76,7 +76,7 @@ function ChargePoint() {
       .then((response) => response.json())
       .then((response) => {
         console.log(response.data);
-        window.alert("수정 완료되었습니다.");
+        window.alert("포인트 충전이 완료되었습니다.");
         window.location.replace("/chargePoint");
       });
   };

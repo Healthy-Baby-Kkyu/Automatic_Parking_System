@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "@customerResv/CustomerResv.module.css";
 import TitleBar from "@/components/common/TitleBar/TitleBar";
 import Sider from "@sider/Sider";
-import { Button, Input, Row, Col, Modal, Select, Form } from "antd";
+import { Button, Input, Row, Col, Modal, Select, Form, Empty } from "antd";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -62,7 +62,7 @@ function CustomerResv() {
   };
 
   const compareCurrentAfter = (element) => {
-    return new Date(element.start_date) > new Date();
+    return new Date(element.start_date) > new Date() && element.state !== "-1";
   };
 
   const handleChangeSort = (value) => {
@@ -203,7 +203,9 @@ function CustomerResv() {
           </Form>
         </div>
         <div className={styles.paper}>
+          {tmpList && tmpList.length === 0 && <Empty />}
           {tmpList &&
+            tmpList.length !== 0 &&
             tmpList.map((item, idx) => (
               <Accordion key={idx} defaultExpanded>
                 <AccordionSummary

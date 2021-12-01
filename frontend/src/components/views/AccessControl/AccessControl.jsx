@@ -15,7 +15,7 @@ function AccessControl() {
     ['/assets/AccessControl/2_input.png','/assets/AccessControl/2_result.png','123가 4568'],
     ['/assets/AccessControl/3_input.png','/assets/AccessControl/3_result.png','32두 4150'],
     ['/assets/AccessControl/4_input.png','/assets/AccessControl/4_result.png','26차 2861'],
-    ['/assets/AccessControl/5_input.png','/assets/AccessControl/5_result.png','50머 7979'],
+    ['/assets/AccessControl/5_input.png','/assets/AccessControl/5_result.png','50더 7979'],
   ];
 
   const onFinish = () => {

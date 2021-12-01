@@ -23,7 +23,7 @@ function Monitoring() {
         <Sider selected_key="주차장 관리" />
       </div>
       <div className={styles.rs}>
-        <div className={styles.subtitle}>주차장 접근 제어</div>
+        <div className={styles.subtitle}>주차장 모니터링</div>
         <Select
           defaultValue="B1"
           style={{ width: 120 }}
