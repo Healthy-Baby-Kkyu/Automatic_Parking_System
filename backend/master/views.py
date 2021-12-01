@@ -37,16 +37,15 @@ class DeleteResv(generics.RetrieveDestroyAPIView):
 
 # 전체 주차 자리 정보 조회
 class GetAllParkingSlotInfo(generics.ListAPIView):
-    def get(self, request):       
+    def get(self, request):
         now = datetime.datetime.now()
         now = now + datetime.timedelta(hours=9)
-           
-        # start_date가 현재 시간보다 작고, end_date가 현재 시간보다 큰 예약만  
-        current_resv = Reservation.objects.filter(start_date__lte=now, end_date__gte=now)
-        parking_slot = ParkingSlot.objects.all()
+
+        # start_date가 현재 시간보다 작고, end_date가 현재 시간보다 큰 예약만
+        current_resv = Reservation.objects.filter(start_date__lte=now, end_date__gte=now).order_by('parking_slot_id')
+        parking_slot = ParkingSlot.objects.all().order_by('parking_slot_id').values()
         result_parking_slot = list(parking_slot)
-        
-        # 현재 예약이 진행 중인 슬롯의 state를 2로 변경
+
         index = 0
         for resv in current_resv.values():
             while index < len(result_parking_slot):
@@ -57,7 +56,7 @@ class GetAllParkingSlotInfo(generics.ListAPIView):
                     break
                 index += 1
 
-        return JsonResponse({'resv' : list(current_resv.values()), 'parking_slot' : result_parking_slot}, status=200)      
+        return JsonResponse({'resv' : list(current_resv.values()), 'parking_slot' : result_parking_slot}, status=200)
         
     
 # 주차 자리 추가
