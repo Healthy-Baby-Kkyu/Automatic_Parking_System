@@ -178,9 +178,9 @@ class alreadyReserved(generics.ListAPIView):
         print('start_date', start_time)
         print('end_date', end_time)
         result = []
-        queryset_resv1 = Reservation.objects.filter(start_date__lte = start_time, end_date__gte = start_time)
-        queryset_resv2 = Reservation.objects.filter(start_date__lte = start_time, end_date__gte = end_time )
-        queryset_resv3 = Reservation.objects.filter(start_date__lte = end_time, end_date__gte = end_time)
+        queryset_resv1 = Reservation.objects.filter(start_date__lte = start_time, end_date__gte = start_time).order_by('parking_slot_id')
+        queryset_resv2 = Reservation.objects.filter(start_date__lte = start_time, end_date__gte = end_time ).order_by('parking_slot_id')
+        queryset_resv3 = Reservation.objects.filter(start_date__lte = end_time, end_date__gte = end_time).order_by('parking_slot_id')
 
         parking_slot = ParkingSlot.objects.all().order_by('parking_slot_id').values()
         result_parking_slot = list(parking_slot)
@@ -189,16 +189,17 @@ class alreadyReserved(generics.ListAPIView):
         result.append(queryset_resv2.values())
         result.append(queryset_resv3.values())
 
-        index = 0
         for i in range(0, 3):
+            index = 0
             for resv in result[i]:
                 print(resv.get('reservation_id'))
                 while index < len(result_parking_slot):
                     if resv.get('parking_slot_id') != result_parking_slot[index].get('parking_slot_id'):
                         pass
                     else:
-                        result_parking_slot[index]['slot_state'] = '2'
-                        break
+                        if result_parking_slot[index].get('slot_state') == '1':
+                            result_parking_slot[index]['slot_state'] = '2'
+                            break
                     index += 1
 
         return JsonResponse({'parking_slot' : result_parking_slot}, status=200)  

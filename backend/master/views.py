@@ -88,17 +88,24 @@ class SendStatistics(generics.ListAPIView):
 
         weekly_visitors = []
         weekly_canceler = []
-        for i in range(0, 7):
+        for i in range(6, -1, -1):
             queryset_weekly = Reservation.objects.filter(reservation_date = today - datetime.timedelta(days=i))
             queryset_canceler = Reservation.objects.filter(reservation_date = today - datetime.timedelta(days=i), state='-1')
             weekly_visitors.append(len(queryset_weekly))
             weekly_canceler.append(len(queryset_canceler))
-        #print('weekly_visitors', weekly_visitors)
-        #print('weekly_canceler', weekly_canceler)
+        print('weekly_visitors', weekly_visitors)
+        print('weekly_canceler', weekly_canceler)
 
         queryset_slot = ParkingSlot.objects.all()
         all_slot_count = len(queryset_slot)
-        slot_rate = daily_visitors / all_slot_count * 100
+
+        now = datetime.datetime.now()
+        now = now + datetime.timedelta(hours=9)
+
+        # start_date가 현재 시간보다 작고, end_date가 현재 시간보다 큰 예약만
+        current_resv = Reservation.objects.filter(start_date__lte=now, end_date__gte=now)
+        current_slot_count = len(current_resv)
+        slot_rate = current_slot_count / all_slot_count * 100
         #print('today', today)
         
         resv_time = []
@@ -139,6 +146,8 @@ class checkCar(generics.ListAPIView):
         data = json.loads(request.body)
         queryset_car = Cars.objects.filter(car_number = data['car_number']) 
         now = datetime.datetime.today()
+        now = now + datetime.timedelta(hours=9)
+
         if queryset_car.count() == 0:
             result = False
             # print('queryset_car', queryset_car)
