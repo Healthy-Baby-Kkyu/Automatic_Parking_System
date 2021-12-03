@@ -9,4 +9,5 @@ urlpatterns = [
     path('editPersonalInfo/', views.UpdateUserInfo.as_view()),
     path('getPersonalPoint/', views.GetUserPoint.as_view()),
     path('chargePoint/', views.ChargeUserPoint.as_view()),
+    path('getAlreadyReserved/', views.alreadyReserved.as_view()),
 ]

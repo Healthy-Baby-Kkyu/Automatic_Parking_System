@@ -10,6 +10,7 @@ from .models import User, Cars, ParkingSlot, Reservation
 from .serializers import UserSerializer, CarsSerializer, ParkingSlotSerializer, ReservationSerializer
 import json
 import uuid
+from datetime import datetime, timedelta
 # Create your views here.
 # ----------------------------------------------------------------------------
 # 로그인 화면에서 id, pw 받아와 유효성 검증
@@ -56,9 +57,15 @@ class CreateResv(generics.CreateAPIView):
     def post(self, request):
         data = json.loads(request.body)
         resv = Reservation()
+        
         a = uuid.uuid4()
-        b = str(a.int)
-        resv.reservation_id = b[:8]
+        b = str(a.int)[:8]
+        # 예약 번호 중복 없을 때까지 생성 반복
+        while Reservation.objects.filter(reservation_id=b).exists():
+            a = uuid.uuid4()
+            b = str(a.int)[:8]
+        
+        resv.reservation_id = b
         resv.user_id = data['session_id']
         resv.parking_slot_id = data['parking_slot_id']
         resv.reservation_date = data['reservation_date']
@@ -158,10 +165,45 @@ class ChargeUserPoint(generics.RetrieveUpdateAPIView):
         
         return JsonResponse({'data' : user.point, 'message' : 'success'}, status=200)
 
+# 예약 시작/끝 시간 기준 주차 슬롯의 예약 내역 조회
+class alreadyReserved(generics.ListAPIView):
+    def post(self, request):
+        data = json.loads(request.body)
+        start_date = data['start_date']
+        end_date = data['end_date']
+        
+        start_time = datetime.strptime(start_date, '%Y-%m-%d %H:%M') + timedelta(hours=9)
+        end_time = datetime.strptime(end_date, '%Y-%m-%d %H:%M') + timedelta(hours=9)
 
+        print('start_date', start_time)
+        print('end_date', end_time)
+        result = []
+        queryset_resv1 = Reservation.objects.filter(start_date__lte = start_time, end_date__gte = start_time).order_by('parking_slot_id')
+        queryset_resv2 = Reservation.objects.filter(start_date__lte = start_time, end_date__gte = end_time ).order_by('parking_slot_id')
+        queryset_resv3 = Reservation.objects.filter(start_date__lte = end_time, end_date__gte = end_time).order_by('parking_slot_id')
 
+        parking_slot = ParkingSlot.objects.all().order_by('parking_slot_id').values()
+        result_parking_slot = list(parking_slot)
+        
+        result.append(queryset_resv1.values())
+        result.append(queryset_resv2.values())
+        result.append(queryset_resv3.values())
 
+        for i in range(0, 3):
+            index = 0
+            for resv in result[i]:
+                print(resv.get('reservation_id'))
+                while index < len(result_parking_slot):
+                    if resv.get('parking_slot_id') != result_parking_slot[index].get('parking_slot_id'):
+                        pass
+                    else:
+                        if result_parking_slot[index].get('slot_state') == '1':
+                            result_parking_slot[index]['slot_state'] = '2'
+                            break
+                    index += 1
 
+        return JsonResponse({'parking_slot' : result_parking_slot}, status=200)  
 
+                        
     
     
