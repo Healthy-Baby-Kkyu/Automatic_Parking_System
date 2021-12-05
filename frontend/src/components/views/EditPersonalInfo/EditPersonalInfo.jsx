@@ -10,6 +10,18 @@ import { USER_SERVER } from "@/Config.js";
 function EditPersonalInfo() {
   const dateFormat = "YYYY-MM-DD";
 
+  function formatDate(date) {
+    var d = new Date(date), month = '' + (d.getMonth() + 1), day = '' + d.getDate(), year = d.getFullYear();
+
+    if (month.length < 2)
+      month = '0' + month;
+
+    if (day.length < 2)
+      day = '0' + day;
+
+    return [year, month, day].join('-');
+  }
+
   // 기존 사용자 정보
   const [originID, setOriginID] = useState();
   const [originPassword, setOriginPassword] = useState();
@@ -52,7 +64,7 @@ function EditPersonalInfo() {
     if (birth == undefined) {
       values.birth = originBirth;
     } else {
-      values.birth = moment(birth, dateFormat);
+      values.birth = birth;
     }
 
     if (phone == undefined) {
@@ -90,7 +102,6 @@ function EditPersonalInfo() {
     })
       .then((response) => response.json())
       .then((response) => {
-        console.log(response);
         setOriginID(values.id);
         setOriginPassword(values.password);
         setOriginBirth(values.birth);
@@ -121,8 +132,7 @@ function EditPersonalInfo() {
   };
 
   function onBirthChange(date) {
-    console.log(date);
-    setBirth(date);
+    setBirth(formatDate(date));
   }
 
   const onPhoneChange = (e) => {
@@ -238,7 +248,7 @@ function EditPersonalInfo() {
                   {originBirth && (
                     <DatePicker
                       style={{ marginRight: "10px", width: "254px" }}
-                      defaultValue={moment(originBirth, dateFormat)}
+                      placeholder={originBirth}
                       disabled
                     />
                   )}
