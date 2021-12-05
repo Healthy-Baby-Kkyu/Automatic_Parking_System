@@ -192,7 +192,7 @@ function ReservationPage() {
               <div style={{ float: "left", marginRight: "10px" }}>
                 <Form.Item name="floor">
                   <Select
-                    defaultValue="B1"
+                    placeholder="B1"
                     style={{ width: "120px" }}
                     onChange={handleChange}
                   >
@@ -272,7 +272,7 @@ function ReservationPage() {
                       {personalPoint - cost} P
                     </span>
                   </div>
-                  {personalPoint > cost ? (
+                  {personalPoint >= cost ? (
                     <>
                       <div style={{ float: "left", marginRight: "10px" }}>
                         <Button

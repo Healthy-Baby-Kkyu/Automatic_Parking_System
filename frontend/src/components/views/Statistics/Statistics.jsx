@@ -37,7 +37,7 @@ function Statistics() {
       .then((response) => response.json())
       .then((response) => {
         console.log(response.data);
-        setTotalUsers(response.data.total_users);
+        setTotalUsers(response.data.total_users - 1);
         setMonthlyVisitors(response.data.monthly_visitors);
         setDailyVisitors(response.data.daily_visitors);
         setSlotRate(response.data.slot_rate);
