@@ -30,8 +30,10 @@ $ source django_venv/bin/activate
 ## Tech Skills and Tools
 <p align="center">
  <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=Python&logoColor=white"/></a> 
+ <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=white"/></a> 
  <img src="https://img.shields.io/badge/Django-092E20?style=flat-square&logo=Django&logoColor=white"/></a> 
  <img src="https://img.shields.io/badge/NGINX-009639?style=flat-square&logo=NGINX&logoColor=white"/></a> 
+ <img src="https://img.shields.io/badge/Javascript-F7DF1E?style=flat-square&logo=Javascript&logoColor=white"/></a> 
  <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=HTML5&logoColor=white"/></a> 
  <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=CSS3&logoColor=white"/></a> 
  <img src="https://img.shields.io/badge/Bootstrap-7952B3?style=flat-square&logo=Bootstrap&logoColor=white"/></a> 
@@ -47,11 +49,10 @@ Latest ✔| 10+ ✔ |
 
 ## Contributors
 All participants in this project are majoring in Computer Science Engieneering, Dongguk University🏫
-
-| Name            | Email                 | Github                           | Role      |
-|-----------------|-----------------------|----------------------------------|-----------|
-| 👧🏻DongYeon Kang | myjjue00@gmail.com    | https://github.com/dongyeon-0822 | Front-end |
-| 👱🏻‍♀️Hyewon Kang  | gpffps369@gmail.com   | https://github.com/HyewonKkang   | Front-end |
-| 🧒🏻Gunwoo Kim    | gun0005@naver.com     | https://github.com/Gu-nuu        | Back-end  |
-| 👱🏻‍♂️Taekyu Lee   | dnjsqls2008@gmail.com | https://github.com/leetaekyu2077 | Back-end  |
-| 👶🏻Sua Jang      | sooa9918@dgu.ac.kr    | https://github.com/sua1223       | Front-end |
+| Name             | Email                 | Github                           | Role      |
+|------------------|-----------------------|----------------------------------|-----------|
+| 👧🏻 DongYeon Kang | myjjue00@gmail.com    | https://github.com/dongyeon-0822 | Front-end |
+| 👱🏻‍♀️ Hyewon Kang  | gpffps369@gmail.com   | https://github.com/HyewonKkang   | Front-end |
+| 🧒🏻 Gunwoo Kim    | gun0005@naver.com     | https://github.com/Gu-nuu        | Front-end |
+| 👱🏻‍♂️ Taekyu Lee   | dnjsqls2008@gmail.com | https://github.com/leetaekyu2077 | Back-end  |
+| 👩🏻 Sua Jang      | sooa9918@dgu.ac.kr    | https://github.com/sua1223       | Back-end  |
